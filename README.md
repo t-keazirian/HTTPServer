@@ -11,10 +11,6 @@ C# is a simple, modern, object-oriented, and type-safe programming language.
 1. To download .NET Core, visit [this][4] website.
 2. This project uses .NET version `6.0.202`. You can run the command `dotnet --version` to determine which version you have installed, or visit the .NET docs to install the correct version.
 
-## Testing:
-
-This project uses xUnit.net for testing. Visit [this][5] website for more information and how to use xUnit.net.
-
 ## [Description:][1]
 
 ### Functional Requirements
@@ -33,15 +29,21 @@ A user should be able to interact with the echo server as follows:
 
 ## To Run the App:
 
-Ensure you are in the correct folder - `/echo-server/EchoServer`
+1. Ensure you are in the correct folder: `/echo-server/EchoServer.UI`
+2. Type `dotnet run` in your command line prompt
 
-Type `dotnet run` in your command line prompt
+**Alternatively**, you can run the app from the root directory with the command `dotnet run --project EchoServer.UI/EchoServer.UI.csproj`
 
-## To Run the Tests:
+## Testing:
 
-Ensure you are in the correct folder `/echo-server/EchoServer.Tests`
+This project uses xUnit.net for testing. Visit [this][5] website for more information and how to use xUnit.net.
 
-Type `dotnet test` in your command line prompt
+### To Run the Tests:
+
+1. Ensure you are in the correct folder: `/echo-server/EchoServer.Tests`
+2. Type `dotnet test` in your command line prompt
+
+**Alternatively**, you can run the tests from the root directory with the command `dotnet test EchoServer.Tests/EchoServer.Tests.csproj`
 
 [1]: https://github.com/8thlight/apprenticeship_syllabus/blob/4ac3c45640ca506038cfe5cd0a8562a65634f8e7/shared_resources/projects/http_server/01_beginner/echo_server.md
 [2]: https://dotnet.microsoft.com/en-us/learn/dotnet/what-is-dotnet
