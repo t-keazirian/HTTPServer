@@ -4,7 +4,10 @@
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            var g = new Greeting();
+            var hour = DateTime.Now.Hour;
+            string greeting = g.GetGreeting(hour);
+            Console.WriteLine(greeting);
         }
     }
 }
