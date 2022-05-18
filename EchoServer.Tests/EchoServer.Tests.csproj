@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EchoServer\EchoServer.csproj" />
+    <ProjectReference Include="..\EchoServer.UI\EchoServer.UI.csproj" />
   </ItemGroup>
 
 </Project>
