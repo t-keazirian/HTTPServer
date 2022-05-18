@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EchoServer.UI", "..\..\Code\echo-server\EchoServer.UI\EchoServer.UI.csproj", "{758EEA1D-09AD-473C-A947-C6CC8DD91080}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EchoServer.Tests", "..\..\Code\echo-server\EchoServer.Tests\EchoServer.Tests.csproj", "{449954C6-D39A-4971-AEAF-2136B53ADEC9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{758EEA1D-09AD-473C-A947-C6CC8DD91080}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{758EEA1D-09AD-473C-A947-C6CC8DD91080}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{758EEA1D-09AD-473C-A947-C6CC8DD91080}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{758EEA1D-09AD-473C-A947-C6CC8DD91080}.Release|Any CPU.Build.0 = Release|Any CPU
+		{449954C6-D39A-4971-AEAF-2136B53ADEC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{449954C6-D39A-4971-AEAF-2136B53ADEC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{449954C6-D39A-4971-AEAF-2136B53ADEC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{449954C6-D39A-4971-AEAF-2136B53ADEC9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
