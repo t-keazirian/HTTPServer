@@ -1,4 +1,4 @@
-# Echo Server
+# HTTP Server
 
 This project is built in [C#][3] and [.NET][2].
 
@@ -29,10 +29,9 @@ A user should be able to interact with the echo server as follows:
 
 ## To Run the App:
 
-1. Ensure you are in the correct folder: `/echo-server/EchoServer.UI`
-2. Type `dotnet run` in your command line prompt
-
-**Alternatively**, you can run the app from the root directory with the command `dotnet run --project EchoServer.UI/EchoServer.UI.csproj`
+```shell 
+dotnet run --project TKeazirian.HTTPServer
+```
 
 ## Testing:
 
@@ -40,10 +39,9 @@ This project uses xUnit.net for testing. Visit [this][5] website for more inform
 
 ### To Run the Tests:
 
-1. Ensure you are in the correct folder: `/echo-server/EchoServer.Tests`
-2. Type `dotnet test` in your command line prompt
-
-**Alternatively**, you can run the tests from the root directory with the command `dotnet test EchoServer.Tests/EchoServer.Tests.csproj`
+```shell
+dotnet test
+```
 
 [1]: https://github.com/8thlight/apprenticeship_syllabus/blob/4ac3c45640ca506038cfe5cd0a8562a65634f8e7/shared_resources/projects/http_server/01_beginner/echo_server.md
 [2]: https://dotnet.microsoft.com/en-us/learn/dotnet/what-is-dotnet

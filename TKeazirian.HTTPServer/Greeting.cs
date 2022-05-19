@@ -1,8 +1,7 @@
-namespace TKeazirian.Web.HTTPServer;
-
+namespace TKeazirian.HTTPServer;
 public class Greeting
 {
-    public string GetGreeting(int hour)
+    public static string GetGreeting(int hour)
     {
         var greeting = hour < 12 ? "Good Morning!" :
             hour < 17 ? "Good Afternoon!" : "Good Evening!";

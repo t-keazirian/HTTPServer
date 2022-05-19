@@ -1,9 +1,8 @@
-using TKeazirian.Web.HTTPServer;
 using Xunit;
 
-namespace HTTP.Server.Tests;
+namespace TKeazirian.HTTPServer.Tests;
 
-public class UnitTest1
+public class GreetingTest
 {
     [Fact]
     public void Test1()
@@ -15,9 +14,8 @@ public class UnitTest1
     public void TestGreetingForMorning()
     {
         const int hour = 11;
-        var greeting = new Greeting();
 
-        var greetingForMorning = greeting.GetGreeting(hour);
+        var greetingForMorning = Greeting.GetGreeting(hour);
 
         Assert.Equal("Good Morning!", greetingForMorning);
     }
@@ -28,9 +26,7 @@ public class UnitTest1
     [InlineData(5)]
     public void TestMultipleHours(int value)
     {
-        var greeting = new Greeting();
-
-        var greetingForMorning = greeting.GetGreeting(value);
+        var greetingForMorning = Greeting.GetGreeting(value);
         Assert.Equal("Good Morning!", greetingForMorning);
     }
 
@@ -39,9 +35,8 @@ public class UnitTest1
     public void TestGreetingForAfternoon()
     {
         const int hour = 15;
-        var greeting = new Greeting();
 
-        var greetingForAfternoon = greeting.GetGreeting(hour);
+        var greetingForAfternoon = Greeting.GetGreeting(hour);
 
         Assert.Equal("Good Afternoon!", greetingForAfternoon);
     }
@@ -50,9 +45,8 @@ public class UnitTest1
     public void TestGreetingForEvening()
     {
         const int hour = 20;
-        var greeting = new Greeting();
 
-        var greetingForEvening = greeting.GetGreeting(hour);
+        var greetingForEvening = Greeting.GetGreeting(hour);
 
         Assert.Equal("Good Evening!", greetingForEvening);
     }
@@ -61,9 +55,8 @@ public class UnitTest1
     public void TestGreetingWithNegativeNumber()
     {
         const int hour = -1;
-        var greeting = new Greeting();
 
-        var greetingOutBounds = greeting.GetGreeting(hour);
+        var greetingOutBounds = Greeting.GetGreeting(hour);
 
         Assert.Equal("Good Morning!", greetingOutBounds);
     }
@@ -72,9 +65,8 @@ public class UnitTest1
     public void TestGreetingWithNumberAboveTwentyFour()
     {
         const int hour = 27;
-        var greeting = new Greeting();
 
-        var greetingOutBounds = greeting.GetGreeting(hour);
+        var greetingOutBounds = Greeting.GetGreeting(hour);
 
         Assert.Equal("Good Evening!", greetingOutBounds);
     }
