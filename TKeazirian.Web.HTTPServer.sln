@@ -1,8 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EchoServer.UI", "..\..\Code\echo-server\EchoServer.UI\EchoServer.UI.csproj", "{758EEA1D-09AD-473C-A947-C6CC8DD91080}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTTP.Server", "HTTP.Server\HTTP.Server.csproj", "{758EEA1D-09AD-473C-A947-C6CC8DD91080}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EchoServer.Tests", "..\..\Code\echo-server\EchoServer.Tests\EchoServer.Tests.csproj", "{449954C6-D39A-4971-AEAF-2136B53ADEC9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTTP.Server.Tests", "HTTP.Server.Tests\HTTP.Server.Tests.csproj", "{449954C6-D39A-4971-AEAF-2136B53ADEC9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

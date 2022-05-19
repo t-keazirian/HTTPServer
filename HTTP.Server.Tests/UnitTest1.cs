@@ -1,7 +1,7 @@
+using TKeazirian.Web.HTTPServer;
 using Xunit;
-using EchoServer;
 
-namespace EchoServer.Tests;
+namespace HTTP.Server.Tests;
 
 public class UnitTest1
 {
