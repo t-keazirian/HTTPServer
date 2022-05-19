@@ -1,4 +1,4 @@
-namespace EchoServer;
+namespace TKeazirian.Web.HTTPServer;
 
 public class Greeting
 {
