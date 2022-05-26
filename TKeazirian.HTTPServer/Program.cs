@@ -27,16 +27,8 @@ public static class Program
             var handler = listener.Accept();
             IncomingData = null;
 
-            while (true)
-            {
                 int bytesReceived = handler.Receive(bytes);
                 IncomingData += Encoding.ASCII.GetString(bytes, 0, bytesReceived);
-
-                if (IncomingData.Length > 0)
-                {
-                    break;
-                }
-            }
 
             Console.WriteLine($"Text received: {IncomingData}");
 
