@@ -35,15 +35,7 @@ public static class Program
 
             string response = request;
 
-            string[] splitString = response.Split('\r');
-
-            string contentType = splitString[1];
-            string contentLength = splitString[8];
-            string body = splitString[10];
-
-            string constructedResponse = $"HTTP/1.1 200 OK\r\r{contentType}\r{contentLength}\r\r{body}";
-
-            byte[] responseToSend = Encoding.ASCII.GetBytes(constructedResponse);
+            var responseToSend = ResponseToSend(response);
 
             handler.Send(responseToSend);
             handler.Shutdown(SocketShutdown.Both);
@@ -56,6 +48,20 @@ public static class Program
 
         Console.WriteLine("\nPress ENTER to continue...");
         Console.Read();
+    }
+
+    private static byte[] ResponseToSend(string response)
+    {
+        string[] splitString = response.Split('\r');
+
+        string contentType = splitString[1];
+        string contentLength = splitString[8];
+        string body = splitString[10];
+
+        string constructedResponse = $"HTTP/1.1 200 OK\r\r{contentType}\r{contentLength}\r\r{body}";
+
+        byte[] responseToSend = Encoding.ASCII.GetBytes(constructedResponse);
+        return responseToSend;
     }
 
     public static int Main(String[] args)
