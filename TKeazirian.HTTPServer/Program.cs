@@ -4,19 +4,6 @@ using System.Text;
 
 namespace TKeazirian.HTTPServer;
 
-// public static class Program
-// {
-//     private static void Main(string[] args)
-//     {
-//         // var g = new Greeting();
-//         // var hour = DateTime.Now.Hour;
-//         // var greeting = Greeting.GetGreeting(hour);
-//         // Console.WriteLine(greeting);
-//
-//     }
-//
-// }
-
 public static class Program
 {
     public static string? IncomingData;
@@ -36,31 +23,28 @@ public static class Program
             listener.Bind(localEndPoint);
             listener.Listen(10);
 
+            Console.WriteLine("Waiting for a connection...");
+            var handler = listener.Accept();
+            IncomingData = null;
+
             while (true)
             {
-                Console.WriteLine("Waiting for a connection...");
-                var handler = listener.Accept();
-                IncomingData = null;
+                int bytesReceived = handler.Receive(bytes);
+                IncomingData += Encoding.ASCII.GetString(bytes, 0, bytesReceived);
 
-                while (true)
+                if (IncomingData.Length > 0)
                 {
-                    int bytesReceived = handler.Receive(bytes);
-                    IncomingData += Encoding.ASCII.GetString(bytes, 0, bytesReceived);
-
-                    if (IncomingData.Length > 0)
-                    {
-                        break;
-                    }
+                    break;
                 }
-
-                Console.WriteLine($"Text received: {IncomingData}");
-
-                byte[] message = Encoding.ASCII.GetBytes(IncomingData);
-
-                handler.Send(message);
-                handler.Shutdown(SocketShutdown.Both);
-                handler.Close();
             }
+
+            Console.WriteLine($"Text received: {IncomingData}");
+
+            byte[] message = Encoding.ASCII.GetBytes(IncomingData);
+
+            handler.Send(message);
+            handler.Shutdown(SocketShutdown.Both);
+            handler.Close();
         }
         catch (Exception e)
         {
