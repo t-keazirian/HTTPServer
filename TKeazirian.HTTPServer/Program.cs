@@ -29,7 +29,7 @@ public static class Program
 
             int bytesReceived = handler.Receive(bytes);
 
-            request += Encoding.ASCII.GetString(bytes, 0, bytesReceived);
+            request = Encoding.ASCII.GetString(bytes, 0, bytesReceived);
 
             Console.WriteLine($"Text received: {request}");
 
