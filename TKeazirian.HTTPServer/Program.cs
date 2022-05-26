@@ -10,8 +10,6 @@ public static class Program
 
     private static void StartListening()
     {
-        byte[] bytes = new byte[1024];
-
         IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
         IPAddress ipAddress = ipHostInfo.AddressList[0];
         IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 11000);
@@ -27,8 +25,10 @@ public static class Program
             var handler = listener.Accept();
             IncomingData = null;
 
-                int bytesReceived = handler.Receive(bytes);
-                IncomingData += Encoding.ASCII.GetString(bytes, 0, bytesReceived);
+            byte[] bytes = new byte[1024];
+
+            int bytesReceived = handler.Receive(bytes);
+            IncomingData += Encoding.ASCII.GetString(bytes, 0, bytesReceived);
 
             Console.WriteLine($"Text received: {IncomingData}");
 
