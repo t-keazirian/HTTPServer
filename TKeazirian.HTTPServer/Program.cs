@@ -43,7 +43,7 @@ public static class Program
             string contentLength = splitString[8];
             string body = splitString[10];
 
-            string constructedResponse = $"HTTP/1.1 200 OK\r{contentType}\r{contentLength}\r\r{body}";
+            string constructedResponse = $"HTTP/1.1 200 OK\r\r{contentType}\r{contentLength}\r\r{body}";
 
             byte[] responseToSend = Encoding.ASCII.GetBytes(constructedResponse);
 
