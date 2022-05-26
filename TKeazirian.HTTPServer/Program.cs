@@ -6,7 +6,7 @@ namespace TKeazirian.HTTPServer;
 
 public static class Program
 {
-    public static string? IncomingData;
+    public static string? request;
 
     private static void StartListening()
     {
@@ -23,18 +23,31 @@ public static class Program
 
             Console.WriteLine("Waiting for a connection...");
             var handler = listener.Accept();
-            IncomingData = null;
+            request = null;
 
             byte[] bytes = new byte[1024];
 
             int bytesReceived = handler.Receive(bytes);
-            IncomingData += Encoding.ASCII.GetString(bytes, 0, bytesReceived);
 
-            Console.WriteLine($"Text received: {IncomingData}");
+            request += Encoding.ASCII.GetString(bytes, 0, bytesReceived);
 
-            byte[] message = Encoding.ASCII.GetBytes(IncomingData);
+            Console.WriteLine($"Text received: {request}");
 
-            handler.Send(message);
+            // parse, pull out the body,
+            // build response
+            string response = request;
+
+            string[] splitString = response.Split('\r');
+
+            string contentType = splitString[1];
+            string contentLength = splitString[8];
+            string body = splitString[10];
+
+            string constructedResponse = $"HTTP/1.1 200 OK\r{contentType}\r{contentLength}\r\r{body}";
+
+            byte[] responseToSend = Encoding.ASCII.GetBytes(constructedResponse);
+
+            handler.Send(responseToSend);
             handler.Shutdown(SocketShutdown.Both);
             handler.Close();
         }
