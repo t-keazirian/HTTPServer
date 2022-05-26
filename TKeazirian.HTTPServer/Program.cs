@@ -33,8 +33,6 @@ public static class Program
 
             Console.WriteLine($"Text received: {request}");
 
-            // parse, pull out the body,
-            // build response
             string response = request;
 
             string[] splitString = response.Split('\r');
