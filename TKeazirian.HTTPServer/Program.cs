@@ -50,7 +50,7 @@ public static class Program
         Console.Read();
     }
 
-    private static byte[] ResponseToSend(string response)
+    public static byte[] ResponseToSend(string response)
     {
         string[] splitString = response.Split('\r');
 
