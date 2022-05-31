@@ -6,15 +6,14 @@ namespace TKeazirian.HTTPServer;
 
 public static class EchoServer
 {
-    private static string? request;
+    private static string? _request;
 
     public static void StartListening()
     {
-        IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
-        IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
-        IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 11000);
+        var ipAddress = IPAddress.Parse("127.0.0.1");
+        var localEndPoint = new IPEndPoint(ipAddress, 11000);
 
-        Socket listener = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+        var listener = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
 
         try
         {
@@ -26,22 +25,19 @@ public static class EchoServer
             while (true)
             {
                 var handler = listener.Accept();
-                request = null;
+
+                _request = null;
                 byte[] bytes = new byte[1024];
-
                 int bytesReceived = handler.Receive(bytes);
+                _request = Encoding.ASCII.GetString(bytes, 0, bytesReceived);
 
-                request = Encoding.ASCII.GetString(bytes, 0, bytesReceived);
+                Console.WriteLine($"Text received: {_request}");
 
-                Console.WriteLine($"Text received: {request}");
-
-                string response = request;
-
+                var response = _request;
                 var responseToSend = CreateResponseToSend(response);
-
                 handler.Send(responseToSend);
 
-                if (request.Contains("exit"))
+                if (_request.Contains("exit"))
                 {
                     handler.Shutdown(SocketShutdown.Both);
                     handler.Close();
@@ -60,15 +56,15 @@ public static class EchoServer
 
     public static byte[] CreateResponseToSend(string response)
     {
-        string[] splitString = response.Split('\r');
+        var splitString = response.Split('\r');
 
-        string contentType = splitString[1];
-        string contentLength = splitString[8];
-        string body = splitString[10];
+        var contentType = splitString[1];
+        var contentLength = splitString[8];
+        var body = splitString[10];
 
-        string constructedResponse = $"HTTP/1.1 200 OK\r\r{contentType}\r{contentLength}\r\r{body}";
+        var constructedResponse = $"HTTP/1.1 200 OK\r\r{contentType}\r{contentLength}\r\r{body}";
 
-        byte[] responseToSend = Encoding.ASCII.GetBytes(constructedResponse);
+        var responseToSend = Encoding.ASCII.GetBytes(constructedResponse);
         return responseToSend;
     }
 }
