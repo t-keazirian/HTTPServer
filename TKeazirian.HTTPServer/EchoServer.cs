@@ -10,10 +10,7 @@ public static class EchoServer
 
     public static void StartListening()
     {
-        var ipAddress = IPAddress.Parse("127.0.0.1");
-        var localEndPoint = new IPEndPoint(ipAddress, 11000);
-
-        var listener = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+        var listener = CreateSocketListener(out var localEndPoint);
 
         try
         {
@@ -26,21 +23,14 @@ public static class EchoServer
             {
                 var handler = listener.Accept();
 
-                _request = null;
-                byte[] bytes = new byte[1024];
-                int bytesReceived = handler.Receive(bytes);
-                _request = Encoding.ASCII.GetString(bytes, 0, bytesReceived);
+                _request = GetRequest(handler);
 
-                Console.WriteLine($"Text received: {_request}");
-
-                var response = _request;
-                var responseToSend = CreateResponseToSend(response);
+                var responseToSend = CreateResponseToSend(_request);
                 handler.Send(responseToSend);
 
                 if (_request.Contains("exit"))
                 {
-                    handler.Shutdown(SocketShutdown.Both);
-                    handler.Close();
+                    CloseSocketConnection(handler);
                     break;
                 }
             }
@@ -52,6 +42,31 @@ public static class EchoServer
 
         Console.WriteLine("\nPress ENTER to exit...");
         Console.Read();
+    }
+
+    public static Socket CreateSocketListener(out IPEndPoint localEndPoint)
+    {
+        var ipAddress = IPAddress.Parse("127.0.0.1");
+        localEndPoint = new IPEndPoint(ipAddress, 11000);
+
+        var listener = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+        return listener;
+    }
+
+    public static void CloseSocketConnection(Socket handler)
+    {
+        handler.Shutdown(SocketShutdown.Both);
+        handler.Close();
+    }
+
+    public static string GetRequest(Socket handler)
+    {
+        _request = null;
+        byte[] bytes = new byte[1024];
+        int bytesReceived = handler.Receive(bytes);
+        _request = Encoding.ASCII.GetString(bytes, 0, bytesReceived);
+        Console.WriteLine($"Text received: {_request}");
+        return _request;
     }
 
     public static byte[] CreateResponseToSend(string response)

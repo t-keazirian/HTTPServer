@@ -1,3 +1,6 @@
+using System;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using Xunit;
 
@@ -19,5 +22,13 @@ public class HttpTest
         var expectedResponse = EchoServer.CreateResponseToSend(test_request);
 
         Assert.Equal(byteEncodedResponse, expectedResponse);
+    }
+
+    [Fact]
+    public void CreatedSocketIsNotNull()
+    {
+        var socket = EchoServer.CreateSocketListener(out _);
+
+        Assert.NotNull(socket);
     }
 }
