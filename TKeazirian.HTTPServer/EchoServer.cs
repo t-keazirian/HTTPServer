@@ -6,7 +6,7 @@ namespace TKeazirian.HTTPServer;
 
 public static class EchoServer
 {
-    public static string? request;
+    private static string? request;
 
     public static void StartListening()
     {
@@ -35,7 +35,7 @@ public static class EchoServer
 
             string response = request;
 
-            var responseToSend = ResponseToSend(response);
+            var responseToSend = CreateResponseToSend(response);
 
             handler.Send(responseToSend);
             handler.Shutdown(SocketShutdown.Both);
@@ -50,7 +50,7 @@ public static class EchoServer
         Console.Read();
     }
 
-    public static byte[] ResponseToSend(string response)
+    public static byte[] CreateResponseToSend(string response)
     {
         string[] splitString = response.Split('\r');
 

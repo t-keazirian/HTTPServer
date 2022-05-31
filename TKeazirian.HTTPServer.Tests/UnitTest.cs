@@ -16,7 +16,7 @@ public class HttpTest
 
         byte[] byteEncodedResponse = Encoding.ASCII.GetBytes(constructedResponse);
 
-        var expectedResponse = EchoServer.ResponseToSend(test_request);
+        var expectedResponse = EchoServer.CreateResponseToSend(test_request);
 
         Assert.Equal(byteEncodedResponse, expectedResponse);
     }
