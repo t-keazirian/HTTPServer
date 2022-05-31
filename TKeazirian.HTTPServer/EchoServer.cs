@@ -22,31 +22,39 @@ public static class EchoServer
             listener.Listen(10);
 
             Console.WriteLine("Waiting for a connection...");
-            var handler = listener.Accept();
-            request = null;
 
-            byte[] bytes = new byte[1024];
+            while (true)
+            {
+                var handler = listener.Accept();
+                request = null;
+                byte[] bytes = new byte[1024];
 
-            int bytesReceived = handler.Receive(bytes);
+                int bytesReceived = handler.Receive(bytes);
 
-            request = Encoding.ASCII.GetString(bytes, 0, bytesReceived);
+                request = Encoding.ASCII.GetString(bytes, 0, bytesReceived);
 
-            Console.WriteLine($"Text received: {request}");
+                Console.WriteLine($"Text received: {request}");
 
-            string response = request;
+                string response = request;
 
-            var responseToSend = CreateResponseToSend(response);
+                var responseToSend = CreateResponseToSend(response);
 
-            handler.Send(responseToSend);
-            handler.Shutdown(SocketShutdown.Both);
-            handler.Close();
+                handler.Send(responseToSend);
+
+                if (request.Contains("exit"))
+                {
+                    handler.Shutdown(SocketShutdown.Both);
+                    handler.Close();
+                    break;
+                }
+            }
         }
         catch (Exception e)
         {
             Console.WriteLine(e.ToString());
         }
 
-        Console.WriteLine("\nPress ENTER to continue...");
+        Console.WriteLine("\nPress ENTER to exit...");
         Console.Read();
     }
 
