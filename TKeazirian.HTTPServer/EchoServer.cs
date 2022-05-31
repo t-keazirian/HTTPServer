@@ -10,7 +10,9 @@ public static class EchoServer
 
     public static void StartListening()
     {
-        var listener = CreateSocketListener(out var localEndPoint);
+        var ipAddress = IPAddress.Parse("127.0.0.1");
+        IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 11000);
+        var listener = CreateSocketListener(ipAddress);
 
         try
         {
@@ -44,11 +46,8 @@ public static class EchoServer
         Console.Read();
     }
 
-    public static Socket CreateSocketListener(out IPEndPoint localEndPoint)
+    public static Socket CreateSocketListener(IPAddress ipAddress)
     {
-        var ipAddress = IPAddress.Parse("127.0.0.1");
-        localEndPoint = new IPEndPoint(ipAddress, 11000);
-
         var listener = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
         return listener;
     }
