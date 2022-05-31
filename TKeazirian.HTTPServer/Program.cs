@@ -1,11 +1,14 @@
-﻿namespace TKeazirian.HTTPServer;
+﻿using System.Net;
+using System.Net.Sockets;
+using System.Text;
+
+namespace TKeazirian.HTTPServer;
+
 public static class Program
 {
-    private static void Main(string[] args)
+    public static int Main(String[] args)
     {
-        var g = new Greeting();
-        var hour = DateTime.Now.Hour;
-        var greeting = Greeting.GetGreeting(hour);
-        Console.WriteLine(greeting);
+        EchoServer.StartListening();
+        return 0;
     }
 }
