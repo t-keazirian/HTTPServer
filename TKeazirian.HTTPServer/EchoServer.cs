@@ -6,15 +6,13 @@ namespace TKeazirian.HTTPServer;
 
 public static class EchoServer
 {
-    private static string? request;
+    private static string? _request;
 
     public static void StartListening()
     {
-        IPHostEntry ipHostInfo = Dns.GetHostEntry(Dns.GetHostName());
-        IPAddress ipAddress = IPAddress.Parse("127.0.0.1");
+        var ipAddress = IPAddress.Parse("127.0.0.1");
         IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 11000);
-
-        Socket listener = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+        var listener = CreateSocketListener(ipAddress);
 
         try
         {
@@ -22,45 +20,65 @@ public static class EchoServer
             listener.Listen(10);
 
             Console.WriteLine("Waiting for a connection...");
-            var handler = listener.Accept();
-            request = null;
 
-            byte[] bytes = new byte[1024];
+            while (true)
+            {
+                var handler = listener.Accept();
 
-            int bytesReceived = handler.Receive(bytes);
+                _request = GetRequest(handler);
 
-            request = Encoding.ASCII.GetString(bytes, 0, bytesReceived);
+                var responseToSend = CreateResponseToSend(_request);
+                handler.Send(responseToSend);
 
-            Console.WriteLine($"Text received: {request}");
-
-            string response = request;
-
-            var responseToSend = CreateResponseToSend(response);
-
-            handler.Send(responseToSend);
-            handler.Shutdown(SocketShutdown.Both);
-            handler.Close();
+                if (_request.Contains("exit"))
+                {
+                    CloseSocketConnection(handler);
+                    break;
+                }
+            }
         }
         catch (Exception e)
         {
             Console.WriteLine(e.ToString());
         }
 
-        Console.WriteLine("\nPress ENTER to continue...");
+        Console.WriteLine("\nPress ENTER to exit...");
         Console.Read();
+    }
+
+    public static Socket CreateSocketListener(IPAddress ipAddress)
+    {
+        var listener = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+        return listener;
+    }
+
+    public static void CloseSocketConnection(Socket handler)
+    {
+        handler.Shutdown(SocketShutdown.Both);
+        handler.Close();
+    }
+
+    public static string GetRequest(Socket handler)
+    {
+        _request = null;
+        byte[] bytes = new byte[1024];
+        int bytesReceived = handler.Receive(bytes);
+        _request = Encoding.ASCII.GetString(bytes, 0, bytesReceived);
+        Console.WriteLine($"Text received: {_request}");
+        return _request;
     }
 
     public static byte[] CreateResponseToSend(string response)
     {
-        string[] splitString = response.Split('\r');
+        var splitString = response.Split('\r');
 
-        string contentType = splitString[1];
-        string contentLength = splitString[8];
-        string body = splitString[10];
+        var contentType = splitString[1];
+        var contentLength = splitString[8];
+        var body = splitString[10];
 
-        string constructedResponse = $"HTTP/1.1 200 OK\r\r{contentType}\r{contentLength}\r\r{body}";
+        var constructedResponse = $"HTTP/1.1 200 OK\r\r{contentType}\r{contentLength}\r\r{body}";
 
-        byte[] responseToSend = Encoding.ASCII.GetBytes(constructedResponse);
+        var responseToSend = Encoding.ASCII.GetBytes(constructedResponse);
         return responseToSend;
     }
 }

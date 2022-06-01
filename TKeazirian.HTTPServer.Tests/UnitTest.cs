@@ -1,3 +1,4 @@
+using System.Net;
 using System.Text;
 using Xunit;
 
@@ -19,5 +20,14 @@ public class HttpTest
         var expectedResponse = EchoServer.CreateResponseToSend(test_request);
 
         Assert.Equal(byteEncodedResponse, expectedResponse);
+    }
+
+    [Fact]
+    public void CreatedSocketIsNotNull()
+    {
+        var ipAddress = IPAddress.Parse("127.0.0.1");
+        var socket = EchoServer.CreateSocketListener(ipAddress);
+
+        Assert.NotNull(socket);
     }
 }
