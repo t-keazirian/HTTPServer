@@ -15,5 +15,13 @@ namespace TKeazirian.HTTPServer
             var responseToSend = Encoding.ASCII.GetBytes(constructedResponse);
             return responseToSend;
         }
+
+        public static byte[] GenerateErrorResponse()
+        {
+            var errorResponse = "HTTP/1.1 500 Internal Server Error";
+
+            var errorResponseToSend = Encoding.ASCII.GetBytes(errorResponse);
+            return errorResponseToSend;
+        }
     }
 }

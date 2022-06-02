@@ -15,5 +15,6 @@ public static class SocketHandler
     {
         handler.Shutdown(SocketShutdown.Both);
         handler.Close();
+        handler.Dispose();
     }
 }
