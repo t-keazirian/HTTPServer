@@ -11,12 +11,12 @@ public static class EchoServer
     public static void StartListening()
     {
         var ipAddress = IPAddress.Any;
-        IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 443);
-        var listener = CreateSocketListener(ipAddress);
+        IPEndPoint endPoint = new IPEndPoint(ipAddress, 443);
+        var listener = SocketHandler.CreateSocketListener(ipAddress);
 
         try
         {
-            listener.Bind(localEndPoint);
+            listener.Bind(endPoint);
             listener.Listen(10);
 
             Console.WriteLine("Waiting for a connection...");
@@ -27,12 +27,12 @@ public static class EchoServer
 
                 _request = GetRequest(handler);
 
-                var responseToSend = CreateResponseToSend(_request);
+                var responseToSend = Controller.GenerateResponse(_request);
                 handler.Send(responseToSend);
 
                 if (_request.Contains("exit"))
                 {
-                    CloseSocketConnection(handler);
+                    SocketHandler.CloseSocketConnection(handler);
                     break;
                 }
             }
@@ -46,18 +46,6 @@ public static class EchoServer
         Console.Read();
     }
 
-    public static Socket CreateSocketListener(IPAddress ipAddress)
-    {
-        var listener = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-        return listener;
-    }
-
-    public static void CloseSocketConnection(Socket handler)
-    {
-        handler.Shutdown(SocketShutdown.Both);
-        handler.Close();
-    }
-
     public static string GetRequest(Socket handler)
     {
         _request = null;
@@ -66,19 +54,5 @@ public static class EchoServer
         _request = Encoding.ASCII.GetString(bytes, 0, bytesReceived);
         Console.WriteLine($"Text received: {_request}");
         return _request;
-    }
-
-    public static byte[] CreateResponseToSend(string response)
-    {
-        var splitString = response.Split('\r');
-
-        var contentType = splitString[1];
-        var contentLength = splitString[8];
-        var body = splitString[10];
-
-        var constructedResponse = $"HTTP/1.1 200 OK\r\r{contentType}\r{contentLength}\r\r{body}";
-
-        var responseToSend = Encoding.ASCII.GetBytes(constructedResponse);
-        return responseToSend;
     }
 }
