@@ -27,7 +27,7 @@ public static class EchoServer
 
                 _request = GetRequest(handler);
 
-                var responseToSend = CreateResponseToSend(_request);
+                var responseToSend = Controller.GenerateResponse(_request);
                 handler.Send(responseToSend);
 
                 if (_request.Contains("exit"))
@@ -66,19 +66,5 @@ public static class EchoServer
         _request = Encoding.ASCII.GetString(bytes, 0, bytesReceived);
         Console.WriteLine($"Text received: {_request}");
         return _request;
-    }
-
-    public static byte[] CreateResponseToSend(string response)
-    {
-        var splitString = response.Split('\r');
-
-        var contentType = splitString[1];
-        var contentLength = splitString[8];
-        var body = splitString[10];
-
-        var constructedResponse = $"HTTP/1.1 200 OK\r\r{contentType}\r{contentLength}\r\r{body}";
-
-        var responseToSend = Encoding.ASCII.GetBytes(constructedResponse);
-        return responseToSend;
     }
 }
