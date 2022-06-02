@@ -11,7 +11,7 @@ public static class EchoServer
     public static void StartListening()
     {
         var ipAddress = IPAddress.Any;
-        IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 80);
+        IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 443);
         var listener = CreateSocketListener(ipAddress);
 
         try
