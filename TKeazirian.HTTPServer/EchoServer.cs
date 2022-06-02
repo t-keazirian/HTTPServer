@@ -10,7 +10,7 @@ public static class EchoServer
 
     public static void StartListening()
     {
-        var ipAddress = IPAddress.Parse("127.0.0.1");
+        var ipAddress = IPAddress.Any;
         IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 11000);
         var listener = CreateSocketListener(ipAddress);
 
