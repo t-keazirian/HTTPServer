@@ -11,12 +11,12 @@ public static class EchoServer
     public static void StartListening()
     {
         var ipAddress = IPAddress.Any;
-        IPEndPoint localEndPoint = new IPEndPoint(ipAddress, 443);
-        var listener = CreateSocketListener(ipAddress);
+        IPEndPoint endPoint = new IPEndPoint(ipAddress, 443);
+        var listener = SocketHandler.CreateSocketListener(ipAddress);
 
         try
         {
-            listener.Bind(localEndPoint);
+            listener.Bind(endPoint);
             listener.Listen(10);
 
             Console.WriteLine("Waiting for a connection...");
@@ -32,7 +32,7 @@ public static class EchoServer
 
                 if (_request.Contains("exit"))
                 {
-                    CloseSocketConnection(handler);
+                    SocketHandler.CloseSocketConnection(handler);
                     break;
                 }
             }
@@ -44,18 +44,6 @@ public static class EchoServer
 
         Console.WriteLine("\nPress ENTER to exit...");
         Console.Read();
-    }
-
-    public static Socket CreateSocketListener(IPAddress ipAddress)
-    {
-        var listener = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
-        return listener;
-    }
-
-    public static void CloseSocketConnection(Socket handler)
-    {
-        handler.Shutdown(SocketShutdown.Both);
-        handler.Close();
     }
 
     public static string GetRequest(Socket handler)

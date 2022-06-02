@@ -26,7 +26,7 @@ public class HttpTest
     public void CreatedSocketIsNotNull()
     {
         var ipAddress = IPAddress.Parse("127.0.0.1");
-        var socket = EchoServer.CreateSocketListener(ipAddress);
+        var socket = SocketHandler.CreateSocketListener(ipAddress);
 
         Assert.NotNull(socket);
     }
