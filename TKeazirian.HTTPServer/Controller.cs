@@ -4,13 +4,17 @@ namespace TKeazirian.HTTPServer
 {
     public static class Controller
     {
+        private const string NewLine = "\r\n";
+
         public static byte[] GenerateOkResponse(string request)
         {
-            var splitString = Parser.SplitString(request);
+            var body = Parser.BodyParser(request);
 
-            var body = splitString[^1];
-
-            var constructedResponse = $"HTTP/1.1 200 OK\r\r{body}";
+            var constructedResponse =
+                $"HTTP/1.1 200 OK{NewLine}" +
+                $"Content-Type: plain/text{NewLine}" +
+                $"Content-Length:{body.Length}{NewLine}{NewLine}" +
+                $"{body}";
 
             var responseToSend = Parser.Encode(constructedResponse);
             return responseToSend;

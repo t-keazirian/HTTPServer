@@ -7,20 +7,28 @@ namespace TKeazirian.HTTPServer.Tests;
 
 public class HttpTest
 {
+    private const string NewLine = "\r\n";
+
     [Fact]
     public void ResponseToSendReturnsFormattedResponse()
     {
-        string test_request =
-            "POST / HTTP/1.1\rContent-Type: text/plain\rUser-Agent: PostmanRuntime/7.29.0\rAccept: */*\rPostman-Token: f86b2fa6-b036-4a62-b7ec-edd526dd1c23\rHost:localhost:11000\rAccept - Encoding: gzip, deflate, br\rConnection:keep - alive\rContent - Length: 13\r\rHello, World!";
+        string testRequest =
+            $"POST / HTTP/1.1{NewLine}" +
+            $"Content-Type: text/plain{NewLine}" +
+            $"Content - Length: 13{NewLine}{NewLine}" +
+            $"Hello, World!";
 
-        string constructedResponse =
-            "HTTP/1.1 200 OK\r\rHello, World!";
+        string expectedResponse =
+            $"HTTP/1.1 200 OK{NewLine}" +
+            $"Content-Type: plain/text{NewLine}" +
+            $"Content-Length:13{NewLine}{NewLine}" +
+            $"Hello, World!";
 
-        byte[] byteEncodedResponse = Parser.Encode(constructedResponse);
+        var result = Controller.GenerateOkResponse(testRequest);
 
-        var expectedResponse = Controller.GenerateOkResponse(test_request);
+        string actualResponse = Encoding.ASCII.GetString(result);
 
-        Assert.Equal(byteEncodedResponse, expectedResponse);
+        Assert.Equal(expectedResponse, actualResponse);
     }
 
     [Fact]
@@ -36,7 +44,7 @@ public class HttpTest
     public void EncodeEncodesString()
     {
         string response =
-            "HTTP/1.1 200 OK\r\rHello, World!";
+            $"HTTP/1.1 200 OK{NewLine}{NewLine}Hello, World!";
 
         byte[] encodedResponse = Parser.Encode(response);
 
@@ -44,12 +52,13 @@ public class HttpTest
     }
 
     [Fact]
-    public void SplitStringSplitsStrings()
+    public void CanParseBody()
     {
-        string stringToSplit = "Hello\rhow\rare\ryou";
+        string expectedBody = $"Hello{NewLine}how{NewLine}are{NewLine}you";
+        string testRequest = $"HTTP/1.1 200 OK{NewLine}{NewLine}{expectedBody}";
 
-        string[] expectedSplitString = Parser.SplitString(stringToSplit);
+        string actualBody = Parser.BodyParser(testRequest);
 
-        Assert.Equal(4, expectedSplitString.Length);
+        Assert.Equal(expectedBody, actualBody);
     }
 }

@@ -9,8 +9,11 @@ public class Parser
         return Encoding.ASCII.GetBytes(response);
     }
 
-    public static string[] SplitString(string stringToSplit)
+    public static string BodyParser(string requestString)
     {
-        return stringToSplit.Split('\r');
+        string[] bodySeparator = { "\r\n\r\n" };
+        string[] splitRequest = requestString.Split(bodySeparator, 2, StringSplitOptions.None);
+
+        return splitRequest[^1];
     }
 }
