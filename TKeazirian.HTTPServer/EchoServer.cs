@@ -27,18 +27,12 @@ public static class EchoServer
 
                 _request = GetRequest(socket);
 
-                var responseToSend = Controller.GenerateOkResponse(_request);
+                string response = Controller.EchoRequestBody(_request);
 
-                socket.NoDelay = true;
+                byte[] encodedResponse = Encoding.ASCII.GetBytes(response);
 
-                socket.Send(responseToSend, SocketFlags.None);
+                socket.Send(encodedResponse, SocketFlags.None);
                 socket.Close();
-
-                if (_request.Contains("exit"))
-                {
-                    SocketHandler.CloseSocketConnection(socket);
-                    break;
-                }
             }
         }
         catch (Exception e)

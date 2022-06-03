@@ -6,26 +6,17 @@ namespace TKeazirian.HTTPServer
     {
         private const string NewLine = "\r\n";
 
-        public static byte[] GenerateOkResponse(string request)
+        public static string EchoRequestBody(string request)
         {
-            var body = Parser.BodyParser(request);
+            var body = Parser.ParseBody(request);
 
-            var constructedResponse =
+            var response =
                 $"HTTP/1.1 200 OK{NewLine}" +
                 $"Content-Type: plain/text{NewLine}" +
                 $"Content-Length:{body.Length}{NewLine}{NewLine}" +
                 $"{body}";
 
-            var responseToSend = Parser.Encode(constructedResponse);
-            return responseToSend;
-        }
-
-        public static byte[] GenerateErrorResponse()
-        {
-            var errorResponse = "HTTP/1.1 500 Internal Server Error";
-
-            var errorResponseToSend = Parser.Encode(errorResponse);
-            return errorResponseToSend;
+            return response;
         }
     }
 }

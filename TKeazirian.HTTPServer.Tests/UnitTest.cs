@@ -24,9 +24,7 @@ public class HttpTest
             $"Content-Length:13{NewLine}{NewLine}" +
             $"Hello, World!";
 
-        var result = Controller.GenerateOkResponse(testRequest);
-
-        string actualResponse = Encoding.ASCII.GetString(result);
+        var actualResponse = Controller.EchoRequestBody(testRequest);
 
         Assert.Equal(expectedResponse, actualResponse);
     }
@@ -41,23 +39,12 @@ public class HttpTest
     }
 
     [Fact]
-    public void EncodeEncodesString()
-    {
-        string response =
-            $"HTTP/1.1 200 OK{NewLine}{NewLine}Hello, World!";
-
-        byte[] encodedResponse = Parser.Encode(response);
-
-        Assert.IsType<byte[]>(encodedResponse);
-    }
-
-    [Fact]
     public void CanParseBody()
     {
         string expectedBody = $"Hello{NewLine}how{NewLine}are{NewLine}you";
         string testRequest = $"HTTP/1.1 200 OK{NewLine}{NewLine}{expectedBody}";
 
-        string actualBody = Parser.BodyParser(testRequest);
+        string actualBody = Parser.ParseBody(testRequest);
 
         Assert.Equal(expectedBody, actualBody);
     }
