@@ -1,3 +1,4 @@
+using System;
 using System.Net;
 using System.Text;
 using Xunit;
@@ -15,9 +16,9 @@ public class HttpTest
         string constructedResponse =
             "HTTP/1.1 200 OK\r\rHello, World!";
 
-        byte[] byteEncodedResponse = Encoding.ASCII.GetBytes(constructedResponse);
+        byte[] byteEncodedResponse = Parser.Encode(constructedResponse);
 
-        var expectedResponse = Controller.GenerateResponse(test_request);
+        var expectedResponse = Controller.GenerateOkResponse(test_request);
 
         Assert.Equal(byteEncodedResponse, expectedResponse);
     }
@@ -29,5 +30,26 @@ public class HttpTest
         var socket = SocketHandler.CreateSocketListener(ipAddress);
 
         Assert.NotNull(socket);
+    }
+
+    [Fact]
+    public void EncodeEncodesString()
+    {
+        string response =
+            "HTTP/1.1 200 OK\r\rHello, World!";
+
+        byte[] encodedResponse = Parser.Encode(response);
+
+        Assert.IsType<byte[]>(encodedResponse);
+    }
+
+    [Fact]
+    public void SplitStringSplitsStrings()
+    {
+        string stringToSplit = "Hello\rhow\rare\ryou";
+
+        string[] expectedSplitString = Parser.SplitString(stringToSplit);
+
+        Assert.Equal(4, expectedSplitString.Length);
     }
 }

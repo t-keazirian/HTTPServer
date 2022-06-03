@@ -23,16 +23,20 @@ public static class EchoServer
 
             while (true)
             {
-                var handler = listener.Accept();
+                var socket = listener.Accept();
 
-                _request = GetRequest(handler);
+                _request = GetRequest(socket);
 
-                var responseToSend = Controller.GenerateResponse(_request);
-                handler.Send(responseToSend);
+                var responseToSend = Controller.GenerateOkResponse(_request);
+
+                socket.NoDelay = true;
+
+                socket.Send(responseToSend, SocketFlags.None);
+                socket.Close();
 
                 if (_request.Contains("exit"))
                 {
-                    SocketHandler.CloseSocketConnection(handler);
+                    SocketHandler.CloseSocketConnection(socket);
                     break;
                 }
             }
@@ -40,6 +44,7 @@ public static class EchoServer
         catch (Exception e)
         {
             Console.WriteLine(e.ToString());
+            listener.Dispose();
         }
 
         Console.WriteLine("\nPress ENTER to exit...");
