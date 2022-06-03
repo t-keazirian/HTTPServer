@@ -19,30 +19,36 @@ public static class EchoServer
             listener.Bind(endPoint);
             listener.Listen(10);
 
+            Console.WriteLine("Waiting for a connection...");
+
             while (true)
             {
-                var handler = listener.Accept();
+                var socket = listener.Accept();
 
-                _request = GetRequest(handler);
+                _request = GetRequest(socket);
 
                 var responseToSend = Controller.GenerateResponse(_request);
 
-                handler.NoDelay = true;
+                socket.NoDelay = true;
 
-                handler.Send(responseToSend, SocketFlags.None);
-                handler.Close();
+                socket.Send(responseToSend, SocketFlags.None);
+                socket.Close();
 
                 if (_request.Contains("exit"))
                 {
-                    SocketHandler.CloseSocketConnection(handler);
+                    SocketHandler.CloseSocketConnection(socket);
                     break;
                 }
             }
         }
         catch (Exception e)
         {
+            Console.WriteLine(e.ToString());
             listener.Dispose();
         }
+
+        Console.WriteLine("\nPress ENTER to exit...");
+        Console.Read();
     }
 
     public static string GetRequest(Socket handler)
@@ -51,6 +57,7 @@ public static class EchoServer
         byte[] bytes = new byte[1024];
         int bytesReceived = handler.Receive(bytes);
         _request = Encoding.ASCII.GetString(bytes, 0, bytesReceived);
+        Console.WriteLine($"Text received: {_request}");
         return _request;
     }
 }

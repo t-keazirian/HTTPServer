@@ -11,10 +11,10 @@ public static class SocketHandler
         return listener;
     }
 
-    public static void CloseSocketConnection(Socket handler)
+    public static void CloseSocketConnection(Socket socket)
     {
-        handler.Shutdown(SocketShutdown.Both);
-        handler.Close();
-        handler.Dispose();
+        socket.Shutdown(SocketShutdown.Both);
+        socket.Close();
+        socket.Dispose();
     }
 }
