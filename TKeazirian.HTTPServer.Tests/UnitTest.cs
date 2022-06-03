@@ -7,20 +7,26 @@ namespace TKeazirian.HTTPServer.Tests;
 
 public class HttpTest
 {
+    private const string NewLine = "\r\n";
+
     [Fact]
     public void ResponseToSendReturnsFormattedResponse()
     {
-        string test_request =
-            "POST / HTTP/1.1\rContent-Type: text/plain\rUser-Agent: PostmanRuntime/7.29.0\rAccept: */*\rPostman-Token: f86b2fa6-b036-4a62-b7ec-edd526dd1c23\rHost:localhost:11000\rAccept - Encoding: gzip, deflate, br\rConnection:keep - alive\rContent - Length: 13\r\rHello, World!";
+        string testRequest =
+            $"POST / HTTP/1.1{NewLine}" +
+            $"Content-Type: text/plain{NewLine}" +
+            $"Content - Length: 13{NewLine}{NewLine}" +
+            $"Hello, World!";
 
-        string constructedResponse =
-            "HTTP/1.1 200 OK\r\rHello, World!";
+        string expectedResponse =
+            $"HTTP/1.1 200 OK{NewLine}" +
+            $"Content-Type: plain/text{NewLine}" +
+            $"Content-Length:13{NewLine}{NewLine}" +
+            $"Hello, World!";
 
-        byte[] byteEncodedResponse = Parser.Encode(constructedResponse);
+        var actualResponse = Controller.EchoRequestBody(testRequest);
 
-        var expectedResponse = Controller.GenerateOkResponse(test_request);
-
-        Assert.Equal(byteEncodedResponse, expectedResponse);
+        Assert.Equal(expectedResponse, actualResponse);
     }
 
     [Fact]
@@ -33,23 +39,13 @@ public class HttpTest
     }
 
     [Fact]
-    public void EncodeEncodesString()
+    public void CanParseBody()
     {
-        string response =
-            "HTTP/1.1 200 OK\r\rHello, World!";
+        string expectedBody = $"Hello{NewLine}how{NewLine}are{NewLine}you";
+        string testRequest = $"HTTP/1.1 200 OK{NewLine}{NewLine}{expectedBody}";
 
-        byte[] encodedResponse = Parser.Encode(response);
+        string actualBody = Parser.ParseBody(testRequest);
 
-        Assert.IsType<byte[]>(encodedResponse);
-    }
-
-    [Fact]
-    public void SplitStringSplitsStrings()
-    {
-        string stringToSplit = "Hello\rhow\rare\ryou";
-
-        string[] expectedSplitString = Parser.SplitString(stringToSplit);
-
-        Assert.Equal(4, expectedSplitString.Length);
+        Assert.Equal(expectedBody, actualBody);
     }
 }

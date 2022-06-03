@@ -2,15 +2,13 @@ using System.Text;
 
 namespace TKeazirian.HTTPServer;
 
-public class Parser
+public static class Parser
 {
-    public static byte[] Encode(string response)
+    public static string ParseBody(string requestString)
     {
-        return Encoding.ASCII.GetBytes(response);
-    }
+        string[] bodySeparator = { "\r\n\r\n" };
+        string[] splitRequest = requestString.Split(bodySeparator, 2, StringSplitOptions.None);
 
-    public static string[] SplitString(string stringToSplit)
-    {
-        return stringToSplit.Split('\r');
+        return splitRequest[^1];
     }
 }
