@@ -27,7 +27,7 @@ public static class EchoServer
 
                 _request = GetRequest(socket);
 
-                var responseToSend = Controller.GenerateResponse(_request);
+                var responseToSend = Controller.GenerateOkResponse(_request);
 
                 socket.NoDelay = true;
 
