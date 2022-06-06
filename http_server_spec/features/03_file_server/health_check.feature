@@ -1,7 +1,7 @@
 @health-check @03-file-server
 Feature: Health Check
 
-	@wip
+  @wip
   Scenario: Health check request
     Given I make a GET request to '/health-check.html'
     Then my response should have status code 200
