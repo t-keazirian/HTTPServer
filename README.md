@@ -8,8 +8,14 @@ C# is a simple, modern, object-oriented, and type-safe programming language.
 
 ## Installation:
 
-1. To download .NET Core, visit [this][4] website.
-2. This project uses .NET version `6.0.202`. You can run the command `dotnet --version` to determine which version you have installed, or visit the .NET docs to install the correct version.
+1. To download .NET Core, click [here][4].
+2. This project uses .NET version `6.0.202`
+
+Run the command: 
+```shell
+dotnet --version
+``` 
+to determine which version you have installed, or visit the [.NET docs][11] for more information.
 
 ## [Description:][1]
 
@@ -35,9 +41,9 @@ dotnet run --project TKeazirian.HTTPServer
 
 ## Testing:
 
-This project uses xUnit.net for testing. Visit [this][5] website for more information and how to use xUnit.net.
+This project uses [xUnit.net][5] for testing.
 
-This project also uses Acceptance tests written in Cucumber Code found [here][9]. You can read more about Cucumber Code [here][10].
+This project also uses an [acceptance test suite][9] written using [Cucumber][10].
 
 ### To Run the Tests:
 
@@ -46,13 +52,13 @@ dotnet test
 ```
 
 ### Acceptance Tests:
-**Setup**
+#### Setup
 
 1. You will need [Ruby][6] version `2.5.1`.  You can install Ruby using [brew][7] or the Ruby [docs][8]. 
 2. Once it is installed, run `ruby -v` to confirm you are using the appropriate version.
-3. Next, run `bundler install`.
+3. Next, run `bundle install`.
 
-**Steps to Run**
+#### Steps to Run
 1. Start your HTTP server on port `5000`
 2. `cd` into the `http_server_spec` folder:
 ```shell
@@ -75,3 +81,4 @@ Note: You can skip any of the acceptance tests by adding `@wip` to the test(s).
 [8]: https://www.ruby-lang.org/en/documentation/installation/
 [9]: https://github.com/8thlight/http_server_spec
 [10]: https://cucumber.io/
+[11]: https://docs.microsoft.com/en-us/dotnet/
