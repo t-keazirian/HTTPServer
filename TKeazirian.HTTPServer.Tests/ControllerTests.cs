@@ -1,11 +1,9 @@
-using System;
 using System.Net;
-using System.Text;
 using Xunit;
 
 namespace TKeazirian.HTTPServer.Tests;
 
-public class HttpTest
+public class ControllerTests
 {
     private const string NewLine = "\r\n";
 
@@ -27,25 +25,5 @@ public class HttpTest
         var actualResponse = Controller.EchoRequestBody(testRequest);
 
         Assert.Equal(expectedResponse, actualResponse);
-    }
-
-    [Fact]
-    public void CreatedSocketIsNotNull()
-    {
-        var ipAddress = IPAddress.Parse("127.0.0.1");
-        var socket = SocketHandler.CreateSocketListener(ipAddress);
-
-        Assert.NotNull(socket);
-    }
-
-    [Fact]
-    public void CanParseBody()
-    {
-        string expectedBody = $"Hello{NewLine}how{NewLine}are{NewLine}you";
-        string testRequest = $"HTTP/1.1 200 OK{NewLine}{NewLine}{expectedBody}";
-
-        string actualBody = Parser.ParseBody(testRequest);
-
-        Assert.Equal(expectedBody, actualBody);
     }
 }
