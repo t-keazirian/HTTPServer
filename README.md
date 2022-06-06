@@ -37,14 +37,37 @@ dotnet run --project TKeazirian.HTTPServer
 
 This project uses xUnit.net for testing. Visit [this][5] website for more information and how to use xUnit.net.
 
+This project also uses Acceptance tests written in Cucumber Code found [here][9]. You can read more about Cucumber Code [here][10].
+
 ### To Run the Tests:
 
 ```shell
 dotnet test
 ```
 
+### Acceptance Tests:
+**Setup**
+
+1. You will need [Ruby][6] version `2.5.1`.  You can install Ruby using [brew][7] or the Ruby [docs][8]. 
+2. Once it is installed, run `ruby -v` to confirm you are using the appropriate version.
+3. Next, run `bundler install`.
+
+**Steps to Run**
+1. Start your HTTP server on port `5000`
+2. Run the acceptance tests:
+```shell
+rake test
+```
+
+Note: You can skip any of the acceptance tests by adding `@wip` to the test(s).
+
 [1]: https://github.com/8thlight/apprenticeship_syllabus/blob/4ac3c45640ca506038cfe5cd0a8562a65634f8e7/shared_resources/projects/http_server/01_beginner/echo_server.md
 [2]: https://dotnet.microsoft.com/en-us/learn/dotnet/what-is-dotnet
 [3]: https://docs.microsoft.com/en-us/dotnet/csharp/tour-of-csharp/
 [4]: https://dotnet.microsoft.com/en-us/download
 [5]: https://xunit.net/
+[6]: https://www.ruby-lang.org/en/
+[7]: https://mac.install.guide/ruby/13.html
+[8]: https://www.ruby-lang.org/en/documentation/installation/
+[9]: https://github.com/8thlight/http_server_spec
+[10]: https://cucumber.io/
