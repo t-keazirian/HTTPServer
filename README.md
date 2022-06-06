@@ -54,7 +54,11 @@ dotnet test
 
 **Steps to Run**
 1. Start your HTTP server on port `5000`
-2. Run the acceptance tests:
+2. `cd` into the `http_server_spec` folder:
+```shell
+cd http_server_spec 
+```
+3. Run the acceptance tests:
 ```shell
 rake test
 ```
