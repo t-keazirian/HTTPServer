@@ -27,6 +27,9 @@ public static class EchoServer
 
                 _request = GetRequest(socket);
 
+
+                // RequestParser requestParser = new RequestParser()
+                // Request request = RequestParser.ParseRequest(_request) -> return an object
                 string response = Controller.EchoRequestBody(_request);
 
                 byte[] encodedResponse = Encoding.ASCII.GetBytes(response);
@@ -51,7 +54,7 @@ public static class EchoServer
         byte[] bytes = new byte[1024];
         int bytesReceived = handler.Receive(bytes);
         _request = Encoding.ASCII.GetString(bytes, 0, bytesReceived);
-        Console.WriteLine($"Text received: {_request}");
+        Console.WriteLine($"Text received: \r{_request}");
         return _request;
     }
 }

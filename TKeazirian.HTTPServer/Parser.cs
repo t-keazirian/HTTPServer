@@ -1,9 +1,24 @@
-using System.Text;
-
 namespace TKeazirian.HTTPServer;
 
 public static class Parser
 {
+    // create RequestData class
+    // return RequestData(requestLine, requestHeaders, requestBody)
+    // pass into router, look at route and verb, send it to correct handler
+    // handler creates response based on verb, send response to ResponseBuilder
+    // then, in Main we send that to socket.Send(response)
+    public static string ParseMethod(string requestString)
+    {
+        string[] requestArray = requestString.Split(" ", 2);
+        return requestArray[0];
+    }
+
+    public static string ParsePath(string requestString)
+    {
+        string[] requestArray = requestString.Split(" ", 3);
+        return requestArray[1];
+    }
+
     public static string ParseBody(string requestString)
     {
         string[] bodySeparator = { "\r\n\r\n" };
