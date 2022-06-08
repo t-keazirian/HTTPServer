@@ -10,7 +10,7 @@ public static class EchoServer
 
     public static void StartListening()
     {
-        var ipAddress = IPAddress.Any;
+        var ipAddress = IPAddress.Parse("127.0.0.1");
         IPEndPoint endPoint = new IPEndPoint(ipAddress, 5000);
         var listener = SocketHandler.CreateSocketListener(ipAddress);
 
@@ -30,8 +30,10 @@ public static class EchoServer
 
                 // RequestParser requestParser = new RequestParser()
                 // Request request = RequestParser.ParseRequest(_request) -> return an object
-                string response = Controller.EchoRequestBody(_request);
 
+                // string response = Controller.EchoRequestBody(_request);
+
+                var response = Router.PostRequest(_request);
                 byte[] encodedResponse = Encoding.ASCII.GetBytes(response);
 
                 socket.Send(encodedResponse, SocketFlags.None);
@@ -44,7 +46,6 @@ public static class EchoServer
             listener.Dispose();
         }
 
-        Console.WriteLine("\nPress ENTER to exit...");
         Console.Read();
     }
 
@@ -54,7 +55,7 @@ public static class EchoServer
         byte[] bytes = new byte[1024];
         int bytesReceived = handler.Receive(bytes);
         _request = Encoding.ASCII.GetString(bytes, 0, bytesReceived);
-        Console.WriteLine($"Text received: \r{_request}");
+        Console.WriteLine($"Request: \r{_request}");
         return _request;
     }
 }
