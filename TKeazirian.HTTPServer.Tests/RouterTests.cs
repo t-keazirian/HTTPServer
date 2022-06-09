@@ -1,3 +1,5 @@
+using System;
+using TKeazirian.HTTPServer.Tests.helpers;
 using Xunit;
 
 namespace TKeazirian.HTTPServer.Tests;
@@ -10,11 +12,7 @@ public class RouterTests
     public void HandleRequestReturnsEchoBody()
     {
         Router router = new Router();
-        string testRequest = $"POST /echo_body HTTP/1.1{NewLine}" +
-                             $"Content-Type: text/plain{NewLine}" +
-                             $"Host: localhost:5000{NewLine}" +
-                             $"Content-Length: 11{NewLine}{NewLine}" +
-                             "Hello, World";
+        var testRequest = HelperFunctions.FormatTestRequest("/echo_body", "POST", "Hello, World");
 
         string expectedReturn =
             $"HTTP/1.1 200 OK{NewLine}" +
@@ -27,16 +25,14 @@ public class RouterTests
         Assert.Equal(expectedReturn, actualReturn);
     }
 
+
     [Theory]
     [InlineData("/")]
     [InlineData("/echo_test")]
-    public void HandleRequestReturns404(object value)
+    public void HandleRequestReturns404(string value)
     {
         Router router = new Router();
-        string testRequest = $"GET {value} HTTP/1.1{NewLine}" +
-                             $"Content-Type: text/plain{NewLine}" +
-                             $"Host: localhost:5000{NewLine}" +
-                             $"Content-Length: 11{NewLine}{NewLine}";
+        string testRequest = HelperFunctions.FormatTestRequest(value.ToString(), "GET");
 
         string expectedResponse =
             $"HTTP/1.1 404 Not Found{NewLine}" +

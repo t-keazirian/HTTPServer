@@ -1,3 +1,4 @@
+using TKeazirian.HTTPServer.Tests.helpers;
 using Xunit;
 
 namespace TKeazirian.HTTPServer.Tests;
@@ -9,10 +10,10 @@ public class ParserTests
     [Theory]
     [InlineData($"Hello{NewLine}how{NewLine}are{NewLine}you")]
     [InlineData("")]
-    public void CanParseBody(object value)
+    public void CanParseBody(string value)
     {
         object expectedBody = value;
-        string testRequest = $"HTTP/1.1 200 OK{NewLine}{NewLine}{expectedBody}";
+        string testRequest = HelperFunctions.FormatTestRequest("/test_path", "POST", value);
 
         string actualBody = Parser.ParseBody(testRequest);
 
@@ -26,13 +27,7 @@ public class ParserTests
     public void CanParseMethod(string value)
     {
         string expectedMethod = value;
-
-        string testRequest = $"{value} /echo_body HTTP/1.1{NewLine}" +
-                             $"Content-Type: text/plain{NewLine}" +
-                             $"Host: localhost:5000{NewLine}" +
-                             $"Content-Length: 11{NewLine}{NewLine}" +
-                             "hello world";
-
+        string testRequest = HelperFunctions.FormatTestRequest("/test_path", value, "hello world");
 
         string actualMethod = Parser.ParseMethod(testRequest);
 
@@ -47,11 +42,7 @@ public class ParserTests
     public void CanParsePath(string value)
     {
         string expectedPath = value;
-        string testRequest = $"POST {value} HTTP/1.1{NewLine}" +
-                             $"Content-Type: text/plain{NewLine}" +
-                             $"Host: localhost:5000{NewLine}" +
-                             $"Content-Length: 11{NewLine}{NewLine}" +
-                             "hello world";
+        string testRequest = HelperFunctions.FormatTestRequest(value, "POST", "hello world");
 
         string actualPath = Parser.ParsePath(testRequest);
 
