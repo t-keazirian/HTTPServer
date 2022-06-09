@@ -7,10 +7,11 @@ namespace TKeazirian.HTTPServer;
 public static class Server
 {
     private static string? _request;
+    private static string localIpAddress = "127.0.0.1";
 
     public static void StartListening()
     {
-        var ipAddress = IPAddress.Parse("127.0.0.1");
+        var ipAddress = IPAddress.Parse(localIpAddress);
         IPEndPoint endPoint = new IPEndPoint(ipAddress, 5000);
         var listener = SocketHandler.CreateSocketListener(ipAddress);
 

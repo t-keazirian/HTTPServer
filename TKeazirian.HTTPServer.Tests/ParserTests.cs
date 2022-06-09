@@ -6,10 +6,12 @@ public class ParserTests
 {
     private const string NewLine = "\r\n";
 
-    [Fact]
-    public void CanParseBody()
+    [Theory]
+    [InlineData($"Hello{NewLine}how{NewLine}are{NewLine}you")]
+    [InlineData("")]
+    public void CanParseBody(object value)
     {
-        string expectedBody = $"Hello{NewLine}how{NewLine}are{NewLine}you";
+        object expectedBody = value;
         string testRequest = $"HTTP/1.1 200 OK{NewLine}{NewLine}{expectedBody}";
 
         string actualBody = Parser.ParseBody(testRequest);
@@ -20,6 +22,7 @@ public class ParserTests
     [Theory]
     [InlineData("POST")]
     [InlineData("GET")]
+    [InlineData("")]
     public void CanParseMethod(string value)
     {
         string expectedMethod = value;
@@ -40,6 +43,7 @@ public class ParserTests
     [InlineData("/echo_body")]
     [InlineData("/simple_get")]
     [InlineData("/simple_get_with_body")]
+    [InlineData("")]
     public void CanParsePath(string value)
     {
         string expectedPath = value;
