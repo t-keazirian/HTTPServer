@@ -5,25 +5,12 @@ namespace TKeazirian.HTTPServer;
 
 class Config
 {
-    Dictionary<string, string> routes = new Dictionary<string, string>();
+    public Dictionary<string, string> routes = new Dictionary<string, string>();
 
-    public static void RoutesDictionary(string request)
+    public Dictionary<string, string> RoutesDictionary(string request)
     {
-        // routes.Add("/echo_body", Controller.EchoRequestBody(request));
-        // return RoutesDictionary;
+        Controller controller = new Controller();
+        routes.Add("/echo_body", controller.EchoRequestBody(request));
+        return routes;
     }
-
-
-    //     {
-//         "post":
-//         {
-//             "/echo_body": Controller.EchoRequestBody;
-//         }
-//     },
-//     {
-//         "get":
-//         {
-//             "/simple_get": Controller.SimpleGet;
-//         }
-// }
 }

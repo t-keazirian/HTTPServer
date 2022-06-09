@@ -4,7 +4,7 @@ using System.Text;
 
 namespace TKeazirian.HTTPServer;
 
-public static class EchoServer
+public static class Server
 {
     private static string? _request;
 
@@ -23,21 +23,16 @@ public static class EchoServer
 
             while (true)
             {
+                Router router = new Router();
                 var socket = listener.Accept();
 
                 _request = GetRequest(socket);
 
-
-                // RequestParser requestParser = new RequestParser()
-                // Request request = RequestParser.ParseRequest(_request) -> return an object
-
-                // string response = Controller.EchoRequestBody(_request);
-
-                var response = Router.HandleRequest(_request);
+                var response = router.HandleRequest(_request);
                 byte[] encodedResponse = Encoding.ASCII.GetBytes(response);
 
                 socket.Send(encodedResponse, SocketFlags.None);
-                socket.Close();
+                SocketHandler.CloseSocketConnection(socket);
             }
         }
         catch (Exception e)
@@ -49,13 +44,13 @@ public static class EchoServer
         Console.Read();
     }
 
-    public static string GetRequest(Socket handler)
+    private static string GetRequest(Socket handler)
     {
         _request = null;
         byte[] bytes = new byte[1024];
         int bytesReceived = handler.Receive(bytes);
         _request = Encoding.ASCII.GetString(bytes, 0, bytesReceived);
-        Console.WriteLine($"Request: \r{_request}");
+        Console.WriteLine($"Request: {_request}");
         return _request;
     }
 }

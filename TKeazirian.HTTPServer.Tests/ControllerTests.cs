@@ -10,6 +10,7 @@ public class ControllerTests
     [Fact]
     public void ResponseToSendReturnsFormattedResponse()
     {
+        Controller controller = new Controller();
         string testRequest =
             $"POST / HTTP/1.1{NewLine}" +
             $"Content-Type: text/plain{NewLine}" +
@@ -22,7 +23,7 @@ public class ControllerTests
             $"Content-Length:13{NewLine}{NewLine}" +
             $"Hello, World!";
 
-        var actualResponse = Controller.EchoRequestBody(testRequest);
+        var actualResponse = controller.EchoRequestBody(testRequest);
 
         Assert.Equal(expectedResponse, actualResponse);
     }

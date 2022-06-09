@@ -1,10 +1,10 @@
 namespace TKeazirian.HTTPServer
 {
-    public static class Controller
+    public class Controller
     {
         private const string NewLine = "\r\n";
 
-        public static string EchoRequestBody(string request)
+        public string EchoRequestBody(string request)
         {
             var body = Parser.ParseBody(request);
 
@@ -17,7 +17,7 @@ namespace TKeazirian.HTTPServer
             return response;
         }
 
-        public static string ResponseNotFound(string request)
+        public string ResponseNotFound()
         {
             var response =
                 $"HTTP/1.1 404 Not Found{NewLine}" +

@@ -2,21 +2,24 @@ namespace TKeazirian.HTTPServer;
 
 public class Router
 {
-    public static string HandleRequest(string request)
+    public string HandleRequest(string request)
     {
+        Controller controller = new Controller();
         string path = Parser.ParsePath(request);
         string method = Parser.ParseMethod(request);
 
-        // var controllerAction = RoutesDictionary(request);
-
-        // if (controllerAction.ContainsKey(method))
-        if (method == "POST" && path == "/echo_body")
+        try
         {
-            return Controller.EchoRequestBody(request);
-            // return controllerAction(request);
+            if (method == "POST" && path == "/echo_body")
+            {
+                return controller.EchoRequestBody(request);
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
         }
 
-        // return null;
-        return Controller.ResponseNotFound(request);
+        return controller.ResponseNotFound();
     }
 }
