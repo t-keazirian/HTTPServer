@@ -5,6 +5,7 @@ public class Router
     public string HandleRequest(string request)
     {
         Controller controller = new Controller();
+
         string path = Parser.ParsePath(request);
         string method = Parser.ParseMethod(request);
 
