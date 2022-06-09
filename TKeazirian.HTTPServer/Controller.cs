@@ -1,5 +1,3 @@
-using System.Text;
-
 namespace TKeazirian.HTTPServer
 {
     public static class Controller
@@ -15,6 +13,16 @@ namespace TKeazirian.HTTPServer
                 $"Content-Type: plain/text{NewLine}" +
                 $"Content-Length:{body.Length}{NewLine}{NewLine}" +
                 $"{body}";
+
+            return response;
+        }
+
+        public static string ResponseNotFound(string request)
+        {
+            var response =
+                $"HTTP/1.1 404 Not Found{NewLine}" +
+                $"{NewLine}{NewLine}" +
+                "The resource cannot be found";
 
             return response;
         }

@@ -33,7 +33,7 @@ public static class EchoServer
 
                 // string response = Controller.EchoRequestBody(_request);
 
-                var response = Router.PostRequest(_request);
+                var response = Router.HandleRequest(_request);
                 byte[] encodedResponse = Encoding.ASCII.GetBytes(response);
 
                 socket.Send(encodedResponse, SocketFlags.None);

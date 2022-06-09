@@ -1,11 +1,8 @@
-using System.Text;
-using static TKeazirian.HTTPServer.Config;
-
 namespace TKeazirian.HTTPServer;
 
 public class Router
 {
-    public static string PostRequest(string request)
+    public static string HandleRequest(string request)
     {
         string path = Parser.ParsePath(request);
         string method = Parser.ParseMethod(request);
@@ -19,6 +16,7 @@ public class Router
             // return controllerAction(request);
         }
 
-        return null;
+        // return null;
+        return Controller.ResponseNotFound(request);
     }
 }
