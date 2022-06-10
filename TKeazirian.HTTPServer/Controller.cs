@@ -20,7 +20,7 @@ namespace TKeazirian.HTTPServer
         public string ResponseNotFound()
         {
             var response =
-                $"HTTP/1.1 404 Not Found{NewLine}" +
+                $"HTTP/1.1 404 Not Found" +
                 $"{NewLine}{NewLine}" +
                 "The resource cannot be found";
 

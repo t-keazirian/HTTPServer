@@ -8,11 +8,11 @@ public class ControllerTests
     private const string NewLine = "\r\n";
 
     [Fact]
-    public void ResponseToSendReturnsFormattedResponse()
+    public void EchoRequestBodyFormatsResponse()
     {
         Controller controller = new Controller();
 
-        string testRequest = HelperFunctions.FormatTestRequest("/", "POST", "Hello, World!");
+        string testRequest = HelperFunctions.FormatTestRequest("POST", "/test_path", "Hello, World!");
 
         string expectedResponse =
             $"HTTP/1.1 200 OK{NewLine}" +
@@ -31,7 +31,7 @@ public class ControllerTests
         Controller controller = new Controller();
 
         string expectedResponse =
-            $"HTTP/1.1 404 Not Found{NewLine}" +
+            $"HTTP/1.1 404 Not Found" +
             $"{NewLine}{NewLine}" +
             "The resource cannot be found";
 

@@ -10,10 +10,10 @@ public class ParserTests
     [Theory]
     [InlineData($"Hello{NewLine}how{NewLine}are{NewLine}you")]
     [InlineData("")]
-    public void CanParseBody(string value)
+    public void CanParseBody(string testBody)
     {
-        object expectedBody = value;
-        string testRequest = HelperFunctions.FormatTestRequest("/test_path", "POST", value);
+        string expectedBody = testBody;
+        string testRequest = HelperFunctions.FormatTestRequest("POST", "test_path", testBody);
 
         string actualBody = Parser.ParseBody(testRequest);
 
@@ -24,14 +24,14 @@ public class ParserTests
     [InlineData("POST")]
     [InlineData("GET")]
     [InlineData("")]
-    public void CanParseMethod(string value)
+    public void CanParseMethod(string testVerb)
     {
-        string expectedMethod = value;
-        string testRequest = HelperFunctions.FormatTestRequest("/test_path", value, "hello world");
+        string expectedVerb = testVerb;
+        string testRequest = HelperFunctions.FormatTestRequest(testVerb, "/test_path", "hello world");
 
-        string actualMethod = Parser.ParseMethod(testRequest);
+        string actualVerb = Parser.ParseMethod(testRequest);
 
-        Assert.Equal(expectedMethod, actualMethod);
+        Assert.Equal(expectedVerb, actualVerb);
     }
 
     [Theory]
@@ -39,10 +39,10 @@ public class ParserTests
     [InlineData("/simple_get")]
     [InlineData("/simple_get_with_body")]
     [InlineData("")]
-    public void CanParsePath(string value)
+    public void CanParsePath(string testPath)
     {
-        string expectedPath = value;
-        string testRequest = HelperFunctions.FormatTestRequest(value, "POST", "hello world");
+        string expectedPath = testPath;
+        string testRequest = HelperFunctions.FormatTestRequest("POST", testPath, "hello world");
 
         string actualPath = Parser.ParsePath(testRequest);
 
