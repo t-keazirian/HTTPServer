@@ -6,9 +6,9 @@ namespace TKeazirian.HTTPServer;
 
 public static class Program
 {
-    public static int Main(String[] args)
+    public static int Main(string[] args)
     {
-        EchoServer.StartListening();
+        Server.StartListening();
         return 0;
     }
 }

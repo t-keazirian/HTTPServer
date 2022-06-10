@@ -4,13 +4,14 @@ using System.Text;
 
 namespace TKeazirian.HTTPServer;
 
-public static class EchoServer
+public static class Server
 {
     private static string? _request;
+    private static string localIpAddress = "127.0.0.1";
 
     public static void StartListening()
     {
-        var ipAddress = IPAddress.Any;
+        var ipAddress = IPAddress.Parse(localIpAddress);
         IPEndPoint endPoint = new IPEndPoint(ipAddress, 5000);
         var listener = SocketHandler.CreateSocketListener(ipAddress);
 
@@ -23,16 +24,16 @@ public static class EchoServer
 
             while (true)
             {
+                Router router = new Router();
                 var socket = listener.Accept();
 
                 _request = GetRequest(socket);
 
-                string response = Controller.EchoRequestBody(_request);
-
+                var response = router.HandleRequest(_request);
                 byte[] encodedResponse = Encoding.ASCII.GetBytes(response);
 
                 socket.Send(encodedResponse, SocketFlags.None);
-                socket.Close();
+                SocketHandler.CloseSocketConnection(socket);
             }
         }
         catch (Exception e)
@@ -41,17 +42,16 @@ public static class EchoServer
             listener.Dispose();
         }
 
-        Console.WriteLine("\nPress ENTER to exit...");
         Console.Read();
     }
 
-    public static string GetRequest(Socket handler)
+    private static string GetRequest(Socket handler)
     {
         _request = null;
         byte[] bytes = new byte[1024];
         int bytesReceived = handler.Receive(bytes);
         _request = Encoding.ASCII.GetString(bytes, 0, bytesReceived);
-        Console.WriteLine($"Text received: {_request}");
+        Console.WriteLine($"Request: {_request}");
         return _request;
     }
 }

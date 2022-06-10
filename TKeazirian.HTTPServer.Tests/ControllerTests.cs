@@ -1,4 +1,4 @@
-using System.Net;
+using TKeazirian.HTTPServer.Tests.helpers;
 using Xunit;
 
 namespace TKeazirian.HTTPServer.Tests;
@@ -8,13 +8,11 @@ public class ControllerTests
     private const string NewLine = "\r\n";
 
     [Fact]
-    public void ResponseToSendReturnsFormattedResponse()
+    public void EchoRequestBodyFormatsResponse()
     {
-        string testRequest =
-            $"POST / HTTP/1.1{NewLine}" +
-            $"Content-Type: text/plain{NewLine}" +
-            $"Content - Length: 13{NewLine}{NewLine}" +
-            $"Hello, World!";
+        Controller controller = new Controller();
+
+        string testRequest = HelperFunctions.FormatTestRequest("POST", "/test_path", "Hello, World!");
 
         string expectedResponse =
             $"HTTP/1.1 200 OK{NewLine}" +
@@ -22,7 +20,22 @@ public class ControllerTests
             $"Content-Length:13{NewLine}{NewLine}" +
             $"Hello, World!";
 
-        var actualResponse = Controller.EchoRequestBody(testRequest);
+        var actualResponse = controller.EchoRequestBody(testRequest);
+
+        Assert.Equal(expectedResponse, actualResponse);
+    }
+
+    [Fact]
+    public void ResponseNotFoundFormatsResponse()
+    {
+        Controller controller = new Controller();
+
+        string expectedResponse =
+            $"HTTP/1.1 404 Not Found" +
+            $"{NewLine}{NewLine}" +
+            "The resource cannot be found";
+
+        var actualResponse = controller.ResponseNotFound();
 
         Assert.Equal(expectedResponse, actualResponse);
     }
