@@ -37,11 +37,11 @@ A user should be able to interact with the HTTP server as follows:
 * The server should establish a socket connection with the client using a low-level socket library.
 * The server should accept and return streams of data rather than raw strings.
 * The HTTP server should be covered by a robust suite of unit tests.
-* The HTTP server should pass all of the tests covered in `01_getting_started` in the [HTTP Server Spec](https://github.com/8thlight/http_server_spec).
+* The HTTP server should pass all of the tests covered in `01_getting_started` in the [http_server_spec/features/01_getting_started][13]
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-## To Run the App:
+## Run the App:
 
 ```shell 
 dotnet run --project TKeazirian.HTTPServer
@@ -67,10 +67,13 @@ dotnet test
 3. Next, run `bundle install`.
 
 ### Run the Acceptance Tests
-Note: This server is currently programmed to run on port `5000`. If you would like to change the port, you can change the value of the variable, `private static int _port = 5000` (line 11) in `Server.cs` and recompile. In the future, the goal is to make this customizable via a command-line argument.
+Note: This server is currently programmed to run on port `5000`. If you would like to change the port, you can change the value of the variable, `_port` in [Server.cs][14] and recompile. In the future, the goal is to make this customizable via a command-line argument.
 
-1. Start your HTTP server (you can do this by running the `dotnet run --project TKeazirian.HTTPServer` command or click `Run` if you are using an IDE)
-2. Navigate into the `http_server_spec` folder: `cd http_server_spec`
+1. Start your HTTP server (you can do this with the [run the app](#run-the-app) command or click `Run` if you are using an IDE)
+2. Navigate into the [http_server_spec][15] folder: 
+```shell
+cd http_server_spec
+```
 3. You can run the acceptance tests with:
 ```shell
 rake test
@@ -92,3 +95,6 @@ Note: You can skip any of the acceptance tests by adding `@wip` to the test(s).
 [10]: https://cucumber.io/
 [11]: https://docs.microsoft.com/en-us/dotnet/
 [12]: https://8thlight.com/
+[13]: http_server_spec/features/01_getting_started
+[14]: TKeazirian.HTTPServer/Server.cs
+[15]: http_server_spec/
