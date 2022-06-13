@@ -12,7 +12,7 @@ public class ControllerTests
     {
         Controller controller = new Controller();
 
-        string testRequest = HelperFunctions.FormatPostRequest("POST", "/test_path", "Hello, World!");
+        string testRequest = HelperFunctions.FormatTestPostRequest("POST", "/test_path", "Hello, World!");
 
         string expectedResponse =
             $"HTTP/1.1 200 OK{NewLine}" +
@@ -30,7 +30,7 @@ public class ControllerTests
     {
         Controller controller = new Controller();
 
-        string testRequest = HelperFunctions.FormatGetRequest("GET", "/simple_get_with_body");
+        string testRequest = HelperFunctions.FormatTestGetRequest("GET", "/simple_get_with_body");
 
         string expectedResponse =
             $"HTTP/1.1 200 OK{NewLine}" +

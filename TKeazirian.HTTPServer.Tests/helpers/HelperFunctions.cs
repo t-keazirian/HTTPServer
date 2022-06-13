@@ -2,7 +2,7 @@ namespace TKeazirian.HTTPServer.Tests.helpers;
 
 public static class HelperFunctions
 {
-    public static string FormatPostRequest(string verb, string path, string body = "")
+    public static string FormatTestPostRequest(string verb, string path, string body = "")
     {
         string NewLine = "\r\n";
 
@@ -14,7 +14,7 @@ public static class HelperFunctions
         return testRequest;
     }
 
-    public static string FormatGetRequest(string verb, string path)
+    public static string FormatTestGetRequest(string verb, string path)
     {
         string NewLine = "\r\n";
 
