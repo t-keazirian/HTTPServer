@@ -4,15 +4,13 @@ namespace TKeazirian.HTTPServer
     {
         private const string NewLine = "\r\n";
 
-        public string EchoRequestBody(string request)
+        public string EchoRequestBody(string requestBody)
         {
-            var body = Parser.ParseRequestBody(request);
-
             var response =
                 $"HTTP/1.1 200 OK{NewLine}" +
                 $"Content-Type: plain/text{NewLine}" +
-                $"Content-Length:{body.Length}{NewLine}{NewLine}" +
-                $"{body}";
+                $"Content-Length:{requestBody.Length}{NewLine}{NewLine}" +
+                $"{requestBody}";
 
             return response;
         }

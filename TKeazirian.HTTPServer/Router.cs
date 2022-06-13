@@ -8,17 +8,18 @@ public class Router
 
         string requestPath = Parser.ParseRequestPath(request);
         string requestMethod = Parser.ParseRequestMethod(request);
+        string requestBody = Parser.ParseRequestBody(request);
 
         try
         {
             if (requestMethod == "POST" && requestPath == "/echo_body")
             {
-                return controller.EchoRequestBody(request);
+                return controller.EchoRequestBody(requestBody);
             }
 
             if (requestMethod == "GET" && requestPath == "/simple_get")
             {
-                return controller.EchoRequestBody(request);
+                return controller.EchoRequestBody(requestBody);
             }
 
             if (requestMethod == "GET" && requestPath == "/simple_get_with_body")

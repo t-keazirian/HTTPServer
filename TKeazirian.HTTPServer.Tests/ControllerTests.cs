@@ -14,13 +14,15 @@ public class ControllerTests
 
         string testRequest = HelperFunctions.FormatTestPostRequest("POST", "/test_path", "Hello, World!");
 
+        string body = Parser.ParseRequestBody(testRequest);
+
         string expectedResponse =
             $"HTTP/1.1 200 OK{NewLine}" +
             $"Content-Type: plain/text{NewLine}" +
             $"Content-Length:13{NewLine}{NewLine}" +
             $"Hello, World!";
 
-        var actualResponse = controller.EchoRequestBody(testRequest);
+        var actualResponse = controller.EchoRequestBody(body);
 
         Assert.Equal(expectedResponse, actualResponse);
     }
