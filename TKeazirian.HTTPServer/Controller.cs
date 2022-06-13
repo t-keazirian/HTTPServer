@@ -6,7 +6,7 @@ namespace TKeazirian.HTTPServer
 
         public string EchoRequestBody(string request)
         {
-            var body = Parser.ParseBody(request);
+            var body = Parser.ParseRequestBody(request);
 
             var response =
                 $"HTTP/1.1 200 OK{NewLine}" +

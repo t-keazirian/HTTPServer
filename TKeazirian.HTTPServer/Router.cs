@@ -6,22 +6,22 @@ public class Router
     {
         Controller controller = new Controller();
 
-        string path = Parser.ParsePath(request);
-        string method = Parser.ParseMethod(request);
+        string requestPath = Parser.ParseRequestPath(request);
+        string requestMethod = Parser.ParseRequestMethod(request);
 
         try
         {
-            if (method == "POST" && path == "/echo_body")
+            if (requestMethod == "POST" && requestPath == "/echo_body")
             {
                 return controller.EchoRequestBody(request);
             }
 
-            if (method == "GET" && path == "/simple_get")
+            if (requestMethod == "GET" && requestPath == "/simple_get")
             {
                 return controller.EchoRequestBody(request);
             }
 
-            if (method == "GET" && path == "/simple_get_with_body")
+            if (requestMethod == "GET" && requestPath == "/simple_get_with_body")
             {
                 return controller.CreateResponseForGetRequest(request);
             }

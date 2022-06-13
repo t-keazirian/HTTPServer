@@ -15,7 +15,7 @@ public class ParserTests
         string expectedBody = testBody;
         string testRequest = HelperFunctions.FormatTestPostRequest("POST", "test_path", testBody);
 
-        string actualBody = Parser.ParseBody(testRequest);
+        string actualBody = Parser.ParseRequestBody(testRequest);
 
         Assert.Equal(expectedBody, actualBody);
     }
@@ -29,7 +29,7 @@ public class ParserTests
         string expectedVerb = testVerb;
         string testRequest = HelperFunctions.FormatTestPostRequest(testVerb, "/test_path", "hello world");
 
-        string actualVerb = Parser.ParseMethod(testRequest);
+        string actualVerb = Parser.ParseRequestMethod(testRequest);
 
         Assert.Equal(expectedVerb, actualVerb);
     }
@@ -44,7 +44,7 @@ public class ParserTests
         string expectedPath = testPath;
         string testRequest = HelperFunctions.FormatTestPostRequest("POST", testPath, "hello world");
 
-        string actualPath = Parser.ParsePath(testRequest);
+        string actualPath = Parser.ParseRequestPath(testRequest);
 
         Assert.Equal(expectedPath, actualPath);
     }
