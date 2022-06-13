@@ -17,6 +17,17 @@ namespace TKeazirian.HTTPServer
             return response;
         }
 
+        public string CreateResponseForGetRequest(string request)
+        {
+            var response =
+                $"HTTP/1.1 200 OK{NewLine}" +
+                $"Content-Type: plain/text{NewLine}" +
+                $"Content-Length:11{NewLine}{NewLine}" +
+                $"Hello world";
+
+            return response;
+        }
+
         public string ResponseNotFound()
         {
             var response =

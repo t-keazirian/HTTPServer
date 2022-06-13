@@ -12,7 +12,7 @@ public class ControllerTests
     {
         Controller controller = new Controller();
 
-        string testRequest = HelperFunctions.FormatTestRequest("POST", "/test_path", "Hello, World!");
+        string testRequest = HelperFunctions.FormatPostRequest("POST", "/test_path", "Hello, World!");
 
         string expectedResponse =
             $"HTTP/1.1 200 OK{NewLine}" +
@@ -21,6 +21,24 @@ public class ControllerTests
             $"Hello, World!";
 
         var actualResponse = controller.EchoRequestBody(testRequest);
+
+        Assert.Equal(expectedResponse, actualResponse);
+    }
+
+    [Fact]
+    public void CreateBodyToSendForGetRequest()
+    {
+        Controller controller = new Controller();
+
+        string testRequest = HelperFunctions.FormatGetRequest("GET", "/simple_get_with_body");
+
+        string expectedResponse =
+            $"HTTP/1.1 200 OK{NewLine}" +
+            $"Content-Type: plain/text{NewLine}" +
+            $"Content-Length:11{NewLine}{NewLine}" +
+            $"Hello world";
+
+        var actualResponse = controller.CreateResponseForGetRequest(testRequest);
 
         Assert.Equal(expectedResponse, actualResponse);
     }

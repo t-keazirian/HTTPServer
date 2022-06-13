@@ -15,6 +15,16 @@ public class Router
             {
                 return controller.EchoRequestBody(request);
             }
+
+            if (method == "GET" && path == "/simple_get")
+            {
+                return controller.EchoRequestBody(request);
+            }
+
+            if (method == "GET" && path == "/simple_get_with_body")
+            {
+                return controller.CreateResponseForGetRequest(request);
+            }
         }
         catch (Exception e)
         {

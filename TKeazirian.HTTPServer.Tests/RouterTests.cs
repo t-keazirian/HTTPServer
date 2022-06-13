@@ -11,7 +11,7 @@ public class RouterTests
     public void HandleRequestCallsEchoRequestBodyWithPostAndPath()
     {
         Router router = new Router();
-        var testRequest = HelperFunctions.FormatTestRequest("POST", "/echo_body", "Hello, World");
+        var testRequest = HelperFunctions.FormatPostRequest("POST", "/echo_body", "Hello, World");
 
         string expectedResponse =
             $"HTTP/1.1 200 OK{NewLine}" +
@@ -31,7 +31,7 @@ public class RouterTests
     public void HandleRequestCallsResponseNotFoundWhenIncorrectPath(string testPath)
     {
         Router router = new Router();
-        string testRequest = HelperFunctions.FormatTestRequest("GET", testPath);
+        string testRequest = HelperFunctions.FormatPostRequest("GET", testPath);
 
         string expectedResponse =
             $"HTTP/1.1 404 Not Found" +

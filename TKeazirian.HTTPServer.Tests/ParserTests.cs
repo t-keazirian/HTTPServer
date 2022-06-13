@@ -13,7 +13,7 @@ public class ParserTests
     public void CanParseBody(string testBody)
     {
         string expectedBody = testBody;
-        string testRequest = HelperFunctions.FormatTestRequest("POST", "test_path", testBody);
+        string testRequest = HelperFunctions.FormatPostRequest("POST", "test_path", testBody);
 
         string actualBody = Parser.ParseBody(testRequest);
 
@@ -27,7 +27,7 @@ public class ParserTests
     public void CanParseMethod(string testVerb)
     {
         string expectedVerb = testVerb;
-        string testRequest = HelperFunctions.FormatTestRequest(testVerb, "/test_path", "hello world");
+        string testRequest = HelperFunctions.FormatPostRequest(testVerb, "/test_path", "hello world");
 
         string actualVerb = Parser.ParseMethod(testRequest);
 
@@ -42,7 +42,7 @@ public class ParserTests
     public void CanParsePath(string testPath)
     {
         string expectedPath = testPath;
-        string testRequest = HelperFunctions.FormatTestRequest("POST", testPath, "hello world");
+        string testRequest = HelperFunctions.FormatPostRequest("POST", testPath, "hello world");
 
         string actualPath = Parser.ParsePath(testRequest);
 
