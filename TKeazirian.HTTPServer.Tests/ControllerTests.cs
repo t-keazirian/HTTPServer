@@ -5,24 +5,20 @@ namespace TKeazirian.HTTPServer.Tests;
 
 public class ControllerTests
 {
-    private const string NewLine = "\r\n";
-
     [Fact]
     public void EchoRequestBodyFormatsResponse()
     {
         Controller controller = new Controller();
 
-        string testRequest = HelperFunctions.FormatTestPostRequest("POST", "/test_path", "Hello, World!");
+        string testRequest = HelperFunctions.FormatTestRequest("POST", "/test_path", "Hello, World!");
 
-        string body = Parser.ParseRequestBody(testRequest);
+        string statusCode = Constants.Status200;
+        string headers = Parser.ParseHeaders(testRequest);
+        string? body = Parser.ParseRequestBody(testRequest);
 
-        string expectedResponse =
-            $"HTTP/1.1 200 OK{NewLine}" +
-            $"Content-Type: plain/text{NewLine}" +
-            $"Content-Length:13{NewLine}{NewLine}" +
-            $"Hello, World!";
+        string expectedResponse = HelperFunctions.FormatTestResponse(statusCode, headers, body);
 
-        var actualResponse = controller.EchoRequestBody(body);
+        var actualResponse = controller.EchoRequestBody(testRequest);
 
         Assert.Equal(expectedResponse, actualResponse);
     }
@@ -32,13 +28,19 @@ public class ControllerTests
     {
         Controller controller = new Controller();
 
-        string testRequest = HelperFunctions.FormatTestGetRequest("GET", "/simple_get_with_body");
+        string testRequest = HelperFunctions.FormatTestRequestNoBody("GET", "/simple_get_with_body");
 
-        string expectedResponse =
-            $"HTTP/1.1 200 OK{NewLine}" +
-            $"Content-Type: plain/text{NewLine}" +
-            $"Content-Length:11{NewLine}{NewLine}" +
-            $"Hello world";
+        string statusCode = Constants.Status200;
+        string headers = Parser.ParseHeaders(testRequest);
+        string body = "Hello world";
+
+        string expectedResponse = HelperFunctions.FormatTestResponse(statusCode, headers, body);
+
+        // string expectedResponse =
+        //     $"HTTP/1.1 200 OK{Constants.NewLine}" +
+        //     $"Content-Type: text/plain{Constants.NewLine}" +
+        //     $"Content-Length:11{Constants.NewLine}{Constants.NewLine}" +
+        //     $"Hello world";
 
         var actualResponse = controller.CreateResponseForGetRequest(testRequest);
 
@@ -50,12 +52,19 @@ public class ControllerTests
     {
         Controller controller = new Controller();
 
-        string expectedResponse =
-            $"HTTP/1.1 404 Not Found" +
-            $"{NewLine}{NewLine}" +
-            "The resource cannot be found";
+        string testRequest = HelperFunctions.FormatTestRequestNoBody("GET", "/bad_path");
 
-        var actualResponse = controller.ResponseNotFound();
+        string statusCode = Constants.Status404;
+        string headers = Parser.ParseHeaders(testRequest);
+        string body = "The resource cannot be found";
+
+        string expectedResponse = HelperFunctions.FormatTestResponse(statusCode, headers, body);
+        // string expectedResponse =
+        //     $"HTTP/1.1 404 Not Found" +
+        //     $"{Constants.NewLine}{Constants.NewLine}" +
+        //     "The resource cannot be found";
+
+        var actualResponse = controller.ResponseNotFound(testRequest);
 
         Assert.Equal(expectedResponse, actualResponse);
     }

@@ -2,36 +2,45 @@ namespace TKeazirian.HTTPServer
 {
     public class Controller
     {
-        private const string NewLine = "\r\n";
-
-        public string EchoRequestBody(string requestBody)
+        public string EchoRequestBody(string request)
         {
-            var response =
-                $"HTTP/1.1 200 OK{NewLine}" +
-                $"Content-Type: plain/text{NewLine}" +
-                $"Content-Length:{requestBody.Length}{NewLine}{NewLine}" +
-                $"{requestBody}";
+            string responseStatus = Constants.Status200;
+            string responseHeaders = Parser.ParseHeaders(request);
+            string? responseBody = Parser.ParseRequestBody(request);
+
+            ResponseBuilder responseBuilder = new ResponseBuilder(responseStatus, responseHeaders, responseBody);
+
+            var response = responseBuilder.BuildResponse();
 
             return response;
         }
 
         public string CreateResponseForGetRequest(string request)
         {
-            var response =
-                $"HTTP/1.1 200 OK{NewLine}" +
-                $"Content-Type: plain/text{NewLine}" +
-                $"Content-Length:11{NewLine}{NewLine}" +
-                $"Hello world";
+            string responseStatus = Constants.Status200;
+            string responseHeaders = Parser.ParseHeaders(request);
+            string responseBody = "Hello world";
+
+            ResponseBuilder responseBuilder = new ResponseBuilder(responseStatus, responseHeaders, responseBody);
+
+            var response = responseBuilder.BuildResponse();
 
             return response;
         }
 
-        public string ResponseNotFound()
+        public string ResponseNotFound(string request)
         {
-            var response =
-                $"HTTP/1.1 404 Not Found" +
-                $"{NewLine}{NewLine}" +
-                "The resource cannot be found";
+            string responseStatus = Constants.Status404;
+            string responseHeaders = Parser.ParseHeaders(request);
+            string responseBody = "The resource cannot be found";
+
+            ResponseBuilder responseBuilder = new ResponseBuilder(responseStatus, responseHeaders, responseBody);
+
+            var response = responseBuilder.BuildResponse();
+            // var response =
+            //     $"HTTP/1.1 404 Not Found" +
+            //     $"{Constants.NewLine}{Constants.NewLine}" +
+            //     "The resource cannot be found";
 
             return response;
         }
