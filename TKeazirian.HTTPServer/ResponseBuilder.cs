@@ -4,9 +4,9 @@ public class ResponseBuilder
 {
     public string responseStatus;
     public string responseHeaders;
-    public string? responseBody;
+    public string responseBody;
 
-    public ResponseBuilder(string responseStatus, string responseHeaders, string? responseBody = null)
+    public ResponseBuilder(string responseStatus, string responseHeaders, string responseBody = "")
     {
         this.responseStatus = responseStatus;
         this.responseHeaders = responseHeaders;
@@ -15,10 +15,21 @@ public class ResponseBuilder
 
     public string BuildResponse()
     {
-        return responseStatus +
-               Constants.NewLine +
-               responseHeaders +
-               Constants.NewLine + Constants.NewLine +
-               responseBody;
+        string? builtResponse;
+        if (responseBody == "")
+        {
+            builtResponse = responseStatus + Constants.NewLine + responseHeaders + Constants.NewLine +
+                            Constants.NewLine;
+        }
+        else
+        {
+            builtResponse = responseStatus +
+                            Constants.NewLine +
+                            responseHeaders +
+                            Constants.NewLine + Constants.NewLine +
+                            responseBody;
+        }
+
+        return builtResponse;
     }
 }

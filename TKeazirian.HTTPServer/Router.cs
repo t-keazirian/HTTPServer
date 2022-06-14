@@ -18,7 +18,7 @@ public class Router
 
             if (requestMethod == "GET" && requestPath == "/simple_get")
             {
-                return controller.EchoRequestBody(request);
+                return controller.SimpleGetNoBody(request);
             }
 
             if (requestMethod == "GET" && requestPath == "/simple_get_with_body")

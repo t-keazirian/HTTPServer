@@ -2,11 +2,25 @@ namespace TKeazirian.HTTPServer
 {
     public class Controller
     {
+
         public string EchoRequestBody(string request)
         {
             string responseStatus = Constants.Status200;
             string responseHeaders = Parser.ParseHeaders(request);
-            string? responseBody = Parser.ParseRequestBody(request);
+            string responseBody = Parser.ParseRequestBody(request);
+
+            ResponseBuilder responseBuilder = new ResponseBuilder(responseStatus, responseHeaders, responseBody);
+
+            var response = responseBuilder.BuildResponse();
+
+            return response;
+        }
+
+        public string SimpleGetNoBody(string request)
+        {
+            string responseStatus = Constants.Status200;
+            string responseHeaders = Parser.ParseHeaders(request);
+            string responseBody = Parser.ParseRequestBody(request);
 
             ResponseBuilder responseBuilder = new ResponseBuilder(responseStatus, responseHeaders, responseBody);
 

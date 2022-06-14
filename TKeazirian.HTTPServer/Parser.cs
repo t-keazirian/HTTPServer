@@ -2,8 +2,6 @@ namespace TKeazirian.HTTPServer;
 
 public static class Parser
 {
-    private static string? _requestBody;
-
     public static string ParseRequestMethod(string requestString)
     {
         string[] requestArray = requestString.Split(" ", 2);
@@ -16,23 +14,21 @@ public static class Parser
         return requestArray[1];
     }
 
-    public static string ParseHeaders(string requestBody)
+    public static string ParseHeaders(string requestString)
     {
-        string[] splitRequest = requestBody.Split(Constants.BodySeparator, 2, StringSplitOptions.None);
+        string[] splitRequest = requestString.Split(Constants.BodySeparator, 2);
 
         string requestToSplitWithHeaders = splitRequest[0];
 
-        string[] splitHeaders = requestToSplitWithHeaders.Split(Constants.NewLine, 2, StringSplitOptions.None);
+        string[] splitHeaders = requestToSplitWithHeaders.Split(Constants.NewLine, 2);
 
         return splitHeaders[1];
     }
 
-    public static string? ParseRequestBody(string requestString)
+    public static string ParseRequestBody(string requestString)
     {
-        string?[] splitRequest = requestString.Split(Constants.BodySeparator, 2, StringSplitOptions.None);
+        string[] splitRequest = requestString.Split(Constants.BodySeparator, 2);
 
-        _requestBody = splitRequest[^1];
-
-        return _requestBody;
+        return splitRequest[^1];
     }
 }
