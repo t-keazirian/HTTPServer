@@ -5,8 +5,6 @@ namespace TKeazirian.HTTPServer.Tests;
 
 public class RouterTests
 {
-    private const string NewLine = "\r\n";
-
     [Fact]
     public void HandleRequestCallsEchoRequestBodyWithPostAndPath()
     {

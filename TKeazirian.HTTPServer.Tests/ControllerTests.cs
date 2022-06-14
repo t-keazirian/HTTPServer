@@ -36,12 +36,6 @@ public class ControllerTests
 
         string expectedResponse = HelperFunctions.FormatTestResponse(statusCode, headers, body);
 
-        // string expectedResponse =
-        //     $"HTTP/1.1 200 OK{Constants.NewLine}" +
-        //     $"Content-Type: text/plain{Constants.NewLine}" +
-        //     $"Content-Length:11{Constants.NewLine}{Constants.NewLine}" +
-        //     $"Hello world";
-
         var actualResponse = controller.CreateResponseForGetRequest(testRequest);
 
         Assert.Equal(expectedResponse, actualResponse);
@@ -59,10 +53,6 @@ public class ControllerTests
         string body = "The resource cannot be found";
 
         string expectedResponse = HelperFunctions.FormatTestResponse(statusCode, headers, body);
-        // string expectedResponse =
-        //     $"HTTP/1.1 404 Not Found" +
-        //     $"{Constants.NewLine}{Constants.NewLine}" +
-        //     "The resource cannot be found";
 
         var actualResponse = controller.ResponseNotFound(testRequest);
 

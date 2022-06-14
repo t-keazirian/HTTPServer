@@ -6,7 +6,7 @@ public class ResponseBuilder
     public string responseHeaders;
     public string? responseBody;
 
-    public ResponseBuilder(string responseStatus, string responseHeaders, string? responseBody = "")
+    public ResponseBuilder(string responseStatus, string responseHeaders, string? responseBody = null)
     {
         this.responseStatus = responseStatus;
         this.responseHeaders = responseHeaders;

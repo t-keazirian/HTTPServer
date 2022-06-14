@@ -37,11 +37,6 @@ namespace TKeazirian.HTTPServer
             ResponseBuilder responseBuilder = new ResponseBuilder(responseStatus, responseHeaders, responseBody);
 
             var response = responseBuilder.BuildResponse();
-            // var response =
-            //     $"HTTP/1.1 404 Not Found" +
-            //     $"{Constants.NewLine}{Constants.NewLine}" +
-            //     "The resource cannot be found";
-
             return response;
         }
     }
