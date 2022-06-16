@@ -21,7 +21,7 @@ public class ResponseBuilderTests
             responseHeaders + Constants.NewLine + Constants.NewLine +
             responseBody;
 
-        string actualResponse = responseBuilder.BuildResponse(responseStatus, responseHeaders, responseBody);
+        string actualResponse = responseBuilder.BuildResponseForGet(responseStatus);
 
         Assert.Equal(expectedResponse, actualResponse);
     }
@@ -31,8 +31,6 @@ public class ResponseBuilderTests
     {
         string responseStatus = Constants.Status404;
 
-        string responseHeaders = HelperFunctions.CreateTestResponseHeaders();
-
         string? responseBody = "The resource cannot be found";
 
 
@@ -40,10 +38,10 @@ public class ResponseBuilderTests
 
         string expectedResponse =
             responseStatus + Constants.NewLine +
-            responseHeaders + Constants.NewLine + Constants.NewLine +
+            "Content-Type: text/plain" + Constants.NewLine + Constants.NewLine +
             responseBody;
 
-        string actualResponse = responseBuilder.BuildResponse(responseStatus, responseHeaders, responseBody);
+        string actualResponse = responseBuilder.BuildResponseForResourceNotFound(responseStatus);
 
         Assert.Equal(expectedResponse, actualResponse);
     }

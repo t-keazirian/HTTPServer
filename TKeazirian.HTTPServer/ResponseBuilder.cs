@@ -24,7 +24,7 @@ public class ResponseBuilder
 
     public string BuildResponseForResourceNotFound(string responseStatus)
     {
-        return responseStatus + Constants.Space +
+        return responseStatus + Constants.NewLine +
                "Content-Type" + ":" + " text/plain" +
                Constants.NewLine + Constants.NewLine +
                "The resource cannot be found";

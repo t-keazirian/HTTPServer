@@ -32,7 +32,6 @@ public class RouterTests
         string testRequest = HelperFunctions.FormatTestRequest("GET", testPath, "The resource cannot be found");
 
         string statusCode = Constants.Status404;
-        string headers = Parser.ParseHeaders(testRequest);
         string? body = Parser.ParseRequestBody(testRequest);
 
         string expectedResponse = HelperFunctions.FormatTestResponseNoHeaders(statusCode, body);

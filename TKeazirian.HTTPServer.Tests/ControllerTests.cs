@@ -33,7 +33,7 @@ public class ControllerTests
         string statusCode = Constants.Status200;
         string body = "Hello world";
 
-        string expectedResponse = HelperFunctions.FormatTestResponseNoHeaders(statusCode, body);
+        string expectedResponse = HelperFunctions.FormatTestResponseWithContentHeaders(statusCode, body);
 
         var actualResponse = controller.CreateResponseForGetRequest(testRequest);
 
