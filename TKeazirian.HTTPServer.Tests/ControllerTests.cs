@@ -8,8 +8,6 @@ public class ControllerTests
     [Fact]
     public void EchoRequestBodyFormatsResponse()
     {
-        Controller controller = new Controller();
-
         string testRequest = HelperFunctions.FormatTestRequest("POST", "/test_path", "Hello, World!");
 
         string statusCode = Constants.Status200;
@@ -18,16 +16,14 @@ public class ControllerTests
 
         string expectedResponse = HelperFunctions.FormatTestResponseWithHeaders(statusCode, headers, body);
 
-        var actualResponse = controller.EchoRequestBody(testRequest);
+        var actualResponse = Controller.EchoRequestBody(testRequest);
 
         Assert.Equal(expectedResponse, actualResponse);
     }
 
     [Fact]
-    public void CreateBodyToSendForGetRequest()
+    public void CreateResponseToSendForGetRequest()
     {
-        Controller controller = new Controller();
-
         string testRequest = HelperFunctions.FormatTestRequestNoBody("GET", "/simple_get_with_body");
 
         string statusCode = Constants.Status200;
@@ -35,7 +31,7 @@ public class ControllerTests
 
         string expectedResponse = HelperFunctions.FormatTestResponseWithContentHeaders(statusCode, body);
 
-        var actualResponse = controller.CreateResponseForGetRequest(testRequest);
+        var actualResponse = Controller.CreateResponseForGetRequest();
 
         Assert.Equal(expectedResponse, actualResponse);
     }
@@ -43,16 +39,14 @@ public class ControllerTests
     [Fact]
     public void ResponseNotFoundFormatsResponse()
     {
-        Controller controller = new Controller();
-
         string testRequest = HelperFunctions.FormatTestRequestNoBody("GET", "/bad_path");
 
         string statusCode = Constants.Status404;
-        string body = "The resource cannot be found";
+        string? body = "The resource cannot be found";
 
         string expectedResponse = HelperFunctions.FormatTestResponseNoHeaders(statusCode, body);
 
-        var actualResponse = controller.ResponseNotFound(testRequest);
+        var actualResponse = Controller.ResponseNotFound(testRequest);
 
         Assert.Equal(expectedResponse, actualResponse);
     }

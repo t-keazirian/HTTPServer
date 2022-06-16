@@ -48,7 +48,7 @@ public static class HelperFunctions
         return testResponse;
     }
 
-    public static string FormatTestResponseNoHeaders(string statusCode, string body)
+    public static string FormatTestResponseNoHeaders(string statusCode, string? body)
     {
         string testResponse = $"{statusCode}" + Constants.NewLine +
                               "Content-Type: text/plain" +

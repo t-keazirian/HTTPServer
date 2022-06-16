@@ -1,53 +1,54 @@
 namespace TKeazirian.HTTPServer
 {
-    public class Controller
+    public static class Controller
     {
-        public string EchoRequestBody(string request)
+        public static string EchoRequestBody(string request)
         {
-            string responseStatus = Constants.Status200;
-            string responseHeaders = Parser.ParseHeaders(request);
-            string responseBody = Parser.ParseRequestBody(request);
-
             ResponseBuilder responseBuilder = new ResponseBuilder();
 
-            var response = responseBuilder.BuildResponse(responseStatus, responseHeaders, responseBody);
+            var responseStatusLine = Constants.Status200 + Constants.NewLine;
+            var responseHeaders = Parser.ParseHeaders(request) +
+                                  Constants.NewLine + Constants.NewLine;
+            var responseBody = Parser.ParseRequestBody(request);
 
-            return response;
+            return responseBuilder.BuildNewResponse(responseStatusLine, responseHeaders, responseBody);
         }
 
-        public string SimpleGetNoBody(string request)
+        public static string SimpleGetNoBody()
         {
-            string responseStatus = Constants.Status200;
-            string responseHeaders = Parser.ParseHeaders(request);
-            string responseBody = Parser.ParseRequestBody(request);
-
             ResponseBuilder responseBuilder = new ResponseBuilder();
 
-            var response = responseBuilder.BuildResponse(responseStatus, responseHeaders, responseBody);
+            var responseStatusLine = Constants.Status200 + Constants.NewLine;
+            var responseHeaders = "" +
+                                  Constants.NewLine + Constants.NewLine;
 
-            return response;
+            return responseBuilder.BuildNewResponse(responseStatusLine, responseHeaders, responseBody: null);
         }
 
-        public string CreateResponseForGetRequest(string request)
+        public static string CreateResponseForGetRequest()
         {
-            string responseStatus = Constants.Status200;
-
             ResponseBuilder responseBuilder = new ResponseBuilder();
 
-            var response = responseBuilder.BuildResponseForGet(responseStatus);
+            var responseStatusLine = Constants.Status200 + Constants.NewLine;
+            var responseHeaders = "Content-Type: text/plain" +
+                                  Constants.NewLine +
+                                  "Content-Length: 11" +
+                                  Constants.NewLine + Constants.NewLine;
+            var responseBody = "Hello world";
 
-            return response;
+            return responseBuilder.BuildNewResponse(responseStatusLine, responseHeaders, responseBody);
         }
 
-        public string ResponseNotFound(string request)
+        public static string ResponseNotFound(string request)
         {
-            string responseStatus = Constants.Status404;
-
             ResponseBuilder responseBuilder = new ResponseBuilder();
 
-            var response = responseBuilder.BuildResponseForResourceNotFound(responseStatus);
+            var responseStatusLine = Constants.Status404 + Constants.NewLine;
+            var responseHeaders = "Content-Type: text/plain" +
+                                  Constants.NewLine + Constants.NewLine;
+            var responseBody = "The resource cannot be found";
 
-            return response;
+            return responseBuilder.BuildNewResponse(responseStatusLine, responseHeaders, responseBody);
         }
     }
 }

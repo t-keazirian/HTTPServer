@@ -4,8 +4,6 @@ public class Router
 {
     public string HandleRequest(string request)
     {
-        Controller controller = new Controller();
-
         string requestPath = Parser.ParseRequestPath(request);
 
         string requestMethod = Parser.ParseRequestMethod(request);
@@ -17,15 +15,15 @@ public class Router
                     "POST",
                     new Dictionary<string, string>
                     {
-                        { "/echo_body", controller.EchoRequestBody(request) },
+                        { "/echo_body", Controller.EchoRequestBody(request) },
                     }
                 },
                 {
                     "GET",
                     new Dictionary<string, string>
                     {
-                        { "/simple_get", controller.SimpleGetNoBody(request) },
-                        { "/simple_get_with_body", controller.CreateResponseForGetRequest(request) },
+                        { "/simple_get", Controller.SimpleGetNoBody() },
+                        { "/simple_get_with_body", Controller.CreateResponseForGetRequest() },
                     }
                 }
             };
@@ -34,7 +32,7 @@ public class Router
         {
             if (!info.ContainsKey(requestMethod) || !info[requestMethod].ContainsKey(requestPath))
             {
-                return controller.ResponseNotFound(request);
+                return Controller.ResponseNotFound(request);
             }
         }
         catch

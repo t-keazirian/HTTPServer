@@ -4,13 +4,13 @@ public static class Parser
 {
     public static string ParseRequestMethod(string requestString)
     {
-        string[] requestArray = requestString.Split(" ", 2);
+        string[] requestArray = requestString.Split(Constants.Space, 2);
         return requestArray[0];
     }
 
     public static string ParseRequestPath(string requestString)
     {
-        string[] requestArray = requestString.Split(" ", 3);
+        string[] requestArray = requestString.Split(Constants.Space, 3);
         return requestArray[1];
     }
 
@@ -25,9 +25,9 @@ public static class Parser
         return splitHeaders[1];
     }
 
-    public static string ParseRequestBody(string requestString)
+    public static string? ParseRequestBody(string requestString)
     {
-        string[] splitRequest = requestString.Split(Constants.BodySeparator, 2);
+        string?[] splitRequest = requestString.Split(Constants.BodySeparator, 2);
 
         return splitRequest[^1];
     }
