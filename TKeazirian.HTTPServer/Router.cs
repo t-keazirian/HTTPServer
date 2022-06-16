@@ -32,7 +32,10 @@ public class Router
 
         try
         {
-            return info[requestMethod][requestPath];
+            if (!info.ContainsKey(requestMethod) || !info[requestMethod].ContainsKey(requestPath))
+            {
+                return controller.ResponseNotFound(request);
+            }
         }
         catch
             (Exception e)
@@ -40,6 +43,6 @@ public class Router
             Console.WriteLine(e);
         }
 
-        return controller.ResponseNotFound(request);
+        return info[requestMethod][requestPath];
     }
 }

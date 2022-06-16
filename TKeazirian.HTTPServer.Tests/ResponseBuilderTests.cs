@@ -14,14 +14,14 @@ public class ResponseBuilderTests
 
         string? responseBody = "Hello world";
 
-        ResponseBuilder responseBuilder = new ResponseBuilder(responseStatus, responseHeaders, responseBody);
+        ResponseBuilder responseBuilder = new ResponseBuilder();
 
         string expectedResponse =
             responseStatus + Constants.NewLine +
             responseHeaders + Constants.NewLine + Constants.NewLine +
             responseBody;
 
-        string actualResponse = responseBuilder.BuildResponse();
+        string actualResponse = responseBuilder.BuildResponse(responseStatus, responseHeaders, responseBody);
 
         Assert.Equal(expectedResponse, actualResponse);
     }
@@ -36,14 +36,14 @@ public class ResponseBuilderTests
         string? responseBody = "The resource cannot be found";
 
 
-        ResponseBuilder responseBuilder = new ResponseBuilder(responseStatus, responseHeaders, responseBody);
+        ResponseBuilder responseBuilder = new ResponseBuilder();
 
         string expectedResponse =
             responseStatus + Constants.NewLine +
             responseHeaders + Constants.NewLine + Constants.NewLine +
             responseBody;
 
-        string actualResponse = responseBuilder.BuildResponse();
+        string actualResponse = responseBuilder.BuildResponse(responseStatus, responseHeaders, responseBody);
 
         Assert.Equal(expectedResponse, actualResponse);
     }

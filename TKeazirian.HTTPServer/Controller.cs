@@ -2,16 +2,15 @@ namespace TKeazirian.HTTPServer
 {
     public class Controller
     {
-
         public string EchoRequestBody(string request)
         {
             string responseStatus = Constants.Status200;
             string responseHeaders = Parser.ParseHeaders(request);
             string responseBody = Parser.ParseRequestBody(request);
 
-            ResponseBuilder responseBuilder = new ResponseBuilder(responseStatus, responseHeaders, responseBody);
+            ResponseBuilder responseBuilder = new ResponseBuilder();
 
-            var response = responseBuilder.BuildResponse();
+            var response = responseBuilder.BuildResponse(responseStatus, responseHeaders, responseBody);
 
             return response;
         }
@@ -22,9 +21,9 @@ namespace TKeazirian.HTTPServer
             string responseHeaders = Parser.ParseHeaders(request);
             string responseBody = Parser.ParseRequestBody(request);
 
-            ResponseBuilder responseBuilder = new ResponseBuilder(responseStatus, responseHeaders, responseBody);
+            ResponseBuilder responseBuilder = new ResponseBuilder();
 
-            var response = responseBuilder.BuildResponse();
+            var response = responseBuilder.BuildResponse(responseStatus, responseHeaders, responseBody);
 
             return response;
         }
@@ -33,11 +32,10 @@ namespace TKeazirian.HTTPServer
         {
             string responseStatus = Constants.Status200;
             string responseHeaders = Parser.ParseHeaders(request);
-            string responseBody = "Hello world";
 
-            ResponseBuilder responseBuilder = new ResponseBuilder(responseStatus, responseHeaders, responseBody);
+            ResponseBuilder responseBuilder = new ResponseBuilder();
 
-            var response = responseBuilder.BuildResponse();
+            var response = responseBuilder.BuildResponseForGet(responseStatus, responseHeaders);
 
             return response;
         }
@@ -46,11 +44,11 @@ namespace TKeazirian.HTTPServer
         {
             string responseStatus = Constants.Status404;
             string responseHeaders = Parser.ParseHeaders(request);
-            string responseBody = "The resource cannot be found";
 
-            ResponseBuilder responseBuilder = new ResponseBuilder(responseStatus, responseHeaders, responseBody);
+            ResponseBuilder responseBuilder = new ResponseBuilder();
 
-            var response = responseBuilder.BuildResponse();
+            var response = responseBuilder.BuildResponseForResourceNotFound(responseStatus, responseHeaders);
+
             return response;
         }
     }

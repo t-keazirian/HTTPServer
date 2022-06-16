@@ -2,34 +2,31 @@ namespace TKeazirian.HTTPServer;
 
 public class ResponseBuilder
 {
-    public string responseStatus;
-    public string responseHeaders;
-    public string responseBody;
-
-    public ResponseBuilder(string responseStatus, string responseHeaders, string responseBody = "")
+    public string BuildResponse(string responseStatus, string responseHeaders, string responseBody)
     {
-        this.responseStatus = responseStatus;
-        this.responseHeaders = responseHeaders;
-        this.responseBody = responseBody;
+        return responseStatus +
+               Constants.NewLine +
+               responseHeaders +
+               Constants.NewLine + Constants.NewLine +
+               responseBody;
     }
 
-    public string BuildResponse()
+    public string BuildResponseForGet(string responseStatus, string responseHeaders)
     {
-        string? builtResponse;
-        if (responseBody == "")
-        {
-            builtResponse = responseStatus + Constants.NewLine + responseHeaders + Constants.NewLine +
-                            Constants.NewLine;
-        }
-        else
-        {
-            builtResponse = responseStatus +
-                            Constants.NewLine +
-                            responseHeaders +
-                            Constants.NewLine + Constants.NewLine +
-                            responseBody;
-        }
+        return responseStatus +
+               Constants.NewLine +
+               "Content-Type" + ":" + " text/plain" +
+               Constants.NewLine +
+               "Content-Length" + ":" + " 11" +
+               Constants.NewLine + Constants.NewLine +
+               "Hello world";
+    }
 
-        return builtResponse;
+    public string BuildResponseForResourceNotFound(string responseStatus, string responseHeaders)
+    {
+        return responseStatus +
+               "Content-Type" + ":" + " text/plain" +
+               Constants.NewLine + Constants.NewLine +
+               "The resource cannot be found";
     }
 }
