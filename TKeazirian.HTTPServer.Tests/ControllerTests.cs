@@ -16,7 +16,7 @@ public class ControllerTests
         string headers = Parser.ParseHeaders(testRequest);
         string? body = Parser.ParseRequestBody(testRequest);
 
-        string expectedResponse = HelperFunctions.FormatTestResponse(statusCode, headers, body);
+        string expectedResponse = HelperFunctions.FormatTestResponseWithHeaders(statusCode, headers, body);
 
         var actualResponse = controller.EchoRequestBody(testRequest);
 
@@ -31,10 +31,9 @@ public class ControllerTests
         string testRequest = HelperFunctions.FormatTestRequestNoBody("GET", "/simple_get_with_body");
 
         string statusCode = Constants.Status200;
-        string headers = Parser.ParseHeaders(testRequest);
         string body = "Hello world";
 
-        string expectedResponse = HelperFunctions.FormatTestResponse(statusCode, headers, body);
+        string expectedResponse = HelperFunctions.FormatTestResponseNoHeaders(statusCode, body);
 
         var actualResponse = controller.CreateResponseForGetRequest(testRequest);
 
@@ -49,10 +48,9 @@ public class ControllerTests
         string testRequest = HelperFunctions.FormatTestRequestNoBody("GET", "/bad_path");
 
         string statusCode = Constants.Status404;
-        string headers = Parser.ParseHeaders(testRequest);
         string body = "The resource cannot be found";
 
-        string expectedResponse = HelperFunctions.FormatTestResponse(statusCode, headers, body);
+        string expectedResponse = HelperFunctions.FormatTestResponseNoHeaders(statusCode, body);
 
         var actualResponse = controller.ResponseNotFound(testRequest);
 

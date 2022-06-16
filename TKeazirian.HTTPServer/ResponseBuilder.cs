@@ -11,7 +11,7 @@ public class ResponseBuilder
                responseBody;
     }
 
-    public string BuildResponseForGet(string responseStatus, string responseHeaders)
+    public string BuildResponseForGet(string responseStatus)
     {
         return responseStatus +
                Constants.NewLine +
@@ -22,9 +22,9 @@ public class ResponseBuilder
                "Hello world";
     }
 
-    public string BuildResponseForResourceNotFound(string responseStatus, string responseHeaders)
+    public string BuildResponseForResourceNotFound(string responseStatus)
     {
-        return responseStatus +
+        return responseStatus + Constants.Space +
                "Content-Type" + ":" + " text/plain" +
                Constants.NewLine + Constants.NewLine +
                "The resource cannot be found";

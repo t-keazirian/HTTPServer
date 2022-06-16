@@ -31,11 +31,10 @@ namespace TKeazirian.HTTPServer
         public string CreateResponseForGetRequest(string request)
         {
             string responseStatus = Constants.Status200;
-            string responseHeaders = Parser.ParseHeaders(request);
 
             ResponseBuilder responseBuilder = new ResponseBuilder();
 
-            var response = responseBuilder.BuildResponseForGet(responseStatus, responseHeaders);
+            var response = responseBuilder.BuildResponseForGet(responseStatus);
 
             return response;
         }
@@ -43,11 +42,10 @@ namespace TKeazirian.HTTPServer
         public string ResponseNotFound(string request)
         {
             string responseStatus = Constants.Status404;
-            string responseHeaders = Parser.ParseHeaders(request);
 
             ResponseBuilder responseBuilder = new ResponseBuilder();
 
-            var response = responseBuilder.BuildResponseForResourceNotFound(responseStatus, responseHeaders);
+            var response = responseBuilder.BuildResponseForResourceNotFound(responseStatus);
 
             return response;
         }

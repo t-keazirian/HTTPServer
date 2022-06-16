@@ -15,7 +15,7 @@ public class RouterTests
         string headers = Parser.ParseHeaders(testRequest);
         string? body = Parser.ParseRequestBody(testRequest);
 
-        string expectedResponse = HelperFunctions.FormatTestResponse(statusCode, headers, body);
+        string expectedResponse = HelperFunctions.FormatTestResponseWithHeaders(statusCode, headers, body);
 
         string actualResponse = router.HandleRequest(testRequest);
 
@@ -35,7 +35,7 @@ public class RouterTests
         string headers = Parser.ParseHeaders(testRequest);
         string? body = Parser.ParseRequestBody(testRequest);
 
-        string expectedResponse = HelperFunctions.FormatTestResponse(statusCode, headers, body);
+        string expectedResponse = HelperFunctions.FormatTestResponseNoHeaders(statusCode, body);
 
         string actualResponse = router.HandleRequest(testRequest);
 
