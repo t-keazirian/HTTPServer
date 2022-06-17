@@ -1,20 +1,31 @@
 namespace TKeazirian.HTTPServer;
 
-public static class Parser
+public class Parser
 {
-    public static string ParseRequestMethod(string requestString)
+    public Request ParseRequest(string clientRequest)
+    {
+        string requestMethod = ParseRequestMethod(clientRequest);
+        string requestPath = ParseRequestPath(clientRequest);
+        string requestHeaders = ParseHeaders(clientRequest);
+        string? requestBody = ParseRequestBody(clientRequest);
+
+        return new Request(requestMethod, requestPath, requestHeaders, requestBody);
+    }
+
+
+    public string ParseRequestMethod(string requestString)
     {
         string[] requestArray = requestString.Split(Constants.Space, 2);
         return requestArray[0];
     }
 
-    public static string ParseRequestPath(string requestString)
+    public string ParseRequestPath(string requestString)
     {
         string[] requestArray = requestString.Split(Constants.Space, 3);
         return requestArray[1];
     }
 
-    public static string ParseHeaders(string requestString)
+    public string ParseHeaders(string requestString)
     {
         string[] splitRequest = requestString.Split(Constants.BodySeparator, 2);
 
@@ -25,7 +36,7 @@ public static class Parser
         return splitHeaders[1];
     }
 
-    public static string? ParseRequestBody(string requestString)
+    public string? ParseRequestBody(string requestString)
     {
         string?[] splitRequest = requestString.Split(Constants.BodySeparator, 2);
 

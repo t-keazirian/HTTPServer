@@ -1,12 +1,9 @@
-using System.Net.Http.Headers;
-
 namespace TKeazirian.HTTPServer;
 
 public class ResponseBuilder
 {
-    public string BuildNewResponse(string responseStatusLine, string? responseHeader, string? responseBody)
+    public Response BuildNewResponse(string responseStatusLine, string? responseHeaders, string? responseBody)
     {
-        Response response = new Response(responseStatusLine, responseHeader, responseBody);
-        return response.BuildNewResponse();
+        return new Response(responseStatusLine, responseHeaders, responseBody);
     }
 }

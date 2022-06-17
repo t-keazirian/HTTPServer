@@ -13,23 +13,23 @@ public class Response
         this.responseBody = responseBody;
     }
 
-    public string AddStatus()
+    public string GetStatusLine()
     {
         return responseStatusLine;
     }
 
-    public string? AddHeader()
+    public string? GetHeaders()
     {
         return responseHeader;
     }
 
-    public string? AddBody()
+    public string? GetBody()
     {
         return responseBody;
     }
 
-    public string BuildNewResponse()
+    public string FormatResponse()
     {
-        return AddStatus() + AddHeader() + AddBody();
+        return GetStatusLine() + GetHeaders() + GetBody();
     }
 }

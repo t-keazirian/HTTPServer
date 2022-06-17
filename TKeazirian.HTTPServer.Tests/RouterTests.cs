@@ -17,7 +17,7 @@ public class RouterTests
 
         string expectedResponse = HelperFunctions.FormatTestResponseWithHeaders(statusCode, headers, body);
 
-        string? actualResponse = router.HandleRequest(testRequest);
+        string? actualResponse = router.GetHandler(testRequest);
 
         Assert.Equal(expectedResponse, actualResponse);
     }
@@ -36,7 +36,7 @@ public class RouterTests
 
         string expectedResponse = HelperFunctions.FormatTestResponseNoHeaders(statusCode, body);
 
-        string? actualResponse = router.HandleRequest(testRequest);
+        string? actualResponse = router.GetHandler(testRequest);
 
         Assert.Equal(expectedResponse, actualResponse);
     }

@@ -16,7 +16,7 @@ public class ControllerTests
 
         string expectedResponse = HelperFunctions.FormatTestResponseWithHeaders(statusCode, headers, body);
 
-        var actualResponse = Controller.EchoRequestBody(testRequest);
+        var actualResponse = IHandler.EchoRequestBody(testRequest);
 
         Assert.Equal(expectedResponse, actualResponse);
     }
@@ -31,7 +31,7 @@ public class ControllerTests
 
         string expectedResponse = HelperFunctions.FormatTestResponseWithContentHeaders(statusCode, body);
 
-        var actualResponse = Controller.CreateResponseForGetRequest();
+        var actualResponse = IHandler.CreateResponseForGetRequest();
 
         Assert.Equal(expectedResponse, actualResponse);
     }
@@ -46,7 +46,7 @@ public class ControllerTests
 
         string expectedResponse = HelperFunctions.FormatTestResponseNoHeaders(statusCode, body);
 
-        var actualResponse = Controller.ResponseNotFound(testRequest);
+        var actualResponse = IHandler.ResponseNotFound(testRequest);
 
         Assert.Equal(expectedResponse, actualResponse);
     }
