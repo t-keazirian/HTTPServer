@@ -1,8 +1,9 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using TKeazirian.HTTPServer.Request;
 
-namespace TKeazirian.HTTPServer;
+namespace TKeazirian.HTTPServer.Server;
 
 public static class Server
 {
@@ -28,8 +29,9 @@ public static class Server
                 var socket = listener.Accept();
                 _clientRequest = GetRequest(socket);
 
-                Parser parser = new Parser();
-                var requestObject = parser.ParseRequest(_clientRequest);
+
+                RequestParser requestParser = new RequestParser();
+                var requestObject = requestParser.ParseRequest(_clientRequest);
 
                 Router router = new Router();
                 var handler = router.GetHandler(requestObject);

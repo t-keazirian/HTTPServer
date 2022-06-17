@@ -1,7 +1,7 @@
 using System.Net;
 using System.Net.Sockets;
 
-namespace TKeazirian.HTTPServer;
+namespace TKeazirian.HTTPServer.Server;
 
 public static class SocketHandler
 {

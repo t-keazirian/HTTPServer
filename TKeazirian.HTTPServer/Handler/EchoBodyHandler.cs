@@ -1,13 +1,15 @@
-namespace TKeazirian.HTTPServer;
+using TKeazirian.HTTPServer.Response;
 
-public class EchoRequestBody : IHandler
+namespace TKeazirian.HTTPServer.Handler;
+
+public class EchoBodyHandler : IHandler
 {
     public List<string> AllowedHttpMethods()
     {
         return new List<string>() { "POST" };
     }
 
-    public Response HandleResponse(Request requestObject)
+    public Response.Response HandleResponse(Request.Request requestObject)
     {
         var responseStatusLine = Constants.Status200 + Constants.NewLine;
         var responseHeaders = Constants.NewLine;

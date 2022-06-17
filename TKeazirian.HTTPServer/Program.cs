@@ -8,7 +8,7 @@ public static class Program
 {
     public static int Main(string[] args)
     {
-        Server.StartListening();
+        Server.Server.StartListening();
         return 0;
     }
 }

@@ -1,6 +1,4 @@
-using System.Net;
-
-namespace TKeazirian.HTTPServer;
+namespace TKeazirian.HTTPServer.Request;
 
 public class Request
 {

@@ -1,4 +1,4 @@
-namespace TKeazirian.HTTPServer;
+namespace TKeazirian.HTTPServer.Response;
 
 public class ResponseBuilder
 {

@@ -1,15 +1,15 @@
-namespace TKeazirian.HTTPServer;
+namespace TKeazirian.HTTPServer.Response;
 
 public class Response
 {
     public string responseStatusLine;
-    public string? responseHeader;
+    public string? responseHeaders;
     public string? responseBody;
 
-    public Response(string responseStatusLine, string? responseHeader, string? responseBody)
+    public Response(string responseStatusLine, string? responseHeaders, string? responseBody)
     {
         this.responseStatusLine = responseStatusLine;
-        this.responseHeader = responseHeader;
+        this.responseHeaders = responseHeaders;
         this.responseBody = responseBody;
     }
 
@@ -20,7 +20,7 @@ public class Response
 
     public string? GetHeaders()
     {
-        return responseHeader;
+        return responseHeaders;
     }
 
     public string? GetBody()

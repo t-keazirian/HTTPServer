@@ -1,6 +1,6 @@
-namespace TKeazirian.HTTPServer;
+namespace TKeazirian.HTTPServer.Request;
 
-public class Parser
+public class RequestParser
 {
     public Request ParseRequest(string clientRequest)
     {
