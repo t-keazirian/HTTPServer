@@ -8,13 +8,13 @@ namespace TKeazirian.HTTPServer.Server;
 public static class Server
 {
     private static string? _clientRequest;
-    private static string _localIpAddress = "127.0.0.1";
-    private static int _port = 5000;
+    public const string LocalIpAddress = "127.0.0.1";
+    public const int Port = 5000;
 
     public static void StartListening()
     {
-        var ipAddress = IPAddress.Parse(_localIpAddress);
-        IPEndPoint endPoint = new IPEndPoint(ipAddress, _port);
+        var ipAddress = IPAddress.Parse(LocalIpAddress);
+        IPEndPoint endPoint = new IPEndPoint(ipAddress, Port);
         var listener = SocketHandler.CreateSocketListener(ipAddress);
 
         try

@@ -13,11 +13,33 @@ public class SimpleGetHandler : IHandler
     {
         ResponseBuilder responseBuilder = new ResponseBuilder();
 
-        var responseStatusLine = Constants.Status200;
-        var responseHeaders = Constants.NewLine + Constants.NewLine;
+        var responseStatusLine = HandleStatusLine(requestObject);
+        var responseHeaders = HandleHeaders(requestObject);
         var responseBody = HandleBody(requestObject);
 
         return responseBuilder.BuildNewResponse(responseStatusLine, responseHeaders, responseBody);
+    }
+
+    public string HandleStatusLine(Request.Request request)
+    {
+        if (request.GetRequestPath() == "/redirect")
+        {
+            return Constants.Status301;
+        }
+
+        return Constants.Status200;
+    }
+
+    private string HandleHeaders(Request.Request request)
+    {
+        if (request.GetRequestPath() == "/redirect")
+        {
+            return $"{Constants.NewLine}" +
+                   $"Location: http://{Server.Server.LocalIpAddress}:{Server.Server.Port}/simple_get" +
+                   $"{Constants.NewLine}{Constants.NewLine}";
+        }
+
+        return $"{Constants.NewLine}{Constants.NewLine}";
     }
 
     private string HandleBody(Request.Request request)
