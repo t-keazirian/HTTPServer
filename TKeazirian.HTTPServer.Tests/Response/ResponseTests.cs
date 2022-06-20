@@ -1,4 +1,3 @@
-using NuGet.Frameworks;
 using TKeazirian.HTTPServer.Response;
 using TKeazirian.HTTPServer.Tests.helpers;
 using Xunit;

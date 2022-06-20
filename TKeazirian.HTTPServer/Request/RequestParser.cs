@@ -6,7 +6,7 @@ public class RequestParser
     {
         string requestMethod = ParseRequestMethod(clientRequest);
         string requestPath = ParseRequestPath(clientRequest);
-        string requestHeaders = ParseHeaders(clientRequest);
+        string requestHeaders = ParseRequestHeaders(clientRequest);
         string? requestBody = ParseRequestBody(clientRequest);
 
         return new Request(requestMethod, requestPath, requestHeaders, requestBody);
@@ -25,7 +25,7 @@ public class RequestParser
         return requestArray[1];
     }
 
-    public string ParseHeaders(string requestString)
+    public string ParseRequestHeaders(string requestString)
     {
         string[] splitRequest = requestString.Split(Constants.BodySeparator, 2);
 

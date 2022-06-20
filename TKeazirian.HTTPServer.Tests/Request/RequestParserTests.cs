@@ -54,4 +54,20 @@ public class RequestParserTests
 
         Assert.Equal(expectedPath, actualPath);
     }
+
+    [Fact]
+    public void CanParseHeaders()
+    {
+        RequestParser requestParser = new RequestParser();
+        string testRequest = HelperFunctions.StringTestRequest("POST", "/test_path", "hello world");
+        string expectedHeaders =
+            $"Content-Type: plain/text{Constants.NewLine}" +
+            $"Host: localhost:5000{Constants.NewLine}" +
+            $"Content-Length: 11";
+        ;
+
+        string actualVerb = requestParser.ParseRequestHeaders(testRequest);
+
+        Assert.Equal(expectedHeaders, actualVerb);
+    }
 }

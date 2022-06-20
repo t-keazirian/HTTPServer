@@ -30,7 +30,7 @@ public class Request
         return requestHeaders;
     }
 
-    public string GetRequestBody()
+    public string? GetRequestBody()
     {
         return requestBody;
     }

@@ -1,8 +1,4 @@
-﻿using System.Net;
-using System.Net.Sockets;
-using System.Text;
-
-namespace TKeazirian.HTTPServer;
+﻿namespace TKeazirian.HTTPServer;
 
 public static class Program
 {
