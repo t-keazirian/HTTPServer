@@ -1,12 +1,13 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using TKeazirian.HTTPServer.Request;
 
-namespace TKeazirian.HTTPServer;
+namespace TKeazirian.HTTPServer.Server;
 
 public static class Server
 {
-    private static string? _request;
+    private static string? _clientRequest;
     private static string _localIpAddress = "127.0.0.1";
     private static int _port = 5000;
 
@@ -25,13 +26,19 @@ public static class Server
 
             while (true)
             {
-                Router router = new Router();
                 var socket = listener.Accept();
+                _clientRequest = GetRequest(socket);
 
-                _request = GetRequest(socket);
 
-                var response = router.HandleRequest(_request);
-                byte[] encodedResponse = Encoding.ASCII.GetBytes(response);
+                RequestParser requestParser = new RequestParser();
+                var requestObject = requestParser.ParseRequest(_clientRequest);
+
+                Router router = new Router();
+                var handler = router.GetHandler(requestObject);
+
+                var response = handler.HandleResponse(requestObject);
+
+                byte[] encodedResponse = Encoding.ASCII.GetBytes(response.FormatResponse());
 
                 socket.Send(encodedResponse, SocketFlags.None);
                 SocketHandler.CloseSocketConnection(socket);
@@ -48,11 +55,11 @@ public static class Server
 
     private static string GetRequest(Socket handler)
     {
-        _request = null;
+        _clientRequest = null;
         byte[] bytes = new byte[1024];
         int bytesReceived = handler.Receive(bytes);
-        _request = Encoding.ASCII.GetString(bytes, 0, bytesReceived);
-        Console.WriteLine($"Request: {_request}");
-        return _request;
+        _clientRequest = Encoding.ASCII.GetString(bytes, 0, bytesReceived);
+        Console.WriteLine($"Request: {_clientRequest}");
+        return _clientRequest;
     }
 }

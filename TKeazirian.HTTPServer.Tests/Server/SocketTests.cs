@@ -1,9 +1,10 @@
 using System.Net;
+using TKeazirian.HTTPServer.Server;
 using Xunit;
 
-namespace TKeazirian.HTTPServer.Tests;
+namespace TKeazirian.HTTPServer.Tests.Server;
 
-public class HttpTest
+public class SocketTests
 {
     [Fact]
     public void CreatedSocketIsNotNull()

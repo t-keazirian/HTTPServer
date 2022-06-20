@@ -21,7 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\TKeazirian.HTTPServer\TKeazirian.HTTPServer.csproj" />
+        <ProjectReference Include="..\TKeazirian.HTTPServer\TKeazirian.HTTPServer.csproj" />
     </ItemGroup>
 
 </Project>
