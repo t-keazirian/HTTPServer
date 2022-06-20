@@ -15,7 +15,6 @@ public class GetHandlerTests
         SimpleGetHandler getHandler = new SimpleGetHandler();
 
         Assert.Equal(Constants.Status200, getHandler.HandleStatusLine(testRequest));
-        Assert.Equal(Constants.Status200, getHandler.HandleStatusLine(testRequest));
     }
 
     [Fact]
