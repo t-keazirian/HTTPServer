@@ -1,7 +1,10 @@
+using StatusMessage = TKeazirian.HTTPServer.Response.StatusMessage;
+
 namespace TKeazirian.HTTPServer.Handler;
 
 using Response;
 using Request;
+using static StatusMessage;
 
 public class RedirectHandler : IHandler
 {
@@ -16,7 +19,7 @@ public class RedirectHandler : IHandler
 
         var httpVersion = Constants.HttpVersion;
         var responseStatusCode = HandleStatusCode();
-        var responseStatusText = HandleResponseText();
+        var responseStatusText = HandleResponseText(responseStatusCode);
         var responseStatusLine = HandleStatusLine(httpVersion, responseStatusCode, responseStatusText);
         var responseHeaders = HandleHeaders();
         var responseBody = HandleBody();
@@ -29,9 +32,9 @@ public class RedirectHandler : IHandler
         return (int)HttpStatusCode.Moved;
     }
 
-    private string HandleResponseText()
+    private string HandleResponseText(int responseStatusCode)
     {
-        return Constants.Moved;
+        return GetStatusMessage(responseStatusCode);
     }
 
     public string HandleStatusLine(string httpVersion, int responseStatusCode, string responseStatusText)

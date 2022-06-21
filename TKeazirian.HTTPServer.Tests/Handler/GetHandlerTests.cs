@@ -1,5 +1,5 @@
 using Xunit;
-using static TKeazirian.HTTPServer.HttpStatusCode;
+using static TKeazirian.HTTPServer.Response.HttpStatusCode;
 
 namespace TKeazirian.HTTPServer.Tests.Handler;
 
