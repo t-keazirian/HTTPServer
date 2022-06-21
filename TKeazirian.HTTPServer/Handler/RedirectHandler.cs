@@ -3,7 +3,7 @@ namespace TKeazirian.HTTPServer.Handler;
 using Response;
 using Request;
 
-public class SimpleGetHandler : IHandler
+public class RedirectHandler : IHandler
 {
     public List<string> AllowedHttpMethods()
     {
@@ -16,28 +16,26 @@ public class SimpleGetHandler : IHandler
 
         var responseStatusLine = HandleStatusLine();
         var responseHeaders = HandleHeaders();
-        var responseBody = HandleBody(requestObject);
+        var responseBody = HandleBody();
 
         return responseBuilder.BuildNewResponse(responseStatusLine, responseHeaders, responseBody);
     }
 
+
     public string HandleStatusLine()
     {
-        return Constants.Status200;
+        return Constants.Status301;
     }
 
     private string HandleHeaders()
     {
-        return Constants.NewLine + Constants.NewLine;
+        return Constants.NewLine +
+               $"Location: http://{Server.Server.LocalIpAddress}:{Server.Server.Port}/simple_get" +
+               Constants.NewLine + Constants.NewLine;
     }
 
-    private string HandleBody(Request request)
+    private string HandleBody()
     {
-        if (request.GetRequestPath() == "/simple_get_with_body")
-        {
-            return "Hello world";
-        }
-
         return "";
     }
 }

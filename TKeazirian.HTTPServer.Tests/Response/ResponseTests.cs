@@ -1,8 +1,9 @@
-using TKeazirian.HTTPServer.Response;
 using TKeazirian.HTTPServer.Tests.helpers;
 using Xunit;
 
 namespace TKeazirian.HTTPServer.Tests.Response;
+
+using TKeazirian.HTTPServer.Response;
 
 public class ResponseTests
 {
@@ -14,10 +15,10 @@ public class ResponseTests
         string responseBody = "Hello world";
 
         ResponseBuilder responseBuilder = new ResponseBuilder();
-        HTTPServer.Response.Response expectedResponse =
-            new HTTPServer.Response.Response(responseStatus, responseHeaders, responseBody);
+        Response expectedResponse =
+            new Response(responseStatus, responseHeaders, responseBody);
 
-        HTTPServer.Response.Response actualResponse =
+        Response actualResponse =
             responseBuilder.BuildNewResponse(responseStatus, responseHeaders, responseBody);
 
         Assert.Equal(expectedResponse.responseStatusLine, actualResponse.responseStatusLine);
@@ -31,8 +32,8 @@ public class ResponseTests
         string responseStatus = Constants.Status200;
         string responseHeaders = HelperFunctions.CreateTestResponseHeaders();
         string responseBody = "Hello world";
-        HTTPServer.Response.Response response =
-            new HTTPServer.Response.Response(responseStatus, responseHeaders, responseBody);
+        Response response =
+            new Response(responseStatus, responseHeaders, responseBody);
 
         Assert.Equal(responseStatus, response.GetStatusLine());
     }
@@ -43,8 +44,8 @@ public class ResponseTests
         string responseStatus = Constants.Status200;
         string responseHeaders = HelperFunctions.CreateTestResponseHeaders();
         string responseBody = "Hello world";
-        HTTPServer.Response.Response response =
-            new HTTPServer.Response.Response(responseStatus, responseHeaders, responseBody);
+        Response response =
+            new Response(responseStatus, responseHeaders, responseBody);
 
         Assert.Equal(responseHeaders, response.GetHeaders());
     }
@@ -55,8 +56,8 @@ public class ResponseTests
         string responseStatus = Constants.Status200;
         string responseHeaders = HelperFunctions.CreateTestResponseHeaders();
         string responseBody = "Hello world";
-        HTTPServer.Response.Response response =
-            new HTTPServer.Response.Response(responseStatus, responseHeaders, responseBody);
+        Response response =
+            new Response(responseStatus, responseHeaders, responseBody);
 
         Assert.Equal(responseBody, response.GetBody());
     }

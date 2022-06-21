@@ -1,6 +1,7 @@
-using TKeazirian.HTTPServer.Response;
-
 namespace TKeazirian.HTTPServer.Handler;
+
+using Response;
+using Request;
 
 public class ResourceNotFoundHandler : IHandler
 {
@@ -9,15 +10,29 @@ public class ResourceNotFoundHandler : IHandler
         return new List<string>() { "GET" };
     }
 
-    public Response.Response HandleResponse(Request.Request requestObject)
+    public Response HandleResponse(Request requestObject)
     {
-        var responseStatusLine = Constants.Status404 + Constants.NewLine;
-        var responseHeaders = "Content-Type: text/plain" +
-                              Constants.NewLine + Constants.NewLine;
-        var responseBody = "The resource cannot be found";
+        var responseStatusLine = HandleStatusLine();
+        var responseHeaders = HandleHeaders();
+        var responseBody = HandleBody();
 
         ResponseBuilder responseBuilder = new ResponseBuilder();
 
         return responseBuilder.BuildNewResponse(responseStatusLine, responseHeaders, responseBody);
+    }
+
+    private string HandleStatusLine()
+    {
+        return Constants.Status404;
+    }
+
+    private string HandleHeaders()
+    {
+        return Constants.NewLine + Constants.NewLine;
+    }
+
+    private string HandleBody()
+    {
+        return "The resource cannot be found";
     }
 }
