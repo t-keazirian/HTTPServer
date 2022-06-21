@@ -1,10 +1,11 @@
-using TKeazirian.HTTPServer.Handler;
-
 namespace TKeazirian.HTTPServer.Server;
+
+using Request;
+using Handler;
 
 public class Router
 {
-    public IHandler GetHandler(Request.Request requestObject)
+    public IHandler GetHandler(Request requestObject)
     {
         if (ResourceHandlerDictionary().ContainsKey(requestObject.GetRequestPath()) &&
             IsHttpMethodAllowed(requestObject))
@@ -30,7 +31,7 @@ public class Router
         return resourceHandlerDictionary;
     }
 
-    private bool IsHttpMethodAllowed(Request.Request requestObject)
+    private bool IsHttpMethodAllowed(Request requestObject)
     {
         IHandler handler = ResourceHandlerDictionary()[requestObject.GetRequestPath()];
         return handler.AllowedHttpMethods().Contains(requestObject.GetRequestMethod());

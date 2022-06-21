@@ -1,9 +1,10 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using TKeazirian.HTTPServer.Request;
 
 namespace TKeazirian.HTTPServer.Server;
+
+using Request;
 
 public static class Server
 {

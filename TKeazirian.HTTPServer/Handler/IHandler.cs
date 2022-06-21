@@ -1,9 +1,11 @@
-namespace TKeazirian.HTTPServer.Handler
-{
-    public interface IHandler
-    {
-        public Response.Response HandleResponse(Request.Request requestObject);
+namespace TKeazirian.HTTPServer.Handler;
 
-        public List<string> AllowedHttpMethods();
-    }
+using Response;
+using Request;
+
+public interface IHandler
+{
+    public Response HandleResponse(Request requestObject);
+
+    public List<string> AllowedHttpMethods();
 }

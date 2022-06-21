@@ -1,6 +1,7 @@
-using TKeazirian.HTTPServer.Response;
-
 namespace TKeazirian.HTTPServer.Handler;
+
+using Response;
+using Request;
 
 public class EchoBodyHandler : IHandler
 {
@@ -9,7 +10,7 @@ public class EchoBodyHandler : IHandler
         return new List<string>() { "POST" };
     }
 
-    public Response.Response HandleResponse(Request.Request requestObject)
+    public Response HandleResponse(Request requestObject)
     {
         var responseStatusLine = Constants.Status200 + Constants.NewLine;
         var responseHeaders = Constants.NewLine;

@@ -1,6 +1,7 @@
-using TKeazirian.HTTPServer.Response;
-
 namespace TKeazirian.HTTPServer.Handler;
+
+using Response;
+using Request;
 
 public class ResourceNotFoundHandler : IHandler
 {
@@ -9,7 +10,7 @@ public class ResourceNotFoundHandler : IHandler
         return new List<string>() { "GET" };
     }
 
-    public Response.Response HandleResponse(Request.Request requestObject)
+    public Response HandleResponse(Request requestObject)
     {
         var responseStatusLine = Constants.Status404 + Constants.NewLine;
         var responseHeaders = "Content-Type: text/plain" +

@@ -1,4 +1,3 @@
-using System;
 using TKeazirian.HTTPServer.Request;
 using TKeazirian.HTTPServer.Tests.helpers;
 using Xunit;

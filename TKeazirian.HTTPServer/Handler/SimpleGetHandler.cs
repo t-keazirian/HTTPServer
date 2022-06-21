@@ -1,6 +1,7 @@
-using TKeazirian.HTTPServer.Response;
-
 namespace TKeazirian.HTTPServer.Handler;
+
+using Response;
+using Request;
 
 public class SimpleGetHandler : IHandler
 {
@@ -9,7 +10,7 @@ public class SimpleGetHandler : IHandler
         return new List<string>() { "GET" };
     }
 
-    public Response.Response HandleResponse(Request.Request requestObject)
+    public Response HandleResponse(Request requestObject)
     {
         ResponseBuilder responseBuilder = new ResponseBuilder();
 
@@ -20,7 +21,7 @@ public class SimpleGetHandler : IHandler
         return responseBuilder.BuildNewResponse(responseStatusLine, responseHeaders, responseBody);
     }
 
-    public string HandleStatusLine(Request.Request request)
+    public string HandleStatusLine(Request request)
     {
         if (request.GetRequestPath() == "/redirect")
         {
@@ -30,7 +31,7 @@ public class SimpleGetHandler : IHandler
         return Constants.Status200;
     }
 
-    private string HandleHeaders(Request.Request request)
+    private string HandleHeaders(Request request)
     {
         if (request.GetRequestPath() == "/redirect")
         {
@@ -42,7 +43,7 @@ public class SimpleGetHandler : IHandler
         return $"{Constants.NewLine}{Constants.NewLine}";
     }
 
-    private string HandleBody(Request.Request request)
+    private string HandleBody(Request request)
     {
         if (request.GetRequestPath() == "/simple_get_with_body")
         {

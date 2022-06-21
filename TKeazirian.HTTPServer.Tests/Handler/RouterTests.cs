@@ -1,17 +1,18 @@
-using TKeazirian.HTTPServer.Handler;
-using TKeazirian.HTTPServer.Request;
-using TKeazirian.HTTPServer.Server;
 using Xunit;
 
 namespace TKeazirian.HTTPServer.Tests.Handler;
+
+using TKeazirian.HTTPServer.Server;
+using TKeazirian.HTTPServer.Handler;
+using TKeazirian.HTTPServer.Request;
 
 public class RouterTests
 {
     [Fact]
     public void EchoBodyHandlerCalledWithEchoBodyPathAndPostRequest()
     {
-        HTTPServer.Request.Request testRequest =
-            new HTTPServer.Request.Request("POST", "/echo_body", "", "Echo me, please");
+        Request testRequest =
+            new Request("POST", "/echo_body", "", "Echo me, please");
 
         Router router = new Router();
 
@@ -25,7 +26,7 @@ public class RouterTests
     [InlineData("/simple_get_with_body")]
     public void SimpleGetHandlerCalledWithSimpleGetPathAndGetRequest(string path)
     {
-        HTTPServer.Request.Request testRequest = new HTTPServer.Request.Request("GET", path, "", "");
+        Request testRequest = new Request("GET", path, "", "");
 
         Router router = new Router();
 
@@ -39,7 +40,7 @@ public class RouterTests
     [InlineData("/")]
     public void ResourceNotFoundHandlerCalledWhenPathIsNotConfigured(string path)
     {
-        HTTPServer.Request.Request testRequest = new HTTPServer.Request.Request("GET", path, "", "");
+        Request testRequest = new Request("GET", path, "", "");
 
         Router router = new Router();
 

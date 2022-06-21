@@ -1,7 +1,9 @@
-using TKeazirian.HTTPServer.Handler;
 using Xunit;
 
 namespace TKeazirian.HTTPServer.Tests.Handler;
+
+using TKeazirian.HTTPServer.Handler;
+using TKeazirian.HTTPServer.Request;
 
 public class GetHandlerTests
 {
@@ -10,7 +12,7 @@ public class GetHandlerTests
     [InlineData("/simple_get_with_body")]
     public void HandleStatusLineReturnsCorrectStatusBasedOnPath(string path)
     {
-        HTTPServer.Request.Request testRequest = new HTTPServer.Request.Request("GET", path, "", "");
+        Request testRequest = new Request("GET", path, "", "");
 
         SimpleGetHandler getHandler = new SimpleGetHandler();
 
@@ -20,7 +22,7 @@ public class GetHandlerTests
     [Fact]
     public void HandleStatusLineReturns301WithRedirectPath()
     {
-        HTTPServer.Request.Request testRequest = new HTTPServer.Request.Request("GET", "/redirect", "", "");
+        Request testRequest = new Request("GET", "/redirect", "", "");
 
         SimpleGetHandler getHandler = new SimpleGetHandler();
 
