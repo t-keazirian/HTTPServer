@@ -5,10 +5,10 @@ namespace TKeazirian.HTTPServer.Tests.Handler;
 
 using TKeazirian.HTTPServer.Handler;
 
-public class GetHandlerTests
+public class HandlerTests
 {
     [Fact]
-    public void HandleStatusLineReturns200WhenGetHandler()
+    public void HandleStatusLineGetHandlerFormatsStatusLineWithCorrectVersionStatusText()
     {
         string version = Constants.HttpVersion;
         int statusCode = (int)Ok;
@@ -22,7 +22,7 @@ public class GetHandlerTests
     }
 
     [Fact]
-    public void HandleStatusLineReturns200WhenEchoBodyHandler()
+    public void HandleStatusLineEchoBodyHandlerFormatsStatusLineWithCorrectVersionStatusText()
     {
         string version = Constants.HttpVersion;
         int statusCode = (int)Ok;
@@ -36,7 +36,7 @@ public class GetHandlerTests
     }
 
     [Fact]
-    public void HandleStatusLineReturns301WhenRedirectHandler()
+    public void HandleStatusLineRedirectHandlerFormatsStatusLineWithCorrectVersionStatusText()
     {
         string version = Constants.HttpVersion;
         int statusCode = (int)Moved;
@@ -49,7 +49,7 @@ public class GetHandlerTests
     }
 
     [Fact]
-    public void HandleStatusLineReturns404WhenResourceNotFoundHandler()
+    public void HandleStatusLineResourceNotFoundHandlerFormatsStatusLineWithCorrectVersionStatusText()
     {
         string version = Constants.HttpVersion;
         int statusCode = (int)NotFound;
