@@ -13,21 +13,21 @@ public class RequestParser
     }
 
 
-    public string ParseRequestMethod(string requestString)
+    public string ParseRequestMethod(string clientRequest)
     {
-        string[] requestArray = requestString.Split(Constants.Space, 2);
+        string[] requestArray = clientRequest.Split(Constants.Space, 2);
         return requestArray[0];
     }
 
-    public string ParseRequestPath(string requestString)
+    public string ParseRequestPath(string clientRequest)
     {
-        string[] requestArray = requestString.Split(Constants.Space, 3);
+        string[] requestArray = clientRequest.Split(Constants.Space, 3);
         return requestArray[1];
     }
 
-    public string ParseRequestHeaders(string requestString)
+    public string ParseRequestHeaders(string clientRequest)
     {
-        string[] splitRequest = requestString.Split(Constants.BodySeparator, 2);
+        string[] splitRequest = clientRequest.Split(Constants.BodySeparator, 2);
 
         string requestToSplitWithHeaders = splitRequest[0];
 
@@ -36,9 +36,9 @@ public class RequestParser
         return splitHeaders[1];
     }
 
-    public string? ParseRequestBody(string requestString)
+    public string? ParseRequestBody(string clientRequest)
     {
-        string?[] splitRequest = requestString.Split(Constants.BodySeparator, 2);
+        string?[] splitRequest = clientRequest.Split(Constants.BodySeparator, 2);
 
         return splitRequest[^1];
     }

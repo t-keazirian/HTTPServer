@@ -23,7 +23,7 @@ public class Router
             {
                 { "/echo_body", new EchoBodyHandler() },
                 { "/simple_get", new SimpleGetHandler() },
-                { "/redirect", new SimpleGetHandler() },
+                { "/redirect", new RedirectHandler() },
                 {
                     "/simple_get_with_body", new SimpleGetHandler()
                 }

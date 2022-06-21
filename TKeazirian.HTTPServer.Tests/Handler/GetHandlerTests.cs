@@ -3,29 +3,22 @@ using Xunit;
 namespace TKeazirian.HTTPServer.Tests.Handler;
 
 using TKeazirian.HTTPServer.Handler;
-using TKeazirian.HTTPServer.Request;
 
 public class GetHandlerTests
 {
-    [Theory]
-    [InlineData("/simple_get")]
-    [InlineData("/simple_get_with_body")]
-    public void HandleStatusLineReturnsCorrectStatusBasedOnPath(string path)
+    [Fact]
+    public void HandleStatusLineReturnsCorrectStatusBasedOnPath()
     {
-        Request testRequest = new Request("GET", path, "", "");
-
         SimpleGetHandler getHandler = new SimpleGetHandler();
 
-        Assert.Equal(Constants.Status200, getHandler.HandleStatusLine(testRequest));
+        Assert.Equal(Constants.Status200, getHandler.HandleStatusLine());
     }
 
     [Fact]
     public void HandleStatusLineReturns301WithRedirectPath()
     {
-        Request testRequest = new Request("GET", "/redirect", "", "");
+        RedirectHandler getHandler = new RedirectHandler();
 
-        SimpleGetHandler getHandler = new SimpleGetHandler();
-
-        Assert.Equal(Constants.Status301, getHandler.HandleStatusLine(testRequest));
+        Assert.Equal(Constants.Status301, getHandler.HandleStatusLine());
     }
 }

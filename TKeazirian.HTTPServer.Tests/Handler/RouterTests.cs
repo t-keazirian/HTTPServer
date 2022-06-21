@@ -21,6 +21,19 @@ public class RouterTests
         Assert.True(handler is EchoBodyHandler);
     }
 
+    [Fact]
+    public void RedirectHandlerCalledWithRedirectPath()
+    {
+        Request testRequest =
+            new Request("GET", "/redirect", "", "");
+
+        Router router = new Router();
+
+        IHandler handler = router.GetHandler(testRequest);
+
+        Assert.True(handler is RedirectHandler);
+    }
+
     [Theory]
     [InlineData("/simple_get")]
     [InlineData("/simple_get_with_body")]

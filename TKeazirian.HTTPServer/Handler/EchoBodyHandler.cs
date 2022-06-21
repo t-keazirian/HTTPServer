@@ -12,12 +12,27 @@ public class EchoBodyHandler : IHandler
 
     public Response HandleResponse(Request requestObject)
     {
-        var responseStatusLine = Constants.Status200 + Constants.NewLine;
-        var responseHeaders = Constants.NewLine;
-        var responseBody = requestObject.GetRequestBody();
+        var responseStatusLine = HandleStatusLine();
+        var responseHeaders = HandleHeaders();
+        var responseBody = HandleBody(requestObject);
 
         ResponseBuilder responseBuilder = new ResponseBuilder();
 
         return responseBuilder.BuildNewResponse(responseStatusLine, responseHeaders, responseBody);
+    }
+
+    private string HandleStatusLine()
+    {
+        return Constants.Status200;
+    }
+
+    private string HandleHeaders()
+    {
+        return Constants.NewLine + Constants.NewLine;
+    }
+
+    private string? HandleBody(Request request)
+    {
+        return request.GetRequestBody();
     }
 }
