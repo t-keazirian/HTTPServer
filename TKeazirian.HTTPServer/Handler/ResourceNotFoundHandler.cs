@@ -12,7 +12,10 @@ public class ResourceNotFoundHandler : IHandler
 
     public Response HandleResponse(Request requestObject)
     {
-        var responseStatusLine = HandleStatusLine();
+        var httpVersion = Constants.HttpVersion;
+        var responseStatusCode = HandleStatusCode();
+        var responseStatusText = HandleResponseText();
+        var responseStatusLine = HandleStatusLine(httpVersion, responseStatusCode, responseStatusText);
         var responseHeaders = HandleHeaders();
         var responseBody = HandleBody();
 
@@ -21,9 +24,19 @@ public class ResourceNotFoundHandler : IHandler
         return responseBuilder.BuildNewResponse(responseStatusLine, responseHeaders, responseBody);
     }
 
-    private string HandleStatusLine()
+    private int HandleStatusCode()
     {
-        return Constants.Status404;
+        return (int)HttpStatusCode.NotFound;
+    }
+
+    private string HandleResponseText()
+    {
+        return Constants.NotFound;
+    }
+
+    public string HandleStatusLine(string httpVersion, int responseStatusCode, string responseStatusText)
+    {
+        return httpVersion + Constants.Space + responseStatusCode + Constants.Space + responseStatusText;
     }
 
     private string HandleHeaders()

@@ -12,7 +12,10 @@ public class EchoBodyHandler : IHandler
 
     public Response HandleResponse(Request requestObject)
     {
-        var responseStatusLine = HandleStatusLine();
+        var httpVersion = Constants.HttpVersion;
+        var responseStatusCode = HandleStatusCode();
+        var responseStatusText = HandleResponseText();
+        var responseStatusLine = HandleStatusLine(httpVersion, responseStatusCode, responseStatusText);
         var responseHeaders = HandleHeaders();
         var responseBody = HandleBody(requestObject);
 
@@ -21,9 +24,19 @@ public class EchoBodyHandler : IHandler
         return responseBuilder.BuildNewResponse(responseStatusLine, responseHeaders, responseBody);
     }
 
-    private string HandleStatusLine()
+    private int HandleStatusCode()
     {
-        return Constants.Status200;
+        return (int)HttpStatusCode.Ok;
+    }
+
+    private string HandleResponseText()
+    {
+        return Constants.Ok;
+    }
+
+    public string HandleStatusLine(string httpVersion, int responseStatusCode, string responseStatusText)
+    {
+        return httpVersion + Constants.Space + responseStatusCode + Constants.Space + responseStatusText;
     }
 
     private string HandleHeaders()

@@ -14,16 +14,30 @@ public class SimpleGetHandler : IHandler
     {
         ResponseBuilder responseBuilder = new ResponseBuilder();
 
-        var responseStatusLine = HandleStatusLine();
+        var httpVersion = Constants.HttpVersion;
+        var responseStatusCode = HandleStatusCode();
+        var responseStatusText = HandleResponseText();
+        var responseStatusLine = HandleStatusLine(httpVersion, responseStatusCode, responseStatusText);
         var responseHeaders = HandleHeaders();
         var responseBody = HandleBody(requestObject);
 
-        return responseBuilder.BuildNewResponse(responseStatusLine, responseHeaders, responseBody);
+        return responseBuilder.BuildNewResponse(responseStatusLine, responseHeaders,
+            responseBody);
     }
 
-    public string HandleStatusLine()
+    private int HandleStatusCode()
     {
-        return Constants.Status200;
+        return (int)HttpStatusCode.Ok;
+    }
+
+    private string HandleResponseText()
+    {
+        return Constants.Ok;
+    }
+
+    public string HandleStatusLine(string httpVersion, int responseStatusCode, string responseStatusText)
+    {
+        return httpVersion + Constants.Space + responseStatusCode + Constants.Space + responseStatusText;
     }
 
     private string HandleHeaders()
