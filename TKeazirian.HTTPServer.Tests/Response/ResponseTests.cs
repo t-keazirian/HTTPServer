@@ -10,16 +10,16 @@ public class ResponseTests
     [Fact]
     public void BuildNewResponseBuildsNewResponseObject()
     {
-        const string responseStatus = "HTTP/1.1 200 OK";
-        var responseHeaders = HelperFunctions.CreateTestResponseHeaders();
-        const string responseBody = "Hello world";
+        string responseStatus = "HTTP/1.1 200 OK";
+        string responseHeaders = HelperFunctions.CreateTestResponseHeaders();
+        string responseBody = "Hello world";
 
-        var responseBuilder = new ResponseBuilder();
+        ResponseBuilder responseBuilder = new ResponseBuilder();
 
-        var expectedResponse =
+        Response expectedResponse =
             new Response(responseStatus, responseHeaders, responseBody);
 
-        var actualResponse =
+        Response actualResponse =
             responseBuilder.BuildNewResponse(responseStatus, responseHeaders, responseBody);
 
         Assert.Equal(expectedResponse.responseStatusLine, actualResponse.responseStatusLine);
@@ -30,11 +30,11 @@ public class ResponseTests
     [Fact]
     public void GetStatusLineReturnsStatusLine()
     {
-        const string responseStatus = "HTTP/1.1 200 OK";
-        var responseHeaders = HelperFunctions.CreateTestResponseHeaders();
-        const string responseBody = "Hello world";
+        string responseStatus = "HTTP/1.1 200 OK";
+        string responseHeaders = HelperFunctions.CreateTestResponseHeaders();
+        string responseBody = "Hello world";
 
-        var response =
+        Response response =
             new Response(responseStatus, responseHeaders, responseBody);
 
         Assert.Equal(responseStatus, response.GetStatusLine());
@@ -43,11 +43,11 @@ public class ResponseTests
     [Fact]
     public void GetHeadersReturnsHeaders()
     {
-        const string responseStatus = "HTTP/1.1 200 OK";
-        var responseHeaders = HelperFunctions.CreateTestResponseHeaders();
-        const string responseBody = "Hello world";
+        string responseStatus = "HTTP/1.1 200 OK";
+        string responseHeaders = HelperFunctions.CreateTestResponseHeaders();
+        string responseBody = "Hello world";
 
-        var response =
+        Response response =
             new Response(responseStatus, responseHeaders, responseBody);
 
         Assert.Equal(responseHeaders, response.GetHeaders());
@@ -56,11 +56,11 @@ public class ResponseTests
     [Fact]
     public void GetBodyReturnsBody()
     {
-        const string responseStatus = "HTTP/1.1 200 OK";
-        var responseHeaders = HelperFunctions.CreateTestResponseHeaders();
-        const string responseBody = "Hello world";
+        string responseStatus = "HTTP/1.1 200 OK";
+        string responseHeaders = HelperFunctions.CreateTestResponseHeaders();
+        string responseBody = "Hello world";
 
-        var response =
+        Response response =
             new Response(responseStatus, responseHeaders, responseBody);
 
         Assert.Equal(responseBody, response.GetBody());

@@ -1,3 +1,4 @@
+using TKeazirian.HTTPServer.Response;
 using Xunit;
 using static TKeazirian.HTTPServer.Response.HttpStatusCode;
 
@@ -12,7 +13,7 @@ public class HandlerTests
     {
         string version = Constants.HttpVersion;
         int statusCode = (int)Ok;
-        string responseText = Constants.Ok;
+        string responseText = StatusMessage.Ok;
 
         SimpleGetHandler handler = new SimpleGetHandler();
 
@@ -26,7 +27,7 @@ public class HandlerTests
     {
         string version = Constants.HttpVersion;
         int statusCode = (int)Ok;
-        string responseText = Constants.Ok;
+        string responseText = StatusMessage.Ok;
 
         EchoBodyHandler handler = new EchoBodyHandler();
 
@@ -40,7 +41,7 @@ public class HandlerTests
     {
         string version = Constants.HttpVersion;
         int statusCode = (int)Moved;
-        string responseText = Constants.Moved;
+        string responseText = StatusMessage.Moved;
 
         RedirectHandler handler = new RedirectHandler();
         string expectedStatusLine = "HTTP/1.1 301 Moved Permanently";
@@ -53,7 +54,7 @@ public class HandlerTests
     {
         string version = Constants.HttpVersion;
         int statusCode = (int)NotFound;
-        string responseText = Constants.NotFound;
+        string responseText = StatusMessage.NotFound;
 
         ResourceNotFoundHandler handler = new ResourceNotFoundHandler();
         string expectedStatusLine = "HTTP/1.1 404 Not Found";
