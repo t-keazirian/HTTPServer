@@ -7,7 +7,7 @@ public class SimpleGetHandler : Handler
 {
     public override List<string> AllowedHttpMethods()
     {
-        return new List<string>() { "GET" };
+        return new List<string>() { "GET", "HEAD" };
     }
 
     public override Response HandleResponse(Request request)
