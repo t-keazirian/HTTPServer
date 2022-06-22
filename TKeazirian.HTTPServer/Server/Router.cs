@@ -5,12 +5,12 @@ using Handler;
 
 public class Router
 {
-    public Handler GetHandler(Request requestObject)
+    public Handler GetHandler(Request request)
     {
-        if (ResourceHandlerDictionary().ContainsKey(requestObject.GetRequestPath()) &&
-            IsHttpMethodAllowed(requestObject))
+        if (ResourceHandlerDictionary().ContainsKey(request.GetRequestPath()) &&
+            IsHttpMethodAllowed(request))
         {
-            return ResourceHandlerDictionary()[requestObject.GetRequestPath()];
+            return ResourceHandlerDictionary()[request.GetRequestPath()];
         }
 
         return new ResourceNotFoundHandler();
@@ -31,9 +31,9 @@ public class Router
         return resourceHandlerDictionary;
     }
 
-    private bool IsHttpMethodAllowed(Request requestObject)
+    private bool IsHttpMethodAllowed(Request request)
     {
-        Handler handler = ResourceHandlerDictionary()[requestObject.GetRequestPath()];
-        return handler.AllowedHttpMethods().Contains(requestObject.GetRequestMethod());
+        Handler handler = ResourceHandlerDictionary()[request.GetRequestPath()];
+        return handler.AllowedHttpMethods().Contains(request.GetRequestMethod());
     }
 }
