@@ -1,10 +1,7 @@
-using StatusMessages = TKeazirian.HTTPServer.Response.StatusMessages;
-
 namespace TKeazirian.HTTPServer.Handler;
 
 using Response;
 using Request;
-using static StatusMessages;
 
 public class SimpleGetHandler : Handler
 {
@@ -13,7 +10,7 @@ public class SimpleGetHandler : Handler
         return new List<string>() { "GET" };
     }
 
-    public override Response HandleResponse(Request requestObject)
+    public override Response HandleResponse(Request request)
     {
         ResponseBuilder responseBuilder = new ResponseBuilder();
 
@@ -21,7 +18,7 @@ public class SimpleGetHandler : Handler
         var responseStatusCode = HttpStatusCode.Ok;
         var responseStatusLine = HandleStatusLine(httpVersion, responseStatusCode);
         var responseHeaders = HandleHeaders();
-        var responseBody = HandleBody(requestObject);
+        var responseBody = HandleBody(request);
 
         return responseBuilder.BuildNewResponse(responseStatusLine, responseHeaders,
             responseBody);

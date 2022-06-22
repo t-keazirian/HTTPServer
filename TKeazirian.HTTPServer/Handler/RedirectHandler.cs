@@ -1,10 +1,7 @@
-using StatusMessages = TKeazirian.HTTPServer.Response.StatusMessages;
-
 namespace TKeazirian.HTTPServer.Handler;
 
 using Response;
 using Request;
-using static StatusMessages;
 
 public class RedirectHandler : Handler
 {
@@ -13,7 +10,7 @@ public class RedirectHandler : Handler
         return new List<string>() { "GET" };
     }
 
-    public override Response HandleResponse(Request requestObject)
+    public override Response HandleResponse(Request request)
     {
         ResponseBuilder responseBuilder = new ResponseBuilder();
 

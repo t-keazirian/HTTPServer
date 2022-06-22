@@ -1,10 +1,7 @@
-using StatusMessages = TKeazirian.HTTPServer.Response.StatusMessages;
-
 namespace TKeazirian.HTTPServer.Handler;
 
 using Response;
 using Request;
-using static StatusMessages;
 
 public class EchoBodyHandler : Handler
 {
@@ -13,13 +10,13 @@ public class EchoBodyHandler : Handler
         return new List<string>() { "POST" };
     }
 
-    public override Response HandleResponse(Request requestObject)
+    public override Response HandleResponse(Request request)
     {
         var httpVersion = Constants.HttpVersion;
         var responseStatusCode = HttpStatusCode.Ok;
         var responseStatusLine = HandleStatusLine(httpVersion, responseStatusCode);
         var responseHeaders = HandleHeaders();
-        var responseBody = requestObject.GetRequestBody();
+        var responseBody = request.GetRequestBody();
 
         ResponseBuilder responseBuilder = new ResponseBuilder();
 

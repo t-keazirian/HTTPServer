@@ -10,7 +10,7 @@ public abstract class Handler
         throw new Exception("Method not implemented");
     }
 
-    public virtual Response HandleResponse(Request requestObject)
+    public virtual Response HandleResponse(Request request)
     {
         throw new Exception("Method not implemented");
     }
