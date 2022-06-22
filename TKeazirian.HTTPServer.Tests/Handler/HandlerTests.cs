@@ -1,6 +1,5 @@
 using TKeazirian.HTTPServer.Response;
 using Xunit;
-using static TKeazirian.HTTPServer.Response.HttpStatusCode;
 
 namespace TKeazirian.HTTPServer.Tests.Handler;
 
@@ -12,8 +11,8 @@ public class HandlerTests
     public void HandleStatusLineGetHandlerFormatsStatusLineWithCorrectVersionStatusText()
     {
         string version = Constants.HttpVersion;
-        int statusCode = (int)Ok;
-        string responseText = StatusMessage.Ok;
+        HttpStatusCode statusCode = HttpStatusCode.Ok;
+        string responseText = StatusMessages.GetMessage(statusCode);
 
         SimpleGetHandler handler = new SimpleGetHandler();
 
@@ -26,8 +25,8 @@ public class HandlerTests
     public void HandleStatusLineEchoBodyHandlerFormatsStatusLineWithCorrectVersionStatusText()
     {
         string version = Constants.HttpVersion;
-        int statusCode = (int)Ok;
-        string responseText = StatusMessage.Ok;
+        HttpStatusCode statusCode = HttpStatusCode.Ok;
+        string responseText = StatusMessages.GetMessage(statusCode);
 
         EchoBodyHandler handler = new EchoBodyHandler();
 
@@ -40,8 +39,8 @@ public class HandlerTests
     public void HandleStatusLineRedirectHandlerFormatsStatusLineWithCorrectVersionStatusText()
     {
         string version = Constants.HttpVersion;
-        int statusCode = (int)Moved;
-        string responseText = StatusMessage.Moved;
+        HttpStatusCode statusCode = HttpStatusCode.Moved;
+        string responseText = StatusMessages.GetMessage(statusCode);
 
         RedirectHandler handler = new RedirectHandler();
         string expectedStatusLine = "HTTP/1.1 301 Moved Permanently";
@@ -53,8 +52,8 @@ public class HandlerTests
     public void HandleStatusLineResourceNotFoundHandlerFormatsStatusLineWithCorrectVersionStatusText()
     {
         string version = Constants.HttpVersion;
-        int statusCode = (int)NotFound;
-        string responseText = StatusMessage.NotFound;
+        HttpStatusCode statusCode = HttpStatusCode.NotFound;
+        string responseText = StatusMessages.GetMessage(statusCode);
 
         ResourceNotFoundHandler handler = new ResourceNotFoundHandler();
         string expectedStatusLine = "HTTP/1.1 404 Not Found";

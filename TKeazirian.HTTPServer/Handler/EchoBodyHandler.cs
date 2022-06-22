@@ -1,10 +1,10 @@
-using StatusMessage = TKeazirian.HTTPServer.Response.StatusMessage;
+using StatusMessages = TKeazirian.HTTPServer.Response.StatusMessages;
 
 namespace TKeazirian.HTTPServer.Handler;
 
 using Response;
 using Request;
-using static StatusMessage;
+using static StatusMessages;
 
 public class EchoBodyHandler : IHandler
 {
@@ -16,7 +16,7 @@ public class EchoBodyHandler : IHandler
     public Response HandleResponse(Request requestObject)
     {
         var httpVersion = Constants.HttpVersion;
-        var responseStatusCode = HandleStatusCode();
+        var responseStatusCode = HttpStatusCode.Ok;
         var responseStatusText = HandleResponseText(responseStatusCode);
         var responseStatusLine = HandleStatusLine(httpVersion, responseStatusCode, responseStatusText);
         var responseHeaders = HandleHeaders();
@@ -27,19 +27,14 @@ public class EchoBodyHandler : IHandler
         return responseBuilder.BuildNewResponse(responseStatusLine, responseHeaders, responseBody);
     }
 
-    private int HandleStatusCode()
+    private string HandleResponseText(HttpStatusCode responseStatusCode)
     {
-        return (int)HttpStatusCode.Ok;
+        return GetMessage(responseStatusCode);
     }
 
-    private string HandleResponseText(int responseStatusCode)
+    public string HandleStatusLine(string httpVersion, HttpStatusCode responseStatusCode, string responseStatusText)
     {
-        return GetStatusMessage(responseStatusCode);
-    }
-
-    public string HandleStatusLine(string httpVersion, int responseStatusCode, string responseStatusText)
-    {
-        return httpVersion + Constants.Space + responseStatusCode + Constants.Space + responseStatusText;
+        return httpVersion + Constants.Space + (int)responseStatusCode + Constants.Space + responseStatusText;
     }
 
     private string HandleHeaders()
