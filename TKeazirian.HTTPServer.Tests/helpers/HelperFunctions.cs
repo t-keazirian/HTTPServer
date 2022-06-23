@@ -16,7 +16,7 @@ public static class HelperFunctions
     {
         string testResponseHeaders =
             $"Content-Type: text/plain{Constants.NewLine}" +
-            "Content-Length: 11";
+            $"Content-Length: 11{Constants.NewLine}{Constants.NewLine}";
 
         return testResponseHeaders;
     }

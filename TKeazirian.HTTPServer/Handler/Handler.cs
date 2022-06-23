@@ -14,10 +14,4 @@ public abstract class Handler
     {
         throw new Exception("Method not implemented");
     }
-
-    public string HandleStatusLine(string httpVersion, HttpStatusCode responseStatusCode)
-    {
-        return httpVersion + Constants.Space + (int)responseStatusCode + Constants.Space +
-               StatusMessages.GetMessage(responseStatusCode);
-    }
 }

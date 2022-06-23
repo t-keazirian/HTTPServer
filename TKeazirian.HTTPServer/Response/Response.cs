@@ -2,31 +2,31 @@ namespace TKeazirian.HTTPServer.Response;
 
 public class Response
 {
-    public string responseStatusLine;
-    public string? responseHeaders;
-    public string? responseBody;
+    public string ResponseStatusLine;
+    public string? ResponseHeaders;
+    public string? ResponseBody;
 
     public Response(string responseStatusLine, string responseHeaders,
         string? responseBody)
     {
-        this.responseStatusLine = responseStatusLine;
-        this.responseHeaders = responseHeaders;
-        this.responseBody = responseBody;
+        ResponseStatusLine = responseStatusLine;
+        ResponseHeaders = responseHeaders;
+        ResponseBody = responseBody;
     }
 
     public string GetStatusLine()
     {
-        return responseStatusLine;
+        return ResponseStatusLine;
     }
 
     public string? GetHeaders()
     {
-        return responseHeaders;
+        return ResponseHeaders;
     }
 
     public string? GetBody()
     {
-        return responseBody;
+        return ResponseBody;
     }
 
     public string FormatResponse()

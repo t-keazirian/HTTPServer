@@ -12,30 +12,19 @@ public class SimpleGetHandler : Handler
 
     public override Response HandleResponse(Request request)
     {
-        ResponseBuilder responseBuilder = new ResponseBuilder();
-
-        var httpVersion = Constants.HttpVersion;
-        var responseStatusCode = HttpStatusCode.Ok;
-        var responseStatusLine = HandleStatusLine(httpVersion, responseStatusCode);
-        var responseHeaders = HandleHeaders();
-        var responseBody = HandleBody(request);
-
-        return responseBuilder.BuildNewResponse(responseStatusLine, responseHeaders,
-            responseBody);
-    }
-
-    private string HandleHeaders()
-    {
-        return Constants.NewLine + Constants.NewLine;
-    }
-
-    private string HandleBody(Request request)
-    {
         if (request.GetRequestPath() == "/simple_get_with_body")
         {
-            return "Hello world";
+            string body = "Hello world";
+            return new ResponseBuilder()
+                .SetStatusCode(HttpStatusCode.Ok)
+                .SetHeaders("Content-Type", "text/plain;charset=utf-8")
+                .SetHeaders("Content-Length", body.Length.ToString())
+                .SetBody(body)
+                .Build();
         }
 
-        return "";
+        return new ResponseBuilder()
+            .SetStatusCode(HttpStatusCode.Ok)
+            .Build();
     }
 }
