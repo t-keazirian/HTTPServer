@@ -32,12 +32,12 @@ public static class Server
 
 
                 RequestParser requestParser = new RequestParser();
-                var requestObject = requestParser.ParseRequest(_clientRequest);
+                var request = requestParser.ParseRequest(_clientRequest);
 
                 Router router = new Router();
-                var handler = router.GetHandler(requestObject);
+                var handler = router.GetHandler(request);
 
-                var response = handler.HandleResponse(requestObject);
+                var response = handler.HandleResponse(request);
 
                 byte[] encodedResponse = Encoding.ASCII.GetBytes(response.FormatResponse());
 

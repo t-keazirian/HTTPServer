@@ -16,7 +16,7 @@ public class RouterTests
 
         Router router = new Router();
 
-        IHandler handler = router.GetHandler(testRequest);
+        Handler handler = router.GetHandler(testRequest);
 
         Assert.True(handler is EchoBodyHandler);
     }
@@ -29,7 +29,7 @@ public class RouterTests
 
         Router router = new Router();
 
-        IHandler handler = router.GetHandler(testRequest);
+        Handler handler = router.GetHandler(testRequest);
 
         Assert.True(handler is RedirectHandler);
     }
@@ -43,7 +43,7 @@ public class RouterTests
 
         Router router = new Router();
 
-        IHandler handler = router.GetHandler(testRequest);
+        Handler handler = router.GetHandler(testRequest);
 
         Assert.True(handler is SimpleGetHandler);
     }
@@ -57,7 +57,7 @@ public class RouterTests
 
         Router router = new Router();
 
-        IHandler handler = router.GetHandler(testRequest);
+        Handler handler = router.GetHandler(testRequest);
 
         Assert.True(handler is ResourceNotFoundHandler);
     }

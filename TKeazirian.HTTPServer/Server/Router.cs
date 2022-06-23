@@ -5,21 +5,21 @@ using Handler;
 
 public class Router
 {
-    public IHandler GetHandler(Request requestObject)
+    public Handler GetHandler(Request request)
     {
-        if (ResourceHandlerDictionary().ContainsKey(requestObject.GetRequestPath()) &&
-            IsHttpMethodAllowed(requestObject))
+        if (ResourceHandlerDictionary().ContainsKey(request.GetRequestPath()) &&
+            IsHttpMethodAllowed(request))
         {
-            return ResourceHandlerDictionary()[requestObject.GetRequestPath()];
+            return ResourceHandlerDictionary()[request.GetRequestPath()];
         }
 
         return new ResourceNotFoundHandler();
     }
 
-    private Dictionary<string, IHandler> ResourceHandlerDictionary()
+    private Dictionary<string, Handler> ResourceHandlerDictionary()
     {
-        Dictionary<string, IHandler> resourceHandlerDictionary =
-            new Dictionary<string, IHandler>
+        Dictionary<string, Handler> resourceHandlerDictionary =
+            new Dictionary<string, Handler>
             {
                 { "/echo_body", new EchoBodyHandler() },
                 { "/simple_get", new SimpleGetHandler() },
@@ -31,9 +31,9 @@ public class Router
         return resourceHandlerDictionary;
     }
 
-    private bool IsHttpMethodAllowed(Request requestObject)
+    private bool IsHttpMethodAllowed(Request request)
     {
-        IHandler handler = ResourceHandlerDictionary()[requestObject.GetRequestPath()];
-        return handler.AllowedHttpMethods().Contains(requestObject.GetRequestMethod());
+        Handler handler = ResourceHandlerDictionary()[request.GetRequestPath()];
+        return handler.AllowedHttpMethods().Contains(request.GetRequestMethod());
     }
 }

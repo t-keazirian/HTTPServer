@@ -10,11 +10,12 @@ public class ResponseTests
     [Fact]
     public void BuildNewResponseBuildsNewResponseObject()
     {
-        string responseStatus = Constants.Status200;
+        string responseStatus = "HTTP/1.1 200 OK";
         string responseHeaders = HelperFunctions.CreateTestResponseHeaders();
         string responseBody = "Hello world";
 
         ResponseBuilder responseBuilder = new ResponseBuilder();
+
         Response expectedResponse =
             new Response(responseStatus, responseHeaders, responseBody);
 
@@ -29,9 +30,10 @@ public class ResponseTests
     [Fact]
     public void GetStatusLineReturnsStatusLine()
     {
-        string responseStatus = Constants.Status200;
+        string responseStatus = "HTTP/1.1 200 OK";
         string responseHeaders = HelperFunctions.CreateTestResponseHeaders();
         string responseBody = "Hello world";
+
         Response response =
             new Response(responseStatus, responseHeaders, responseBody);
 
@@ -41,9 +43,10 @@ public class ResponseTests
     [Fact]
     public void GetHeadersReturnsHeaders()
     {
-        string responseStatus = Constants.Status200;
+        string responseStatus = "HTTP/1.1 200 OK";
         string responseHeaders = HelperFunctions.CreateTestResponseHeaders();
         string responseBody = "Hello world";
+
         Response response =
             new Response(responseStatus, responseHeaders, responseBody);
 
@@ -53,9 +56,10 @@ public class ResponseTests
     [Fact]
     public void GetBodyReturnsBody()
     {
-        string responseStatus = Constants.Status200;
+        string responseStatus = "HTTP/1.1 200 OK";
         string responseHeaders = HelperFunctions.CreateTestResponseHeaders();
         string responseBody = "Hello world";
+
         Response response =
             new Response(responseStatus, responseHeaders, responseBody);
 

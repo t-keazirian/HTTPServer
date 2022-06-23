@@ -3,36 +3,28 @@ namespace TKeazirian.HTTPServer.Handler;
 using Response;
 using Request;
 
-public class ResourceNotFoundHandler : IHandler
+public class ResourceNotFoundHandler : Handler
 {
-    public List<string> AllowedHttpMethods()
+    public override List<string> AllowedHttpMethods()
     {
         return new List<string>() { "GET" };
     }
 
-    public Response HandleResponse(Request requestObject)
+    public override Response HandleResponse(Request request)
     {
-        var responseStatusLine = HandleStatusLine();
+        var httpVersion = Constants.HttpVersion;
+        var responseStatusCode = HttpStatusCode.NotFound;
+        var responseStatusLine = HandleStatusLine(httpVersion, responseStatusCode);
         var responseHeaders = HandleHeaders();
-        var responseBody = HandleBody();
+        var responseBody = "The resource cannot be found";
 
         ResponseBuilder responseBuilder = new ResponseBuilder();
 
         return responseBuilder.BuildNewResponse(responseStatusLine, responseHeaders, responseBody);
     }
 
-    private string HandleStatusLine()
-    {
-        return Constants.Status404;
-    }
-
     private string HandleHeaders()
     {
         return Constants.NewLine + Constants.NewLine;
-    }
-
-    private string HandleBody()
-    {
-        return "The resource cannot be found";
     }
 }

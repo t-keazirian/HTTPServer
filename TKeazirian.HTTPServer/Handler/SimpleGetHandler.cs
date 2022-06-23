@@ -3,27 +3,25 @@ namespace TKeazirian.HTTPServer.Handler;
 using Response;
 using Request;
 
-public class SimpleGetHandler : IHandler
+public class SimpleGetHandler : Handler
 {
-    public List<string> AllowedHttpMethods()
+    public override List<string> AllowedHttpMethods()
     {
         return new List<string>() { "GET" };
     }
 
-    public Response HandleResponse(Request requestObject)
+    public override Response HandleResponse(Request request)
     {
         ResponseBuilder responseBuilder = new ResponseBuilder();
 
-        var responseStatusLine = HandleStatusLine();
+        var httpVersion = Constants.HttpVersion;
+        var responseStatusCode = HttpStatusCode.Ok;
+        var responseStatusLine = HandleStatusLine(httpVersion, responseStatusCode);
         var responseHeaders = HandleHeaders();
-        var responseBody = HandleBody(requestObject);
+        var responseBody = HandleBody(request);
 
-        return responseBuilder.BuildNewResponse(responseStatusLine, responseHeaders, responseBody);
-    }
-
-    public string HandleStatusLine()
-    {
-        return Constants.Status200;
+        return responseBuilder.BuildNewResponse(responseStatusLine, responseHeaders,
+            responseBody);
     }
 
     private string HandleHeaders()

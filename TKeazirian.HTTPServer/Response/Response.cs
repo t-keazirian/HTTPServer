@@ -6,7 +6,8 @@ public class Response
     public string? responseHeaders;
     public string? responseBody;
 
-    public Response(string responseStatusLine, string? responseHeaders, string? responseBody)
+    public Response(string responseStatusLine, string responseHeaders,
+        string? responseBody)
     {
         this.responseStatusLine = responseStatusLine;
         this.responseHeaders = responseHeaders;
