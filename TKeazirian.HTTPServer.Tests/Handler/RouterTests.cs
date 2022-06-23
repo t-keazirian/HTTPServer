@@ -61,4 +61,17 @@ public class RouterTests
 
         Assert.True(handler is ResourceNotFoundHandler);
     }
+
+    [Fact]
+    public void SimpleHeadHandlerCalledWithSimpleHeadPath()
+    {
+        Request testRequest =
+            new Request("HEAD", "/head_request", "", "");
+
+        Router router = new Router();
+
+        Handler handler = router.GetHandler(testRequest);
+
+        Assert.True(handler is SimpleHeadHandler);
+    }
 }
