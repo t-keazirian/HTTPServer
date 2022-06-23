@@ -12,15 +12,16 @@ public class EchoBodyHandler : Handler
 
     public override Response HandleResponse(Request request)
     {
-        var httpVersion = Constants.HttpVersion;
-        var responseStatusCode = HttpStatusCode.Ok;
-        var responseStatusLine = HandleStatusLine(httpVersion, responseStatusCode);
-        var responseHeaders = HandleHeaders();
-        var responseBody = request.GetRequestBody();
-
-        ResponseBuilder responseBuilder = new ResponseBuilder();
-
-        return responseBuilder.BuildNewResponse(responseStatusLine, responseHeaders, responseBody);
+        // var httpVersion = Constants.HttpVersion;
+        // var responseStatusCode = HttpStatusCode.Ok;
+        // var responseStatusLine = HandleStatusLine(httpVersion, responseStatusCode);
+        // var responseHeaders = HandleHeaders();
+        // var responseBody = request.GetRequestBody();
+        //
+        // ResponseBuilder responseBuilder = new ResponseBuilder();
+        //
+        // return responseBuilder.BuildNewResponse(responseStatusLine, responseHeaders, responseBody);
+        return new ResponseBuilder().SetStatusCode(HttpStatusCode.Ok).Build();
     }
 
     private string HandleHeaders()
