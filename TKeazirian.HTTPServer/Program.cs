@@ -4,7 +4,8 @@ public static class Program
 {
     public static int Main(string[] args)
     {
-        Server.Server.StartListening();
+        Server.Server server = new Server.Server();
+        server.StartListening();
         return 0;
     }
 }

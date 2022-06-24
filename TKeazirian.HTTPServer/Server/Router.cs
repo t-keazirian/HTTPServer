@@ -2,38 +2,56 @@ namespace TKeazirian.HTTPServer.Server;
 
 using Request;
 using Handler;
+using Response;
 
 public class Router
 {
-    public Handler GetHandler(Request request)
-    {
-        if (ResourceHandlerDictionary().ContainsKey(request.GetRequestPath()) &&
-            IsHttpMethodAllowed(request))
-        {
-            return ResourceHandlerDictionary()[request.GetRequestPath()];
-        }
+    private RoutesConfig _routesConfig;
 
-        return new ResourceNotFoundHandler();
+    public Router(RoutesConfig routesConfig)
+    {
+        _routesConfig = routesConfig;
     }
 
-    private Dictionary<string, Handler> ResourceHandlerDictionary()
+    public Response Route(Request request)
     {
-        Dictionary<string, Handler> resourceHandlerDictionary =
-            new Dictionary<string, Handler>
-            {
-                { "/echo_body", new EchoBodyHandler() },
-                { "/simple_get", new SimpleGetHandler() },
-                { "/redirect", new RedirectHandler() },
-                {
-                    "/simple_get_with_body", new SimpleGetHandler()
-                }
-            };
-        return resourceHandlerDictionary;
+        if (_routesConfig.routes.ContainsKey(request.GetRequestPath()) &&
+            IsHttpMethodAllowed(request))
+        {
+            var handler = _routesConfig.routes[request.GetRequestPath()];
+            return request.GetRequestMethod() == "HEAD" ? HeadRequest(handler, request) : handler.HandleResponse(request);
+        }
+
+        return new ResourceNotFoundHandler().HandleResponse(request);
     }
 
     private bool IsHttpMethodAllowed(Request request)
     {
-        Handler handler = ResourceHandlerDictionary()[request.GetRequestPath()];
+        Handler handler = _routesConfig.routes[request.GetRequestPath()];
+
+        if (request.GetRequestMethod() == "HEAD")
+        {
+            return handler.AllowedHttpMethods().Contains("GET");
+        }
+
         return handler.AllowedHttpMethods().Contains(request.GetRequestMethod());
+    }
+
+    private Response HeadRequest(Handler handler, Request request)
+    {
+        var getRequest = new Request(
+            "GET",
+            request.GetRequestPath(),
+            request.GetRequestHeaders(),
+            request.GetRequestBody()
+        );
+        var getResponse = handler.HandleResponse(getRequest);
+        // use response builder here
+        var headResponse = new Response(
+            getResponse.GetStatusLine(),
+            getResponse.GetHeaders(),
+            ""
+        );
+        return headResponse;
     }
 }
