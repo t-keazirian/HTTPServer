@@ -19,7 +19,9 @@ public class Router
             IsHttpMethodAllowed(request))
         {
             var handler = _routesConfig.routes[request.GetRequestPath()];
-            return request.GetRequestMethod() == "HEAD" ? HeadRequest(handler, request) : handler.HandleResponse(request);
+            return request.GetRequestMethod() == "HEAD"
+                ? HeadRequest(handler, request)
+                : handler.HandleResponse(request);
         }
 
         return new ResourceNotFoundHandler().HandleResponse(request);
@@ -46,7 +48,7 @@ public class Router
             request.GetRequestBody()
         );
         var getResponse = handler.HandleResponse(getRequest);
-        // use response builder here
+
         var headResponse = new Response(
             getResponse.GetStatusLine(),
             getResponse.GetHeaders(),

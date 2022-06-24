@@ -20,22 +20,4 @@ public static class HelperFunctions
 
         return testResponseHeaders;
     }
-
-    public static string FormatTestResponseWithHeaders(string statusCode, string headers, string? body = "")
-    {
-        string testResponse = $"{statusCode}{Constants.NewLine}" +
-                              $"{headers}{Constants.NewLine}{Constants.NewLine}" +
-                              $"{body}";
-
-        return testResponse;
-    }
-
-    public static string FormatTestResponseNoHeaders(string statusCode, string? body)
-    {
-        string testResponse = $"{statusCode}" + Constants.NewLine +
-                              "Content-Type: text/plain" +
-                              $"{Constants.NewLine}{Constants.NewLine}" +
-                              $"{body}";
-        return testResponse;
-    }
 }
