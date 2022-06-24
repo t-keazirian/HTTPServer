@@ -12,9 +12,19 @@ public class SimpleGetHandler : Handler
 
     public override Response HandleResponse(Request request)
     {
+        string body = "Hello world";
         if (request.GetRequestPath() == "/simple_get_with_body")
         {
-            string body = "Hello world";
+            RequestParser parser = new RequestParser();
+            if (parser.ParseRequestMethod(request.GetRequestMethod()) == "HEAD")
+            {
+                return new ResponseBuilder()
+                    .SetStatusCode(HttpStatusCode.Ok)
+                    .SetHeaders("Content-Type", "text/plain;charset=utf-8")
+                    .SetHeaders("Content-Length", body.Length.ToString())
+                    .Build();
+            }
+
             return new ResponseBuilder()
                 .SetStatusCode(HttpStatusCode.Ok)
                 .SetHeaders("Content-Type", "text/plain;charset=utf-8")
@@ -22,6 +32,7 @@ public class SimpleGetHandler : Handler
                 .SetBody(body)
                 .Build();
         }
+
 
         return new ResponseBuilder()
             .SetStatusCode(HttpStatusCode.Ok)

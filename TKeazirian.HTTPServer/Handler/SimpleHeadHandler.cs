@@ -7,25 +7,27 @@ public class SimpleHeadHandler : Handler
 {
     public override List<string> AllowedHttpMethods()
     {
-        return new List<string>() { "HEAD" };
+        return new List<string>() { "GET", "HEAD" };
     }
 
     public override Response HandleResponse(Request request)
     {
-        ResponseBuilder responseBuilder = new ResponseBuilder();
+        string body = "Hello world";
+        RequestParser parser = new RequestParser();
+        if (parser.ParseRequestMethod(request.GetRequestMethod()) == "HEAD")
+        {
+            return new ResponseBuilder()
+                .SetStatusCode(HttpStatusCode.Ok)
+                .SetHeaders("Content-Type", "text/plain;charset=utf-8")
+                .SetHeaders("Content-Length", body.Length.ToString())
+                .Build();
+        }
 
-        var httpVersion = Constants.HttpVersion;
-        var responseStatusCode = HttpStatusCode.Ok;
-        var responseStatusLine = HandleStatusLine(httpVersion, responseStatusCode);
-        var responseHeaders = HandleHeaders();
-        var responseBody = "";
-
-        return responseBuilder.BuildNewResponse(responseStatusLine, responseHeaders,
-            responseBody);
-    }
-
-    private string HandleHeaders()
-    {
-        return Constants.NewLine + Constants.NewLine;
+        return new ResponseBuilder()
+            .SetStatusCode(HttpStatusCode.Ok)
+            .SetHeaders("Content-Type", "text/plain;charset=utf-8")
+            .SetHeaders("Content-Length", body.Length.ToString())
+            .SetBody(body)
+            .Build();
     }
 }
