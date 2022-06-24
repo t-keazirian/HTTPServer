@@ -10,21 +10,27 @@ public class ResponseTests
     [Fact]
     public void BuildNewResponseBuildsNewResponseObject()
     {
-        string responseStatus = "HTTP/1.1 200 OK";
+        string responseStatusLine = "HTTP/1.1 200 OK\r\n";
+        HttpStatusCode responseStatusCode = HttpStatusCode.Ok;
         string responseHeaders = HelperFunctions.CreateTestResponseHeaders();
         string responseBody = "Hello world";
 
         ResponseBuilder responseBuilder = new ResponseBuilder();
 
         Response expectedResponse =
-            new Response(responseStatus, responseHeaders, responseBody);
+            new Response(responseStatusLine, responseHeaders, responseBody);
 
-        Response actualResponse =
-            responseBuilder.BuildNewResponse(responseStatus, responseHeaders, responseBody);
+        Response actualResponse = responseBuilder
+            .SetStatusCode(responseStatusCode)
+            .SetHeaders("Content-Type", "text/plain")
+            .SetHeaders("Content-Length", "11")
+            .SetBody(responseBody)
+            .Build();
 
-        Assert.Equal(expectedResponse.responseStatusLine, actualResponse.responseStatusLine);
-        Assert.Equal(expectedResponse.responseHeaders, actualResponse.responseHeaders);
-        Assert.Equal(expectedResponse.responseBody, actualResponse.responseBody);
+
+        Assert.Equal(expectedResponse.ResponseStatusLine, actualResponse.ResponseStatusLine);
+        Assert.Equal(expectedResponse.ResponseHeaders, actualResponse.ResponseHeaders);
+        Assert.Equal(expectedResponse.ResponseBody, actualResponse.ResponseBody);
     }
 
     [Fact]
