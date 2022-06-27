@@ -11,10 +11,12 @@ public class Server
     private string _clientRequest;
     public const string LocalIpAddress = "127.0.0.1";
     public const int Port = 5000;
+    private readonly Router _router;
 
     public Server()
     {
         _clientRequest = "";
+        _router = new Router(new RoutesConfig());
     }
 
     public void StartListening()
@@ -39,10 +41,7 @@ public class Server
                 RequestParser requestParser = new RequestParser();
                 var request = requestParser.ParseRequest(_clientRequest);
 
-                Router router = new Router();
-                var handler = router.GetHandler(request);
-
-                var response = handler.HandleResponse(request);
+                var response = _router.Route(request);
 
                 byte[] encodedResponse = Encoding.ASCII.GetBytes(response.FormatResponse());
 

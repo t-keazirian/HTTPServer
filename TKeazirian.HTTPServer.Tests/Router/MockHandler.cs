@@ -1,12 +1,11 @@
 using System.Collections.Generic;
 
-namespace TKeazirian.HTTPServer.Tests.Handler;
+namespace TKeazirian.HTTPServer.Tests.Router;
 
 using TKeazirian.HTTPServer.Response;
 using TKeazirian.HTTPServer.Request;
-using TKeazirian.HTTPServer.Handler;
 
-class MockHandler : Handler
+class MockHandler : Handler.Handler
 {
     public override List<string> AllowedHttpMethods()
     {
