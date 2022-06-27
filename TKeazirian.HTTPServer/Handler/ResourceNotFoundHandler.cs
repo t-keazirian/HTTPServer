@@ -12,9 +12,12 @@ public class ResourceNotFoundHandler : Handler
 
     public override Response HandleResponse(Request request)
     {
+        string body = "The resource cannot be found";
         return new ResponseBuilder()
             .SetStatusCode(HttpStatusCode.NotFound)
-            .SetBody("The resource cannot be found")
+            .SetHeaders("Content-Type", "text/plain")
+            .SetHeaders("Content-Length", $"{body.Length}")
+            .SetBody(body)
             .Build();
     }
 }
