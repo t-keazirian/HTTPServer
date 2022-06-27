@@ -2,36 +2,36 @@ namespace TKeazirian.HTTPServer.Request;
 
 public class Request
 {
-    private string requestMethod;
-    private string requestPath;
-    private string requestHeaders;
-    private string? requestBody;
+    private readonly string _requestMethod;
+    private readonly string _requestPath;
+    private readonly string _requestHeaders;
+    private readonly string _requestBody;
 
-    public Request(string requestMethod, string requestPath, string requestHeaders, string? requestBody)
+    public Request(string requestMethod, string requestPath, string requestHeaders, string requestBody)
     {
-        this.requestMethod = requestMethod;
-        this.requestPath = requestPath;
-        this.requestHeaders = requestHeaders;
-        this.requestBody = requestBody;
+        _requestMethod = requestMethod;
+        _requestPath = requestPath;
+        _requestHeaders = requestHeaders;
+        _requestBody = requestBody;
     }
 
     public string GetRequestMethod()
     {
-        return requestMethod;
+        return _requestMethod;
     }
 
     public string GetRequestPath()
     {
-        return requestPath;
+        return _requestPath;
     }
 
     public string GetRequestHeaders()
     {
-        return requestHeaders;
+        return _requestHeaders;
     }
 
-    public string? GetRequestBody()
+    public string GetRequestBody()
     {
-        return requestBody;
+        return _requestBody;
     }
 }

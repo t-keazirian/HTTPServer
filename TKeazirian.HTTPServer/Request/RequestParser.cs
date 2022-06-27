@@ -7,7 +7,7 @@ public class RequestParser
         string requestMethod = ParseRequestMethod(clientRequest);
         string requestPath = ParseRequestPath(clientRequest);
         string requestHeaders = ParseRequestHeaders(clientRequest);
-        string? requestBody = ParseRequestBody(clientRequest);
+        string requestBody = ParseRequestBody(clientRequest);
 
         return new Request(requestMethod, requestPath, requestHeaders, requestBody);
     }
@@ -36,9 +36,9 @@ public class RequestParser
         return splitHeaders[1];
     }
 
-    public string? ParseRequestBody(string clientRequest)
+    public string ParseRequestBody(string clientRequest)
     {
-        string?[] splitRequest = clientRequest.Split(Constants.BodySeparator, 2);
+        string[] splitRequest = clientRequest.Split(Constants.BodySeparator, 2);
 
         return splitRequest[^1];
     }
