@@ -6,13 +6,18 @@ namespace TKeazirian.HTTPServer.Server;
 
 using Request;
 
-public static class Server
+public class Server
 {
-    private static string? _clientRequest;
+    private string _clientRequest;
     public const string LocalIpAddress = "127.0.0.1";
     public const int Port = 5000;
 
-    public static void StartListening()
+    public Server()
+    {
+        _clientRequest = "";
+    }
+
+    public void StartListening()
     {
         var ipAddress = IPAddress.Parse(LocalIpAddress);
         IPEndPoint endPoint = new IPEndPoint(ipAddress, Port);
@@ -54,9 +59,8 @@ public static class Server
         Console.Read();
     }
 
-    private static string GetRequest(Socket handler)
+    private string GetRequest(Socket handler)
     {
-        _clientRequest = null;
         byte[] bytes = new byte[1024];
         int bytesReceived = handler.Receive(bytes);
         _clientRequest = Encoding.ASCII.GetString(bytes, 0, bytesReceived);

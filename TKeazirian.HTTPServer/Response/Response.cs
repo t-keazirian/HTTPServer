@@ -2,12 +2,12 @@ namespace TKeazirian.HTTPServer.Response;
 
 public class Response
 {
-    public string ResponseStatusLine;
-    public string? ResponseHeaders;
-    public string? ResponseBody;
+    public readonly string ResponseStatusLine;
+    public readonly string ResponseHeaders;
+    public readonly string ResponseBody;
 
     public Response(string responseStatusLine, string responseHeaders,
-        string? responseBody)
+        string responseBody)
     {
         ResponseStatusLine = responseStatusLine;
         ResponseHeaders = responseHeaders;
@@ -19,12 +19,12 @@ public class Response
         return ResponseStatusLine;
     }
 
-    public string? GetHeaders()
+    public string GetHeaders()
     {
         return ResponseHeaders;
     }
 
-    public string? GetBody()
+    public string GetBody()
     {
         return ResponseBody;
     }

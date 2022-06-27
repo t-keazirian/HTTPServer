@@ -3,27 +3,27 @@ namespace TKeazirian.HTTPServer.Response;
 public class ResponseBuilder
 {
     private string HttpVersion = Constants.HttpVersion;
-    private HttpStatusCode StatusCode;
-    private Dictionary<string, string> HeaderDictionary = new();
-    private string header = "";
-    private string Body = "";
+    private HttpStatusCode _statusCode;
+    private readonly Dictionary<string, string> _headerDictionary = new();
+    private string _header = "";
+    private string _body = "";
 
     public ResponseBuilder SetStatusCode(HttpStatusCode statusCode)
     {
-        StatusCode = statusCode;
+        _statusCode = statusCode;
         return this;
     }
 
     public ResponseBuilder SetHeaders(string headerName, string headerValue)
     {
-        HeaderDictionary.Add(headerName, headerValue);
+        _headerDictionary.Add(headerName, headerValue);
 
         return this;
     }
 
     public ResponseBuilder SetBody(string body)
     {
-        Body = body;
+        _body = body;
         return this;
     }
 
@@ -35,29 +35,29 @@ public class ResponseBuilder
 
     private string HandleStatusLine()
     {
-        return HttpVersion + Constants.Space + (int)StatusCode + Constants.Space +
-               StatusMessages.GetMessage(StatusCode) + Constants.NewLine;
+        return HttpVersion + Constants.Space + (int)_statusCode + Constants.Space +
+               StatusMessages.GetMessage(_statusCode) + Constants.NewLine;
     }
 
     private string HandleHeaders()
     {
-        if (HeaderDictionary.Count == 0)
+        if (_headerDictionary.Count == 0)
         {
-            header = Constants.NewLine;
-            return header;
+            _header = Constants.NewLine;
+            return _header;
         }
 
-        foreach (KeyValuePair<string, string> entry in HeaderDictionary)
+        foreach (KeyValuePair<string, string> entry in _headerDictionary)
         {
-            header += $"{entry.Key}: {entry.Value}{Constants.NewLine}";
+            _header += $"{entry.Key}: {entry.Value}{Constants.NewLine}";
         }
 
-        return header + Constants.NewLine;
+        return _header + Constants.NewLine;
     }
 
     private string HandleBody()
     {
-        Body = Body == "" ? "" : Body;
-        return Body;
+        _body = _body == "" ? "" : _body;
+        return _body;
     }
 }
