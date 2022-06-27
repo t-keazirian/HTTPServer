@@ -5,25 +5,24 @@ using System.Text;
 namespace TKeazirian.HTTPServer.Server;
 
 using Request;
+using Response;
 
 public class Server
 {
-    private string _clientRequest;
     public const string LocalIpAddress = "127.0.0.1";
     public const int Port = 5000;
     private readonly Router _router;
 
-    public Server()
+    public Server(RoutesConfig routes)
     {
-        _clientRequest = "";
-        _router = new Router(new RoutesConfig());
+        _router = new Router(routes);
     }
 
     public void StartListening()
     {
-        var ipAddress = IPAddress.Parse(LocalIpAddress);
+        IPAddress ipAddress = IPAddress.Parse(LocalIpAddress);
         IPEndPoint endPoint = new IPEndPoint(ipAddress, Port);
-        var listener = SocketHandler.CreateSocketListener(ipAddress);
+        Socket listener = SocketHandler.CreateSocketListener(ipAddress);
 
         try
         {
@@ -34,14 +33,13 @@ public class Server
 
             while (true)
             {
-                var socket = listener.Accept();
-                _clientRequest = GetRequest(socket);
-
+                Socket socket = listener.Accept();
+                string clientRequest = GetRequest(socket);
 
                 RequestParser requestParser = new RequestParser();
-                var request = requestParser.ParseRequest(_clientRequest);
+                Request request = requestParser.ParseRequest(clientRequest);
 
-                var response = _router.Route(request);
+                Response response = _router.Route(request);
 
                 byte[] encodedResponse = Encoding.ASCII.GetBytes(response.FormatResponse());
 
@@ -58,12 +56,12 @@ public class Server
         Console.Read();
     }
 
-    private string GetRequest(Socket handler)
+    private static string GetRequest(Socket handler)
     {
         byte[] bytes = new byte[1024];
         int bytesReceived = handler.Receive(bytes);
-        _clientRequest = Encoding.ASCII.GetString(bytes, 0, bytesReceived);
-        Console.WriteLine($"Request: {_clientRequest}");
-        return _clientRequest;
+        string clientRequest = Encoding.ASCII.GetString(bytes, 0, bytesReceived);
+        Console.WriteLine($"Request: {clientRequest}");
+        return clientRequest;
     }
 }
