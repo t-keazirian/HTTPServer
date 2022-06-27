@@ -6,7 +6,8 @@ public static class Program
 {
     public static int Main(string[] args)
     {
-        Server.Server server = new Server.Server(new RoutesConfig());
+        RoutesConfig routes = new RoutesConfig();
+        Server.Server server = new Server.Server(routes);
         server.StartListening();
         return 0;
     }
