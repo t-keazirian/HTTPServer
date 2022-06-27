@@ -18,7 +18,7 @@ public class RequestParserTests
 
         string testRequest = HelperFunctions.StringTestRequest("POST", "test_path", testBody);
 
-        string? actualBody = requestParser.ParseRequestBody(testRequest);
+        string actualBody = requestParser.ParseRequestBody(testRequest);
 
         Assert.Equal(expectedBody, actualBody);
     }
