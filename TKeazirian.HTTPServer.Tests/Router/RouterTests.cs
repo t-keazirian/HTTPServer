@@ -65,8 +65,14 @@ public class RouterTests
     [Fact]
     public void IfImproperFormattedRequest404IsCalled()
     {
-        Request badTestRequest = HelperFunctions.ImproperFormattedRequest("", "GET", "/test_path");
-        Router router = new Router(new RoutesConfig());
+        Request badTestRequest = new Request("", "GET", HelperFunctions.CreateTestResponseHeaders(), "/test_path");
+        var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
+        {
+            { "/test_path", new MockHandler() },
+            { "/unhappy_path", new MockResourceNotFoundHandler() }
+        });
+
+        Router router = new Router(testRoutesConfig);
 
         Response response = router.Route(badTestRequest);
 
