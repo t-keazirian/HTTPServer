@@ -63,13 +63,12 @@ public class RouterTests
     }
 
     [Fact]
-    public void IfImproperFormattedRequest404IsCalled()
+    public void ResourceCannotBeFoundReturns404()
     {
         Request badTestRequest = new Request("", "GET", HelperFunctions.CreateTestResponseHeaders(), "/test_path");
         var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
         {
             { "/test_path", new MockHandler() },
-            { "/unhappy_path", new MockResourceNotFoundHandler() }
         });
 
         Router router = new Router(testRoutesConfig);
@@ -77,6 +76,5 @@ public class RouterTests
         Response response = router.Route(badTestRequest);
 
         Assert.Equal("HTTP/1.1 404 Not Found\r\n", response.ResponseStatusLine);
-        Assert.Equal("The resource cannot be found", response.ResponseBody);
     }
 }
