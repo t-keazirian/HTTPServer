@@ -1,5 +1,7 @@
 namespace TKeazirian.HTTPServer.Tests.helpers;
 
+using TKeazirian.HTTPServer.Request;
+
 public static class HelperFunctions
 {
     public static string StringTestRequest(string verb, string path, string body = "")
@@ -19,5 +21,11 @@ public static class HelperFunctions
             $"Content-Length: 11{Constants.NewLine}{Constants.NewLine}";
 
         return testResponseHeaders;
+    }
+
+    public static Request ImproperFormattedRequest(string verb, string path, string body)
+    {
+        Request testRequest = new Request(body, verb, CreateTestResponseHeaders(), path);
+        return testRequest;
     }
 }

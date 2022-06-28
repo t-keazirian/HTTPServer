@@ -4,8 +4,9 @@ namespace TKeazirian.HTTPServer.Tests.Router;
 
 using TKeazirian.HTTPServer.Response;
 using TKeazirian.HTTPServer.Request;
+using Handler;
 
-class MockHandler : Handler.Handler
+class MockHandler : Handler
 {
     public override List<string> AllowedHttpMethods()
     {
