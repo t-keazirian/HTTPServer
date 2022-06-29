@@ -1,24 +1,28 @@
 using System.Collections.Generic;
+using TKeazirian.HTTPServer.Tests.helpers;
 using Xunit;
 
 namespace TKeazirian.HTTPServer.Tests.Router;
 
 using TKeazirian.HTTPServer.Server;
+using TKeazirian.HTTPServer.Request;
+using TKeazirian.HTTPServer.Response;
+using Handler;
 
 public class RouterTests
 {
     [Fact]
     public void RouterRoutesToExpectedHandler()
     {
-        HTTPServer.Request.Request testRequest =
-            new HTTPServer.Request.Request("GET", "/test_path", "", "");
-        var testRoutesConfig = new RoutesConfig(new Dictionary<string, HTTPServer.Handler.Handler>
+        Request testRequest =
+            new Request("GET", "/test_path", "", "");
+        var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
         {
             { "/test_path", new MockHandler() }
         });
         Router router = new Router(testRoutesConfig);
 
-        HTTPServer.Response.Response response = router.Route(testRequest);
+        Response response = router.Route(testRequest);
 
         Assert.Equal("Mock body", response.ResponseBody);
     }
@@ -28,14 +32,14 @@ public class RouterTests
     [InlineData("/")]
     public void ResourceNotFoundHandlerCalledWhenPathIsNotConfigured(string path)
     {
-        HTTPServer.Request.Request testRequest = new HTTPServer.Request.Request("GET", path, "", "");
-        var testRoutesConfig = new RoutesConfig(new Dictionary<string, HTTPServer.Handler.Handler>
+        Request testRequest = new Request("GET", path, "", "");
+        var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
         {
             { "/test_path", new MockHandler() }
         });
         Router router = new Router(testRoutesConfig);
 
-        HTTPServer.Response.Response response = router.Route(testRequest);
+        Response response = router.Route(testRequest);
 
         Assert.Equal("HTTP/1.1 404 Not Found\r\n", response.ResponseStatusLine);
     }
@@ -43,18 +47,34 @@ public class RouterTests
     [Fact]
     public void IfGetMethodIsAllowedOnEndpointThenHeadMethodIsAllowed()
     {
-        HTTPServer.Request.Request testRequest = new HTTPServer.Request.Request("HEAD", "/test_path", "", "");
+        Request testRequest = new Request("HEAD", "/test_path", "", "");
         string testHeaders = "Content-Type: text/plain\r\nContent-Length: 9\r\n\r\n";
-        var testRoutesConfig = new RoutesConfig(new Dictionary<string, HTTPServer.Handler.Handler>
+        var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
         {
             { "/test_path", new MockHandler() }
         });
         Router router = new Router(testRoutesConfig);
 
-        HTTPServer.Response.Response response = router.Route(testRequest);
+        Response response = router.Route(testRequest);
 
         Assert.Equal("HTTP/1.1 200 OK\r\n", response.ResponseStatusLine);
         Assert.Equal(testHeaders, response.ResponseHeaders);
         Assert.Empty(response.GetBody());
+    }
+
+    [Fact]
+    public void ResourceCannotBeFoundReturns404()
+    {
+        Request badTestRequest = new Request("", "GET", HelperFunctions.CreateTestResponseHeaders(), "/test_path");
+        var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
+        {
+            { "/test_path", new MockHandler() },
+        });
+
+        Router router = new Router(testRoutesConfig);
+
+        Response response = router.Route(badTestRequest);
+
+        Assert.Equal("HTTP/1.1 404 Not Found\r\n", response.ResponseStatusLine);
     }
 }
