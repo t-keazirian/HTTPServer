@@ -26,7 +26,7 @@ public class Router
 
             if (request.GetRequestMethod() == "OPTIONS" && request.GetRequestPath() != "/method_options2")
             {
-                return OptionsRequest(handler, request);
+                return OptionsRequest(request);
             }
 
             return handler.HandleResponse(request);
@@ -65,16 +65,8 @@ public class Router
         return headResponse;
     }
 
-    private Response OptionsRequest(Handler handler, Request request)
+    private Response OptionsRequest(Request request)
     {
-        var getRequest = new Request(
-            "GET",
-            request.GetRequestPath(),
-            request.GetRequestHeaders(),
-            request.GetRequestBody()
-        );
-        var getResponse = handler.HandleResponse(getRequest);
-
         var optionsResponse = new ResponseBuilder()
             .SetStatusCode(HttpStatusCode.Ok)
             .SetHeaders("Allow", AddToAllowedMethodsForOptions(request))
@@ -94,9 +86,9 @@ public class Router
 
     public string AddToAllowedMethodsForOptions(Request request)
     {
-        string oldAllowedMethods = GetAllowedMethodsFromHandler(_routesConfig.Routes[request.GetRequestPath()]);
+        string allowedMethods = GetAllowedMethodsFromHandler(_routesConfig.Routes[request.GetRequestPath()]);
 
-        string headMethod = "HEAD, OPTIONS";
-        return $"{oldAllowedMethods}, {headMethod}";
+        string newMethodsToAdd = "HEAD, OPTIONS";
+        return $"{allowedMethods}, {newMethodsToAdd}";
     }
 }
