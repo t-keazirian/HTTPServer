@@ -88,7 +88,7 @@ public class Router
     {
         string allowedMethods = GetAllowedMethodsFromHandler(_routesConfig.Routes[request.GetRequestPath()]);
 
-        string newMethodsToAdd = "HEAD, OPTIONS";
-        return $"{allowedMethods}, {newMethodsToAdd}";
+        string additionalAllowedMethods = "HEAD, OPTIONS";
+        return $"{allowedMethods}, {additionalAllowedMethods}";
     }
 }
