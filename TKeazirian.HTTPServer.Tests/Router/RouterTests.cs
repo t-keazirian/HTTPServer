@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using TKeazirian.HTTPServer.Tests.helpers;
 using Xunit;
 
@@ -82,7 +84,7 @@ public class RouterTests
     public void OptionsHandlerHasAllowHeaderWithHeadGetOptionsMethods()
     {
         Request testRequest = new Request("OPTIONS", "/method_options", "", "");
-        string testHeaders = "Allow: HEAD, GET, OPTIONS\r\n\r\n";
+        string testHeaders = "Allow: GET, HEAD, OPTIONS\r\n\r\n";
         var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
         {
             { "/test_path", new MockHandler() },
@@ -101,12 +103,62 @@ public class RouterTests
     public void OptionsHandlerHasAllowHeaderWithHeadGetOptionsPutPostMethods()
     {
         Request testRequest = new Request("OPTIONS", "/method_options2", "", "");
-        string testHeaders = "Allow: HEAD, PUT, POST, GET, OPTIONS\r\n\r\n";
+        string testHeaders = "Allow: HEAD, OPTIONS, PUT, POST, GET\r\n\r\n";
         var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
         {
             { "/test_path", new MockHandler() },
-            { "/method_options", new SimpleOptionsHandler() },
             { "/method_options2", new SimpleOptionsHandler() }
+        });
+        Router router = new Router(testRoutesConfig);
+
+        Response response = router.Route(testRequest);
+
+        Assert.Equal("HTTP/1.1 200 OK\r\n", response.ResponseStatusLine);
+        Assert.Equal(testHeaders, response.ResponseHeaders);
+        Assert.Empty(response.GetBody());
+    }
+
+    [Fact]
+    public void GetAllowedMethodsFromRouter()
+    {
+        var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
+        {
+            { "/test_path", new MockHandler() },
+        });
+
+        Router router = new Router(testRoutesConfig);
+
+        Handler testPathHandler = testRoutesConfig.Routes["/test_path"];
+
+        var actualAllowedMethods = router.GetAllowedMethodsFromHandler(testPathHandler);
+
+        Assert.Equal("GET", actualAllowedMethods);
+    }
+
+    [Fact]
+    public void AddAllowedMethodsToListAddsMethods()
+    {
+        var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
+        {
+            { "/test_path", new MockHandler() },
+        });
+        Request testRequest = new Request("OPTIONS", "/test_path", "", "");
+
+        Router router = new Router(testRoutesConfig);
+
+        var newAllowedMethods = router.AddToAllowedMethodsForOptions(testRequest);
+
+        Assert.Equal("GET, HEAD, OPTIONS", newAllowedMethods);
+    }
+
+    [Fact]
+    public void IfOptionsMethodIsAllowedOnEndpointThenGivesAppropriateHeaders()
+    {
+        Request testRequest = new Request("OPTIONS", "/test_path", "", "");
+        string testHeaders = "Allow: GET, HEAD, OPTIONS\r\n\r\n";
+        var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
+        {
+            { "/test_path", new MockHandler() }
         });
         Router router = new Router(testRoutesConfig);
 

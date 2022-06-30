@@ -7,7 +7,7 @@ public class SimpleOptionsHandler : Handler
 {
     public override List<string> AllowedHttpMethods()
     {
-        return new List<string>() { "GET", "OPTIONS" };
+        return new List<string>() { "GET" };
     }
 
     public override Response HandleResponse(Request request)
@@ -28,7 +28,7 @@ public class SimpleOptionsHandler : Handler
 
     private string AddHeadToAllowedMethods()
     {
-        List<string> allowHead = new List<string>() { "HEAD" };
+        List<string> allowHead = new List<string>() { "HEAD, OPTIONS" };
         allowHead.AddRange(AllowedHttpMethods());
 
         string allowedMethods = string.Join(", ", allowHead);
@@ -37,7 +37,7 @@ public class SimpleOptionsHandler : Handler
 
     private string AddHeadPutPostToAllowedMethods()
     {
-        List<string> allowHead = new List<string>() { "HEAD", "PUT", "POST" };
+        List<string> allowHead = new List<string>() { "HEAD", "OPTIONS", "PUT", "POST" };
         allowHead.AddRange(AllowedHttpMethods());
 
         string allowedMethods = string.Join(", ", allowHead);
