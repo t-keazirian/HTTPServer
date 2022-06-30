@@ -6,7 +6,7 @@ using Response;
 
 public class Router
 {
-    private RoutesConfig _routesConfig;
+    private readonly RoutesConfig _routesConfig;
 
     public Router(RoutesConfig routesConfig)
     {

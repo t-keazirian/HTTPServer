@@ -77,4 +77,43 @@ public class RouterTests
 
         Assert.Equal("HTTP/1.1 404 Not Found\r\n", response.ResponseStatusLine);
     }
+
+    [Fact]
+    public void OptionsHandlerHasAllowHeaderWithHeadGetOptionsMethods()
+    {
+        Request testRequest = new Request("OPTIONS", "/method_options", "", "");
+        string testHeaders = "Allow: HEAD, GET, OPTIONS\r\n\r\n";
+        var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
+        {
+            { "/test_path", new MockHandler() },
+            { "/method_options", new SimpleOptionsHandler() }
+        });
+        Router router = new Router(testRoutesConfig);
+
+        Response response = router.Route(testRequest);
+
+        Assert.Equal("HTTP/1.1 200 OK\r\n", response.ResponseStatusLine);
+        Assert.Equal(testHeaders, response.ResponseHeaders);
+        Assert.Empty(response.GetBody());
+    }
+
+    [Fact]
+    public void OptionsHandlerHasAllowHeaderWithHeadGetOptionsPutPostMethods()
+    {
+        Request testRequest = new Request("OPTIONS", "/method_options2", "", "");
+        string testHeaders = "Allow: HEAD, PUT, POST, GET, OPTIONS\r\n\r\n";
+        var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
+        {
+            { "/test_path", new MockHandler() },
+            { "/method_options", new SimpleOptionsHandler() },
+            { "/method_options2", new SimpleOptionsHandler() }
+        });
+        Router router = new Router(testRoutesConfig);
+
+        Response response = router.Route(testRequest);
+
+        Assert.Equal("HTTP/1.1 200 OK\r\n", response.ResponseStatusLine);
+        Assert.Equal(testHeaders, response.ResponseHeaders);
+        Assert.Empty(response.GetBody());
+    }
 }
