@@ -12,11 +12,18 @@ public class SimpleOptionsHandler2 : Handler
 
     public override Response HandleResponse(Request request)
     {
+        if (request.GetRequestMethod() == "POST")
+        {
+            return new ResponseBuilder()
+                .SetStatusCode(HttpStatusCode.Ok)
+                .SetHeaders("Content-Type", "text/plain")
+                .SetHeaders("Content-Length", request.GetRequestBody().Length.ToString())
+                .SetBody(request.GetRequestBody())
+                .Build();
+        }
+
         return new ResponseBuilder()
             .SetStatusCode(HttpStatusCode.Ok)
-            .SetHeaders("Content-Type", "text/plain")
-            .SetHeaders("Content-Length", request.GetRequestBody().Length.ToString())
-            .SetBody(request.GetRequestBody())
             .Build();
     }
 }

@@ -102,7 +102,6 @@ public class RouterTests
     public void OptionsHandlerHasAllowHeaderWithHeadGetOptionsPutPostMethods()
     {
         Request testRequest = new Request("OPTIONS", "/method_options2", "", "");
-        // string testHeaders = "Allow: HEAD, OPTIONS, GET, PUT, POST\r\n\r\n";
         string testHeaders = "Allow: GET, PUT, POST, HEAD, OPTIONS\r\n\r\n";
         var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
         {
@@ -172,19 +171,20 @@ public class RouterTests
     [Fact]
     public void PostForSimpleOptionsPosts()
     {
-        Request testRequest = new Request("POST", "/method_options2", "", "hello");
+        Request testRequest = new Request("POST", "/method_options2", "", "Mock body");
         var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
         {
-            { "/method_options2", new SimpleOptionsHandler2() }
+            { "/test_path", new MockHandler() },
+            { "/method_options2", new MockPostHandler() }
         });
         Router router = new Router(testRoutesConfig);
 
-        string testHeaders = HelperFunctions.CreateTestResponseHeaders("hello");
+        string testHeaders = HelperFunctions.CreateTestResponseHeaders("Mock body");
 
         Response response = router.Route(testRequest);
 
         Assert.Equal("HTTP/1.1 200 OK\r\n", response.ResponseStatusLine);
         Assert.Equal(testHeaders, response.ResponseHeaders);
-        Assert.Equal("hello", response.ResponseBody);
+        Assert.Equal("Mock body", response.ResponseBody);
     }
 }
