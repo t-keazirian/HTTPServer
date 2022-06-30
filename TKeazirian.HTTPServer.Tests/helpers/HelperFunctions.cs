@@ -12,11 +12,11 @@ public static class HelperFunctions
         return testRequest;
     }
 
-    public static string CreateTestResponseHeaders()
+    public static string CreateTestResponseHeaders(string body)
     {
         string testResponseHeaders =
             $"Content-Type: text/plain{Constants.NewLine}" +
-            $"Content-Length: 11{Constants.NewLine}{Constants.NewLine}";
+            $"Content-Length: {body.Length}{Constants.NewLine}{Constants.NewLine}";
 
         return testResponseHeaders;
     }

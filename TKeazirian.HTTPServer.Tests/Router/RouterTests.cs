@@ -65,7 +65,8 @@ public class RouterTests
     [Fact]
     public void ResourceCannotBeFoundReturns404()
     {
-        Request badTestRequest = new Request("", "GET", HelperFunctions.CreateTestResponseHeaders(), "/test_path");
+        Request badTestRequest =
+            new Request("", "GET", HelperFunctions.CreateTestResponseHeaders("blah"), "/test_path");
         var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
         {
             { "/test_path", new MockHandler() },
@@ -101,11 +102,12 @@ public class RouterTests
     public void OptionsHandlerHasAllowHeaderWithHeadGetOptionsPutPostMethods()
     {
         Request testRequest = new Request("OPTIONS", "/method_options2", "", "");
-        string testHeaders = "Allow: HEAD, OPTIONS, PUT, POST, GET\r\n\r\n";
+        // string testHeaders = "Allow: HEAD, OPTIONS, GET, PUT, POST\r\n\r\n";
+        string testHeaders = "Allow: GET, PUT, POST, HEAD, OPTIONS\r\n\r\n";
         var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
         {
             { "/test_path", new MockHandler() },
-            { "/method_options2", new SimpleOptionsHandler() }
+            { "/method_options2", new SimpleOptionsHandler2() }
         });
         Router router = new Router(testRoutesConfig);
 
@@ -144,9 +146,9 @@ public class RouterTests
 
         Router router = new Router(testRoutesConfig);
 
-        var newAllowedMethods = router.AddToAllowedMethodsForOptions(testRequest);
+        var allowedMethods = router.AddToAllowedMethodsForOptions(testRequest);
 
-        Assert.Equal("GET, HEAD, OPTIONS", newAllowedMethods);
+        Assert.Equal("GET, HEAD, OPTIONS", allowedMethods);
     }
 
     [Fact]
@@ -165,5 +167,24 @@ public class RouterTests
         Assert.Equal("HTTP/1.1 200 OK\r\n", response.ResponseStatusLine);
         Assert.Equal(testHeaders, response.ResponseHeaders);
         Assert.Empty(response.GetBody());
+    }
+
+    [Fact]
+    public void PostForSimpleOptionsPosts()
+    {
+        Request testRequest = new Request("POST", "/method_options2", "", "hello");
+        var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
+        {
+            { "/method_options2", new SimpleOptionsHandler2() }
+        });
+        Router router = new Router(testRoutesConfig);
+
+        string testHeaders = HelperFunctions.CreateTestResponseHeaders("hello");
+
+        Response response = router.Route(testRequest);
+
+        Assert.Equal("HTTP/1.1 200 OK\r\n", response.ResponseStatusLine);
+        Assert.Equal(testHeaders, response.ResponseHeaders);
+        Assert.Equal("hello", response.ResponseBody);
     }
 }

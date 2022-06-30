@@ -19,7 +19,7 @@ public class RoutesConfig
                 { "/redirect", new RedirectHandler() },
                 { "/head_request", new SimpleHeadHandler() },
                 { "/method_options", new SimpleOptionsHandler() },
-                { "/method_options2", new SimpleOptionsHandler() },
+                { "/method_options2", new SimpleOptionsHandler2() },
             };
     }
 

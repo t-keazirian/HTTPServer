@@ -24,7 +24,7 @@ public class Router
                 return HeadRequest(handler, request);
             }
 
-            if (request.GetRequestMethod() == "OPTIONS" && request.GetRequestPath() != "/method_options2")
+            if (request.GetRequestMethod() == "OPTIONS")
             {
                 return OptionsRequest(request);
             }
