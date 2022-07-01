@@ -75,7 +75,7 @@ public class Router
         return optionsResponse;
     }
 
-    public string GetAllowedMethodsFromHandler(Handler handler)
+    public static string GetAllowedMethodsFromHandler(Handler handler)
     {
         List<string> allowedMethods = handler.AllowedHttpMethods();
 

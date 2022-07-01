@@ -125,11 +125,9 @@ public class RouterTests
             { "/test_path", new MockHandler() },
         });
 
-        Router router = new Router(testRoutesConfig);
-
         Handler testPathHandler = testRoutesConfig.Routes["/test_path"];
 
-        var actualAllowedMethods = router.GetAllowedMethodsFromHandler(testPathHandler);
+        var actualAllowedMethods = Router.GetAllowedMethodsFromHandler(testPathHandler);
 
         Assert.Equal("GET", actualAllowedMethods);
     }
@@ -186,5 +184,39 @@ public class RouterTests
         Assert.Equal("HTTP/1.1 200 OK\r\n", response.ResponseStatusLine);
         Assert.Equal(testHeaders, response.ResponseHeaders);
         Assert.Equal("Mock body", response.ResponseBody);
+    }
+
+    [Fact]
+    public void PutForSimpleOptionsReturns501NotImplemented()
+    {
+        Request testRequest = new Request("PUT", "/method_options2", "", "Mock body");
+        var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
+        {
+            { "/test_path", new MockHandler() },
+            { "/method_options2", new MockPostHandler() }
+        });
+        Router router = new Router(testRoutesConfig);
+
+        Response response = router.Route(testRequest);
+
+        Assert.Equal("HTTP/1.1 501 Not Implemented\r\n", response.ResponseStatusLine);
+        Assert.Empty(response.ResponseBody);
+    }
+
+    [Fact]
+    public void GetForSimpleOptionsReturns200Ok()
+    {
+        Request testRequest = new Request("GET", "/method_options2", "", "");
+        var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
+        {
+            { "/test_path", new MockHandler() },
+            { "/method_options2", new MockPostHandler() }
+        });
+        Router router = new Router(testRoutesConfig);
+
+        Response response = router.Route(testRequest);
+
+        Assert.Equal("HTTP/1.1 200 OK\r\n", response.ResponseStatusLine);
+        Assert.Empty(response.ResponseBody);
     }
 }

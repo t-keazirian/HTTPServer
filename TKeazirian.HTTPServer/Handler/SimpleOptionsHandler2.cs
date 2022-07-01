@@ -22,6 +22,13 @@ public class SimpleOptionsHandler2 : Handler
                 .Build();
         }
 
+        if (request.GetRequestMethod() == "PUT")
+        {
+            return new ResponseBuilder()
+                .SetStatusCode(HttpStatusCode.NotImplemented)
+                .Build();
+        }
+
         return new ResponseBuilder()
             .SetStatusCode(HttpStatusCode.Ok)
             .Build();
