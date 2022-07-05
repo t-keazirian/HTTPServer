@@ -19,12 +19,12 @@ public class Router
             IsHttpMethodAllowed(request))
         {
             var handler = _routesConfig.Routes[request.GetRequestPath()];
-            if (request.GetRequestMethod() == "HEAD")
+            if (request.GetRequestMethod() == "HEAD" && handler.AllowedHttpMethods().Contains("GET"))
             {
                 return HeadRequest(handler, request);
             }
 
-            if (request.GetRequestMethod() == "OPTIONS")
+            if (request.GetRequestMethod() == "OPTIONS" && handler.AllowedHttpMethods().Contains("GET"))
             {
                 return OptionsRequest(request);
             }
