@@ -12,25 +12,20 @@ public class SimpleOptionsHandler2 : Handler
 
     public override Response HandleResponse(Request request)
     {
-        if (request.GetRequestMethod() == "POST")
-        {
-            return new ResponseBuilder()
-                .SetStatusCode(HttpStatusCode.Ok)
-                .SetHeaders("Content-Type", "text/plain")
-                .SetHeaders("Content-Length", request.GetRequestBody().Length.ToString())
-                .SetBody(request.GetRequestBody())
-                .Build();
-        }
-
-        if (request.GetRequestMethod() == "PUT")
+        if (request.GetRequestMethod() == "PUT" || request.GetRequestMethod() == "POST")
         {
             return new ResponseBuilder()
                 .SetStatusCode(HttpStatusCode.NotImplemented)
                 .Build();
         }
 
-        return new ResponseBuilder()
-            .SetStatusCode(HttpStatusCode.Ok)
-            .Build();
+        if (request.GetRequestMethod() == "GET")
+        {
+            return new ResponseBuilder()
+                .SetStatusCode(HttpStatusCode.Ok)
+                .Build();
+        }
+
+        return new ResourceNotFoundHandler().HandleResponse(request);
     }
 }

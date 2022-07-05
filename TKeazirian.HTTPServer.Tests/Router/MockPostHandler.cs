@@ -15,25 +15,24 @@ public class MockPostHandler : Handler
 
     public override Response HandleResponse(Request request)
     {
-        if (request.GetRequestMethod() == "POST")
+        if (request.GetRequestMethod() == "POST" || request.GetRequestMethod() == "PUT")
         {
-            return new ResponseBuilder()
-                .SetStatusCode(HttpStatusCode.Ok)
-                .SetHeaders("Content-Type", "text/plain")
-                .SetHeaders("Content-Length", request.GetRequestBody().Length.ToString())
-                .SetBody(request.GetRequestBody())
-                .Build();
+            return new Response("HTTP/1.1 501 Not Implemented", "", "");
         }
 
-        if (request.GetRequestMethod() == "PUT")
+        if (request.GetRequestMethod() == "GET")
         {
-            return new ResponseBuilder()
-                .SetStatusCode(HttpStatusCode.NotImplemented)
-                .Build();
+            return new Response(
+                "HTTP/1.1 200 OK\r\n",
+                "",
+                ""
+            );
         }
 
-        return new ResponseBuilder()
-            .SetStatusCode(HttpStatusCode.Ok)
-            .Build();
+        return new Response(
+            "HTTP/1.1 404 Not Found\r\n",
+            "Content-Type: text/plain\r\nContent-Length: 28\r\n\r\n",
+            "The resource cannot be found"
+        );
     }
 }

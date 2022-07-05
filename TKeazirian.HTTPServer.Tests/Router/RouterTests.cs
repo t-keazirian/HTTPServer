@@ -166,41 +166,23 @@ public class RouterTests
         Assert.Empty(response.GetBody());
     }
 
-    [Fact]
-    public void PostForSimpleOptionsPosts()
+    [Theory]
+    [InlineData("POST")]
+    [InlineData("PUT")]
+    public void PostForSimpleOptionsReturns501NotImplemented(string method)
     {
-        Request testRequest = new Request("POST", "/method_options2", "", "Mock body");
+        Request testRequest = new Request(method, "/method_options2", "", "Mock body");
         var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
         {
-            { "/test_path", new MockHandler() },
-            { "/method_options2", new MockPostHandler() }
-        });
-        Router router = new Router(testRoutesConfig);
-
-        string testHeaders = HelperFunctions.CreateTestResponseHeaders("Mock body");
-
-        Response response = router.Route(testRequest);
-
-        Assert.Equal("HTTP/1.1 200 OK\r\n", response.ResponseStatusLine);
-        Assert.Equal(testHeaders, response.ResponseHeaders);
-        Assert.Equal("Mock body", response.ResponseBody);
-    }
-
-    [Fact]
-    public void PutForSimpleOptionsReturns501NotImplemented()
-    {
-        Request testRequest = new Request("PUT", "/method_options2", "", "Mock body");
-        var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
-        {
-            { "/test_path", new MockHandler() },
             { "/method_options2", new MockPostHandler() }
         });
         Router router = new Router(testRoutesConfig);
 
         Response response = router.Route(testRequest);
 
-        Assert.Equal("HTTP/1.1 501 Not Implemented\r\n", response.ResponseStatusLine);
-        Assert.Empty(response.ResponseBody);
+        Assert.Equal("HTTP/1.1 501 Not Implemented", response.ResponseStatusLine);
+        Assert.Empty(response.GetHeaders());
+        Assert.Empty(response.GetBody());
     }
 
     [Fact]
@@ -209,7 +191,6 @@ public class RouterTests
         Request testRequest = new Request("GET", "/method_options2", "", "");
         var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
         {
-            { "/test_path", new MockHandler() },
             { "/method_options2", new MockPostHandler() }
         });
         Router router = new Router(testRoutesConfig);
