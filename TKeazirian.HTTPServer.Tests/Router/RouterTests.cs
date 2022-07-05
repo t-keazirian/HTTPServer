@@ -86,8 +86,7 @@ public class RouterTests
         string testHeaders = "Allow: GET, HEAD, OPTIONS\r\n\r\n";
         var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
         {
-            { "/test_path", new MockHandler() },
-            { "/method_options", new SimpleOptionsHandler() }
+            { "/method_options", new MockHandler() },
         });
         Router router = new Router(testRoutesConfig);
 
@@ -102,11 +101,10 @@ public class RouterTests
     public void OptionsHandlerHasAllowHeaderWithHeadGetOptionsPutPostMethods()
     {
         Request testRequest = new Request("OPTIONS", "/method_options2", "", "");
-        string testHeaders = "Allow: GET, PUT, POST, HEAD, OPTIONS\r\n\r\n";
+        string testHeaders = "Allow: GET, POST, PUT, HEAD, OPTIONS\r\n\r\n";
         var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
         {
-            { "/test_path", new MockHandler() },
-            { "/method_options2", new SimpleOptionsHandler2() }
+            { "/method_options2", new MockPostHandler() }
         });
         Router router = new Router(testRoutesConfig);
 
