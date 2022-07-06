@@ -19,8 +19,6 @@ public class SimpleOptionsHandler2 : Handler
                 .Build();
         }
 
-        return new ResponseBuilder()
-            .SetStatusCode(HttpStatusCode.NotImplemented)
-            .Build();
+        return new NotImplementedResponse().BuildNotImplementedResponse();
     }
 }

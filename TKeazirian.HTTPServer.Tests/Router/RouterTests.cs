@@ -4,7 +4,7 @@ using Xunit;
 
 namespace TKeazirian.HTTPServer.Tests.Router;
 
-using TKeazirian.HTTPServer.Server;
+using TKeazirian.HTTPServer.Router;
 using TKeazirian.HTTPServer.Request;
 using TKeazirian.HTTPServer.Response;
 using Handler;
@@ -125,7 +125,7 @@ public class RouterTests
 
         Handler testPathHandler = testRoutesConfig.Routes["/test_path"];
 
-        var actualAllowedMethods = Router.GetAllowedMethodsFromHandler(testPathHandler);
+        var actualAllowedMethods = OptionsResponse.GetAllowedMethodsFromHandler(testPathHandler);
 
         Assert.Equal("GET", actualAllowedMethods);
     }
@@ -139,9 +139,7 @@ public class RouterTests
         });
         Request testRequest = new Request("OPTIONS", "/test_path", "", "");
 
-        Router router = new Router(testRoutesConfig);
-
-        var allowedMethods = router.AddToAllowedMethodsForOptions(testRequest);
+        var allowedMethods = OptionsResponse.AddToAllowedMethodsForOptions(testRequest, testRoutesConfig);
 
         Assert.Equal("GET, HEAD, OPTIONS", allowedMethods);
     }
@@ -167,7 +165,9 @@ public class RouterTests
     [Theory]
     [InlineData("POST")]
     [InlineData("PUT")]
-    public void PostForSimpleOptionsReturns501NotImplemented(string method)
+    [InlineData("DELETE")]
+    [InlineData("PATCH")]
+    public void SimpleOptionsReturns501NotImplementedWhenNotImplementedMethod(string method)
     {
         Request testRequest = new Request(method, "/mock_post_path", "", "Mock body");
         var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
@@ -178,9 +178,7 @@ public class RouterTests
 
         Response response = router.Route(testRequest);
 
-        Assert.Equal("HTTP/1.1 501 Not Implemented", response.ResponseStatusLine);
-        Assert.Empty(response.GetHeaders());
-        Assert.Empty(response.GetBody());
+        Assert.Equal("HTTP/1.1 501 Not Implemented\r\n", response.ResponseStatusLine);
     }
 
     [Fact]

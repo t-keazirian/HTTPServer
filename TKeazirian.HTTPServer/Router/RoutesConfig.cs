@@ -1,4 +1,4 @@
-namespace TKeazirian.HTTPServer.Server;
+namespace TKeazirian.HTTPServer.Router;
 
 using Handler;
 

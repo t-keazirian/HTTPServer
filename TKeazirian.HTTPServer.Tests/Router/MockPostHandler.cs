@@ -15,11 +15,6 @@ public class MockPostHandler : Handler
 
     public override Response HandleResponse(Request request)
     {
-        if (request.GetRequestMethod() == "POST" || request.GetRequestMethod() == "PUT")
-        {
-            return new Response("HTTP/1.1 501 Not Implemented", "", "");
-        }
-
         if (request.GetRequestMethod() == "GET")
         {
             return new Response(
@@ -29,10 +24,6 @@ public class MockPostHandler : Handler
             );
         }
 
-        return new Response(
-            "HTTP/1.1 404 Not Found\r\n",
-            "Content-Type: text/plain\r\nContent-Length: 28\r\n\r\n",
-            "The resource cannot be found"
-        );
+        return new Response("HTTP/1.1 501 Not Implemented\r\n", "", "");
     }
 }
