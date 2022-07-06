@@ -19,6 +19,11 @@ public class Router
 
         if (RoutesConfigContainsPath(request) && !IsHttpMethodAllowed(request))
         {
+            if (IsOptionsRequest(request))
+            {
+                return new OptionsResponse().BuildOptionsResponse(request, _routesConfig);
+            }
+
             return new NotImplementedResponse().BuildNotImplementedResponse();
         }
 
@@ -29,7 +34,7 @@ public class Router
                 return new HeadResponse().BuildHeadResponse(handler, request);
             }
 
-            if (IsOptionsRequest(request, handler))
+            if (IsOptionsRequest(request))
             {
                 return new OptionsResponse().BuildOptionsResponse(request, _routesConfig);
             }
@@ -53,14 +58,9 @@ public class Router
         return _routesConfig.Routes.ContainsKey(request.GetRequestPath());
     }
 
-    private static bool IsOptionsRequest(Request request, Handler handler)
+    private static bool IsOptionsRequest(Request request)
     {
-        if (handler.AllowedHttpMethods().Contains("GET"))
-        {
-            return request.GetRequestMethod() == "OPTIONS";
-        }
-
-        return false;
+        return request.GetRequestMethod() == "OPTIONS";
     }
 
     private static bool IsHeadRequest(Request request, Handler handler)
@@ -77,7 +77,7 @@ public class Router
     {
         Handler handler = _routesConfig.Routes[request.GetRequestPath()];
 
-        if (IsHeadRequest(request, handler) || IsOptionsRequest(request, handler))
+        if (IsHeadRequest(request, handler) || IsOptionsRequest(request))
         {
             return handler.AllowedHttpMethods().Contains("GET");
         }
