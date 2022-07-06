@@ -12,13 +12,6 @@ public class SimpleOptionsHandler2 : Handler
 
     public override Response HandleResponse(Request request)
     {
-        if (request.GetRequestMethod() == "PUT" || request.GetRequestMethod() == "POST")
-        {
-            return new ResponseBuilder()
-                .SetStatusCode(HttpStatusCode.NotImplemented)
-                .Build();
-        }
-
         if (request.GetRequestMethod() == "GET")
         {
             return new ResponseBuilder()
@@ -26,6 +19,8 @@ public class SimpleOptionsHandler2 : Handler
                 .Build();
         }
 
-        return new ResourceNotFoundHandler().HandleResponse(request);
+        return new ResponseBuilder()
+            .SetStatusCode(HttpStatusCode.NotImplemented)
+            .Build();
     }
 }

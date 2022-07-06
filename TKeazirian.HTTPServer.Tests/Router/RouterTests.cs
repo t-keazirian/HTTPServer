@@ -82,11 +82,11 @@ public class RouterTests
     [Fact]
     public void OptionsHandlerHasAllowHeaderWithHeadGetOptionsMethods()
     {
-        Request testRequest = new Request("OPTIONS", "/method_options", "", "");
+        Request testRequest = new Request("OPTIONS", "/test_path", "", "");
         string testHeaders = "Allow: GET, HEAD, OPTIONS\r\n\r\n";
         var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
         {
-            { "/method_options", new MockHandler() },
+            { "/test_path", new MockHandler() },
         });
         Router router = new Router(testRoutesConfig);
 
@@ -100,11 +100,11 @@ public class RouterTests
     [Fact]
     public void OptionsHandlerHasAllowHeaderWithHeadGetOptionsPutPostMethods()
     {
-        Request testRequest = new Request("OPTIONS", "/method_options2", "", "");
+        Request testRequest = new Request("OPTIONS", "/mock_post_path", "", "");
         string testHeaders = "Allow: GET, POST, PUT, HEAD, OPTIONS\r\n\r\n";
         var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
         {
-            { "/method_options2", new MockPostHandler() }
+            { "/mock_post_path", new MockPostHandler() }
         });
         Router router = new Router(testRoutesConfig);
 
@@ -169,10 +169,10 @@ public class RouterTests
     [InlineData("PUT")]
     public void PostForSimpleOptionsReturns501NotImplemented(string method)
     {
-        Request testRequest = new Request(method, "/method_options2", "", "Mock body");
+        Request testRequest = new Request(method, "/mock_post_path", "", "Mock body");
         var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
         {
-            { "/method_options2", new MockPostHandler() }
+            { "/mock_post_path", new MockPostHandler() }
         });
         Router router = new Router(testRoutesConfig);
 
@@ -186,10 +186,10 @@ public class RouterTests
     [Fact]
     public void GetForSimpleOptionsReturns200Ok()
     {
-        Request testRequest = new Request("GET", "/method_options2", "", "");
+        Request testRequest = new Request("GET", "/mock_post_path", "", "");
         var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
         {
-            { "/method_options2", new MockPostHandler() }
+            { "/mock_post_path", new MockPostHandler() }
         });
         Router router = new Router(testRoutesConfig);
 
