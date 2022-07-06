@@ -15,6 +15,8 @@ public class Router
 
     public Response Route(Request request)
     {
+        var handler = GetHandler(request);
+
         if (RouteConfigContainsPath(request) && !IsHttpMethodAllowed(request))
         {
             return new NotImplementedResponse().BuildNotImplementedResponse();
@@ -22,26 +24,27 @@ public class Router
 
         if (RouteConfigContainsPath(request) && IsHttpMethodAllowed(request))
         {
-            var handler = GetHandler(request);
-
-            if (IsHeadRequest(request) && HandlerContainsGetMethod(handler))
+            if (IsHeadRequest(request, handler))
             {
                 return new HeadResponse().BuildHeadResponse(handler, request);
             }
 
-            if (IsOptionsResponse(request) && HandlerContainsGetMethod(handler))
+            if (IsOptionsResponse(request, handler))
             {
                 return new OptionsResponse().BuildOptionsResponse(request, _routesConfig);
             }
-
-            return handler.HandleResponse(request);
         }
 
-        return new ResourceNotFoundHandler().HandleResponse(request);
+        return handler.HandleResponse(request);
     }
 
     private Handler GetHandler(Request request)
     {
+        if (!RouteConfigContainsPath(request))
+        {
+            return new ResourceNotFoundHandler();
+        }
+
         return _routesConfig.Routes[request.GetRequestPath()];
     }
 
@@ -55,14 +58,24 @@ public class Router
         return handler.AllowedHttpMethods().Contains("GET");
     }
 
-    private static bool IsOptionsResponse(Request request)
+    private static bool IsOptionsResponse(Request request, Handler handler)
     {
-        return request.GetRequestMethod() == "OPTIONS";
+        if (HandlerContainsGetMethod(handler))
+        {
+            return request.GetRequestMethod() == "OPTIONS";
+        }
+
+        return false;
     }
 
-    private static bool IsHeadRequest(Request request)
+    private static bool IsHeadRequest(Request request, Handler handler)
     {
-        return request.GetRequestMethod() == "HEAD";
+        if (HandlerContainsGetMethod(handler))
+        {
+            return request.GetRequestMethod() == "HEAD";
+        }
+
+        return false;
     }
 
     private bool IsHttpMethodAllowed(Request request)

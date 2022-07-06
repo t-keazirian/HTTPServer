@@ -167,7 +167,7 @@ public class RouterTests
     [InlineData("PUT")]
     [InlineData("DELETE")]
     [InlineData("PATCH")]
-    public void SimpleOptionsReturns501NotImplementedWhenNotImplementedMethod(string method)
+    public void Returns501NotImplementedWhenMethodIsNotImplemented(string method)
     {
         Request testRequest = new Request(method, "/mock_post_path", "", "Mock body");
         var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
