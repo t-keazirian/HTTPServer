@@ -17,19 +17,19 @@ public class Router
     {
         var handler = GetHandler(request);
 
-        if (RouteConfigContainsPath(request) && !IsHttpMethodAllowed(request))
+        if (RoutesConfigContainsPath(request) && !IsHttpMethodAllowed(request))
         {
             return new NotImplementedResponse().BuildNotImplementedResponse();
         }
 
-        if (RouteConfigContainsPath(request) && IsHttpMethodAllowed(request))
+        if (RoutesConfigContainsPath(request) && IsHttpMethodAllowed(request))
         {
             if (IsHeadRequest(request, handler))
             {
                 return new HeadResponse().BuildHeadResponse(handler, request);
             }
 
-            if (IsOptionsResponse(request, handler))
+            if (IsOptionsRequest(request, handler))
             {
                 return new OptionsResponse().BuildOptionsResponse(request, _routesConfig);
             }
@@ -40,7 +40,7 @@ public class Router
 
     private Handler GetHandler(Request request)
     {
-        if (!RouteConfigContainsPath(request))
+        if (!RoutesConfigContainsPath(request))
         {
             return new ResourceNotFoundHandler();
         }
@@ -48,12 +48,12 @@ public class Router
         return _routesConfig.Routes[request.GetRequestPath()];
     }
 
-    private bool RouteConfigContainsPath(Request request)
+    private bool RoutesConfigContainsPath(Request request)
     {
         return _routesConfig.Routes.ContainsKey(request.GetRequestPath());
     }
 
-    private static bool IsOptionsResponse(Request request, Handler handler)
+    private static bool IsOptionsRequest(Request request, Handler handler)
     {
         if (handler.AllowedHttpMethods().Contains("GET"))
         {
@@ -77,7 +77,7 @@ public class Router
     {
         Handler handler = _routesConfig.Routes[request.GetRequestPath()];
 
-        if (IsHeadRequest(request, handler) || IsOptionsResponse(request, handler))
+        if (IsHeadRequest(request, handler) || IsOptionsRequest(request, handler))
         {
             return handler.AllowedHttpMethods().Contains("GET");
         }
