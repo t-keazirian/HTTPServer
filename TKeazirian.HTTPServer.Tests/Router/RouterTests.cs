@@ -182,7 +182,7 @@ public class RouterTests
     }
 
     [Fact]
-    public void GetForSimpleOptionsReturns200Ok()
+    public void IfGetIsAllowedHttpMethodGetRequestReturns200Response()
     {
         Request testRequest = new Request("GET", "/mock_post_path", "", "");
         var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
