@@ -12,8 +12,8 @@ public class ResponseTests
     {
         string responseStatusLine = "HTTP/1.1 200 OK\r\n";
         HttpStatusCode responseStatusCode = HttpStatusCode.Ok;
-        string responseHeaders = HelperFunctions.CreateTestResponseHeaders();
         string responseBody = "Hello world";
+        string responseHeaders = HelperFunctions.CreateTestResponseHeaders(responseBody);
 
         ResponseBuilder responseBuilder = new ResponseBuilder();
 
@@ -37,8 +37,8 @@ public class ResponseTests
     public void GetStatusLineReturnsStatusLine()
     {
         string responseStatus = "HTTP/1.1 200 OK";
-        string responseHeaders = HelperFunctions.CreateTestResponseHeaders();
         string responseBody = "Hello world";
+        string responseHeaders = HelperFunctions.CreateTestResponseHeaders(responseBody);
 
         Response response =
             new Response(responseStatus, responseHeaders, responseBody);
@@ -50,8 +50,8 @@ public class ResponseTests
     public void GetHeadersReturnsHeaders()
     {
         string responseStatus = "HTTP/1.1 200 OK";
-        string responseHeaders = HelperFunctions.CreateTestResponseHeaders();
         string responseBody = "Hello world";
+        string responseHeaders = HelperFunctions.CreateTestResponseHeaders(responseBody);
 
         Response response =
             new Response(responseStatus, responseHeaders, responseBody);
@@ -63,8 +63,8 @@ public class ResponseTests
     public void GetBodyReturnsBody()
     {
         string responseStatus = "HTTP/1.1 200 OK";
-        string responseHeaders = HelperFunctions.CreateTestResponseHeaders();
         string responseBody = "Hello world";
+        string responseHeaders = HelperFunctions.CreateTestResponseHeaders(responseBody);
 
         Response response =
             new Response(responseStatus, responseHeaders, responseBody);

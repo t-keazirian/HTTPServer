@@ -1,4 +1,4 @@
-namespace TKeazirian.HTTPServer.Server;
+namespace TKeazirian.HTTPServer.Router;
 
 using Handler;
 
@@ -13,11 +13,13 @@ public class RoutesConfig
             {
                 { "/echo_body", new EchoBodyHandler() },
                 { "/simple_get", new SimpleGetHandler() },
-                { "/redirect", new RedirectHandler() },
-                { "/head_request", new SimpleHeadHandler() },
                 {
                     "/simple_get_with_body", new SimpleGetHandler()
-                }
+                },
+                { "/redirect", new RedirectHandler() },
+                { "/head_request", new SimpleHeadHandler() },
+                { "/method_options", new SimpleOptionsHandler() },
+                { "/method_options2", new SimpleOptionsHandler2() },
             };
     }
 
