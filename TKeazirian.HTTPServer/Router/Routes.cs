@@ -7,36 +7,30 @@ using Request;
 
 public class Routes
 {
-    public Dictionary<string, Route> routes;
+    private readonly Dictionary<string, Route> _routes;
 
     public Routes()
     {
-        routes = new Dictionary<string, Route>();
+        _routes = new Dictionary<string, Route>();
     }
 
     public void AddRoute(Route route)
     {
-        routes.Add(route.Path, route);
+        _routes.Add(route.Path, route);
     }
 
     public Route GetRoute(string path)
     {
-        return routes[path];
+        return _routes[path];
     }
 
     public bool PathExists(string path)
     {
-        return routes.ContainsKey(path);
+        return _routes.ContainsKey(path);
     }
 
     public Response Handle(Request request, Route route)
     {
         return route.Handler.HandleResponse(request);
     }
-    // if (!RoutesConfigContainsPath(request))
-    // {
-    //     return new ResourceNotFoundHandler();
-    // }
-    //
-    // return _routesConfig.Routes[request.GetRequestPath()];
 }

@@ -25,6 +25,14 @@ public static class Program
         );
         routes.AddRoute(
             new Route("/echo_body", new List<string>() { "POST" }, new EchoBodyHandler()));
+        routes.AddRoute(
+            new Route("/redirect", new List<string>() { "GET" }, new RedirectHandler()));
+        routes.AddRoute(
+            new Route("/head_request", new List<string>() { "GET" }, new SimpleHeadHandler()));
+        routes.AddRoute(
+            new Route("/method_options", new List<string>() { "GET" }, new SimpleOptionsHandler()));
+        routes.AddRoute(
+            new Route("/method_options2", new List<string>() { "GET", "PUT", "POST" }, new SimpleOptionsHandler2()));
         return routes;
     }
 }

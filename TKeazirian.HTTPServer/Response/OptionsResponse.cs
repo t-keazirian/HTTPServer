@@ -10,7 +10,7 @@ public class OptionsResponse
 {
     private readonly Route _route;
 
-    private OptionsResponse(Route route)
+    public OptionsResponse(Route route)
     {
         _route = route;
     }

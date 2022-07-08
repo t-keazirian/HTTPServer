@@ -66,14 +66,4 @@ public class Server
         Console.WriteLine($"Request: {clientRequest}");
         return clientRequest;
     }
-
-    // private Routes ConstructRoutes()
-    // {
-    //     Routes routes = new Routes();
-    //
-    //     routes.AddRoute(
-    //         new Route("/simple_get", new List<string>() { "GET" }, new SimpleGetHandler())
-    //     );
-    //     return routes;
-    // }
 }
