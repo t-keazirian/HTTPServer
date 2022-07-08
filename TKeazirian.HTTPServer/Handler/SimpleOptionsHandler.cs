@@ -1,9 +1,19 @@
 namespace TKeazirian.HTTPServer.Handler;
 
+using Response;
+using Request;
+
 public class SimpleOptionsHandler : Handler
 {
-    public override List<string> AllowedHttpMethods()
+    public override Response HandleResponse(Request request)
     {
-        return new List<string>() { "GET" };
+        if (request.GetRequestMethod() == "GET")
+        {
+            return new ResponseBuilder()
+                .SetStatusCode(HttpStatusCode.Ok)
+                .Build();
+        }
+
+        return new NotImplementedResponse().BuildNotImplementedResponse();
     }
 }

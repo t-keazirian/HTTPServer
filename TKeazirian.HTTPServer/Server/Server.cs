@@ -1,7 +1,6 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
-using TKeazirian.HTTPServer.Handler;
 
 namespace TKeazirian.HTTPServer.Server;
 

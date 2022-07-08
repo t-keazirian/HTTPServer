@@ -32,7 +32,7 @@ public static class Program
         routes.AddRoute(
             new Route("/method_options", new List<string>() { "GET" }, new SimpleOptionsHandler()));
         routes.AddRoute(
-            new Route("/method_options2", new List<string>() { "GET", "PUT", "POST" }, new SimpleOptionsHandler2()));
+            new Route("/method_options2", new List<string>() { "GET", "PUT", "POST" }, new SimpleOptionsHandler()));
         return routes;
     }
 }

@@ -5,11 +5,6 @@ using Request;
 
 public class EchoBodyHandler : Handler
 {
-    public override List<string> AllowedHttpMethods()
-    {
-        return new List<string>() { "POST" };
-    }
-
     public override Response HandleResponse(Request request)
     {
         return new ResponseBuilder()
