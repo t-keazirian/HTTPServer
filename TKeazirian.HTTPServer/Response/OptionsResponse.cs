@@ -1,10 +1,6 @@
-using TKeazirian.HTTPServer.Router;
-
 namespace TKeazirian.HTTPServer.Response;
 
 using Router;
-using Request;
-using Handler;
 
 public class OptionsResponse
 {
@@ -27,11 +23,7 @@ public class OptionsResponse
 
     public static string GetAllowedMethods(Route route)
     {
-        List<string> allowedMethods = new List<string>();
-        foreach (var routeMethod in route.Methods)
-        {
-            allowedMethods.Add(routeMethod);
-        }
+        List<string> allowedMethods = route.Methods;
 
         string allowedMethodsString = string.Join(", ", allowedMethods);
         return allowedMethodsString;
