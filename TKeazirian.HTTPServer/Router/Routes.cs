@@ -1,5 +1,3 @@
-using TKeazirian.HTTPServer.Handler;
-
 namespace TKeazirian.HTTPServer.Router;
 
 using Response;

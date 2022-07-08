@@ -2,7 +2,7 @@ namespace TKeazirian.HTTPServer.Response;
 
 public static class StatusMessages
 {
-    private static readonly Dictionary<HttpStatusCode, string> _statusMessages = new()
+    private static readonly Dictionary<HttpStatusCode, string> HttpStatusMessages = new()
     {
         { HttpStatusCode.Ok, "OK" },
         { HttpStatusCode.Moved, "Moved Permanently" },
@@ -12,6 +12,6 @@ public static class StatusMessages
 
     public static string GetMessage(HttpStatusCode statusCode)
     {
-        return _statusMessages[statusCode];
+        return HttpStatusMessages[statusCode];
     }
 }
