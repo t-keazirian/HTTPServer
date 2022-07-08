@@ -27,7 +27,7 @@ public class Routes
         return _routes.ContainsKey(path);
     }
 
-    public Response Handle(Request request, Route route)
+    public Response HandleRespond(Request request, Route route)
     {
         return route.Handler.HandleResponse(request);
     }
