@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
+using TKeazirian.HTTPServer.Handler;
 
 namespace TKeazirian.HTTPServer.Server;
 
@@ -14,7 +15,7 @@ public class Server
     public const int Port = 5000;
     private readonly Router _router;
 
-    public Server(RoutesConfig routes)
+    public Server(Routes routes)
     {
         _router = new Router(routes);
     }
@@ -40,7 +41,7 @@ public class Server
                 RequestParser requestParser = new RequestParser();
                 Request request = requestParser.ParseRequest(clientRequest);
 
-                Response response = _router.Route(request);
+                Response response = _router.GetResponse(request);
 
                 byte[] encodedResponse = Encoding.ASCII.GetBytes(response.FormatResponse());
 
@@ -65,4 +66,14 @@ public class Server
         Console.WriteLine($"Request: {clientRequest}");
         return clientRequest;
     }
+
+    // private Routes ConstructRoutes()
+    // {
+    //     Routes routes = new Routes();
+    //
+    //     routes.AddRoute(
+    //         new Route("/simple_get", new List<string>() { "GET" }, new SimpleGetHandler())
+    //     );
+    //     return routes;
+    // }
 }

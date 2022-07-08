@@ -8,28 +8,39 @@ using Handler;
 
 public class OptionsResponse
 {
-    public Response BuildOptionsResponse(Request request, RoutesConfig routesConfig)
+    private readonly Route _route;
+
+    private OptionsResponse(Route route)
+    {
+        _route = route;
+    }
+
+    public Response BuildOptionsResponse()
     {
         var optionsResponse = new ResponseBuilder()
             .SetStatusCode(HttpStatusCode.Ok)
-            .SetHeaders("Allow", AddToAllowedMethodsForOptions(request, routesConfig))
+            .SetHeaders("Allow", AddToAllowedMethodsForOptions(_route))
             .Build();
 
         return optionsResponse;
     }
 
-    public static string GetAllowedMethodsFromHandler(Handler handler)
+    public static string GetAllowedMethods(Route route)
     {
-        List<string> allowedMethods = handler.AllowedHttpMethods();
+        List<string> allowedMethods = new List<string>();
+        foreach (var routeMethod in route.Methods)
+        {
+            allowedMethods.Add(routeMethod);
+        }
 
         string allowedMethodsString = string.Join(", ", allowedMethods);
-
         return allowedMethodsString;
     }
 
-    public static string AddToAllowedMethodsForOptions(Request request, RoutesConfig routesConfig)
+
+    public static string AddToAllowedMethodsForOptions(Route route)
     {
-        string allowedMethods = GetAllowedMethodsFromHandler(routesConfig.Routes[request.GetRequestPath()]);
+        string allowedMethods = GetAllowedMethods(route);
 
         string additionalAllowedMethods = "HEAD, OPTIONS";
         return $"{allowedMethods}, {additionalAllowedMethods}";
