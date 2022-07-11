@@ -13,12 +13,10 @@ public class OptionsResponse
 
     public Response BuildOptionsResponse()
     {
-        var optionsResponse = new ResponseBuilder()
+        return new ResponseBuilder()
             .SetStatusCode(HttpStatusCode.Ok)
             .SetHeaders("Allow", AddToAllowedMethodsForOptions(_route))
             .Build();
-
-        return optionsResponse;
     }
 
     public static string GetAllowedMethods(Route route)
