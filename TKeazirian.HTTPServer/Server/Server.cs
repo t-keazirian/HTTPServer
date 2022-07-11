@@ -40,7 +40,7 @@ public class Server
                 RequestParser requestParser = new RequestParser();
                 Request request = requestParser.ParseRequest(clientRequest);
 
-                Response response = _router.GetResponse(request);
+                Response response = _router.Route(request);
 
                 byte[] encodedResponse = Encoding.ASCII.GetBytes(response.FormatResponse());
 

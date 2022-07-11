@@ -25,7 +25,7 @@ public class RouterTests
 
         Router router = new Router(routes);
 
-        Response response = router.GetResponse(testRequest);
+        Response response = router.Route(testRequest);
 
         Assert.Equal("Mock body", response.ResponseBody);
     }
@@ -47,7 +47,7 @@ public class RouterTests
 
         Router router = new Router(routes);
 
-        Response response = router.GetResponse(testRequest);
+        Response response = router.Route(testRequest);
 
         Assert.Equal("HTTP/1.1 404 Not Found\r\n", response.ResponseStatusLine);
     }
@@ -68,7 +68,7 @@ public class RouterTests
 
         Router router = new Router(routes);
 
-        Response response = router.GetResponse(testRequest);
+        Response response = router.Route(testRequest);
         Assert.Equal("HTTP/1.1 200 OK\r\n", response.ResponseStatusLine);
         Assert.Equal(testHeaders, response.ResponseHeaders);
         Assert.Empty(response.GetBody());
@@ -88,7 +88,7 @@ public class RouterTests
             new Request("", "GET", HelperFunctions.CreateTestResponseHeaders("blah"), "/test_path");
         Router router = new Router(routes);
 
-        Response response = router.GetResponse(badTestRequest);
+        Response response = router.Route(badTestRequest);
 
         Assert.Equal("HTTP/1.1 404 Not Found\r\n", response.ResponseStatusLine);
     }
@@ -108,7 +108,7 @@ public class RouterTests
 
         Router router = new Router(routes);
 
-        Response response = router.GetResponse(testRequest);
+        Response response = router.Route(testRequest);
 
         string testHeaders = "Allow: GET, HEAD, OPTIONS\r\n\r\n";
 
@@ -132,7 +132,7 @@ public class RouterTests
 
         Router router = new Router(routes);
 
-        Response response = router.GetResponse(testRequest);
+        Response response = router.Route(testRequest);
 
         string testHeaders = "Allow: GET, POST, PUT, HEAD, OPTIONS\r\n\r\n";
 
@@ -188,7 +188,7 @@ public class RouterTests
             new Request(method, "/test_path", "", "");
         Router router = new Router(routes);
 
-        Response response = router.GetResponse(testRequest);
+        Response response = router.Route(testRequest);
 
         Assert.Equal("HTTP/1.1 501 Not Implemented\r\n", response.ResponseStatusLine);
     }

@@ -13,7 +13,7 @@ public class Router
         _routes = routes;
     }
 
-    public Response GetResponse(Request request)
+    public Response Route(Request request)
     {
         string path = request.GetRequestPath();
         string method = request.GetRequestMethod();
