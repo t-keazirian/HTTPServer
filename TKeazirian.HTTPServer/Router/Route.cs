@@ -1,4 +1,3 @@
-using TKeazirian.HTTPServer.Response;
 using HttpMethod = TKeazirian.HTTPServer.Response.HttpMethod;
 
 namespace TKeazirian.HTTPServer.Router;
