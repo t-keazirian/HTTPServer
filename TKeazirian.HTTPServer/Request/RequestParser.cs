@@ -1,10 +1,12 @@
 namespace TKeazirian.HTTPServer.Request;
 
+using Response;
+
 public class RequestParser
 {
     public Request ParseRequest(string clientRequest)
     {
-        string requestMethod = ParseRequestMethod(clientRequest);
+        HttpMethod requestMethod = ParseRequestMethod(clientRequest);
         string requestPath = ParseRequestPath(clientRequest);
         string requestHeaders = ParseRequestHeaders(clientRequest);
         string requestBody = ParseRequestBody(clientRequest);
@@ -13,10 +15,16 @@ public class RequestParser
     }
 
 
-    public string ParseRequestMethod(string clientRequest)
+    public HttpMethod ParseRequestMethod(string clientRequest)
     {
         string[] requestArray = clientRequest.Split(Constants.Space, 2);
-        return requestArray[0];
+
+        if (Enum.TryParse(requestArray[0], out HttpMethod httpMethod))
+        {
+            return httpMethod;
+        }
+
+        return HttpMethod.UNKNOWN;
     }
 
     public string ParseRequestPath(string clientRequest)

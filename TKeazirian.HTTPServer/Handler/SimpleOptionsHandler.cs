@@ -7,7 +7,7 @@ public class SimpleOptionsHandler : Handler
 {
     public override Response HandleResponse(Request request)
     {
-        if (request.GetRequestMethod() == "GET")
+        if (request.GetRequestMethod() == HttpMethod.GET)
         {
             return new ResponseBuilder()
                 .SetStatusCode(HttpStatusCode.Ok)

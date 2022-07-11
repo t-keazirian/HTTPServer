@@ -8,7 +8,7 @@ public class HeadResponse
     public Response BuildHeadResponse(Handler handler, Request request)
     {
         var getRequest = new Request(
-            "GET",
+            HttpMethod.GET,
             request.GetRequestPath(),
             request.GetRequestHeaders(),
             request.GetRequestBody()

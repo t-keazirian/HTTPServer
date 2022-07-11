@@ -15,13 +15,13 @@ public class RouterTests
     {
         Route testRoute = new Route(
             "/test_path",
-            new List<string>() { "GET" },
+            new List<HttpMethod>() { HttpMethod.GET },
             new MockHandler()
         );
         Routes routes = new Routes();
         routes.AddRoute(testRoute);
         Request testRequest =
-            new Request("GET", "/test_path", "", "");
+            new Request(HttpMethod.GET, "/test_path", "", "");
 
         Router router = new Router(routes);
 
@@ -37,13 +37,13 @@ public class RouterTests
     {
         Route testRoute = new Route(
             "/test_path",
-            new List<string>() { "GET" },
+            new List<HttpMethod>() { HttpMethod.GET },
             new MockHandler()
         );
         Routes routes = new Routes();
         routes.AddRoute(testRoute);
         Request testRequest =
-            new Request("GET", path, "", "");
+            new Request(HttpMethod.GET, path, "", "");
 
         Router router = new Router(routes);
 
@@ -57,13 +57,13 @@ public class RouterTests
     {
         Route testRoute = new Route(
             "/test_path",
-            new List<string>() { "GET" },
+            new List<HttpMethod>() { HttpMethod.GET },
             new MockHandler()
         );
         Routes routes = new Routes();
         routes.AddRoute(testRoute);
 
-        Request testRequest = new Request("HEAD", "/test_path", "", "");
+        Request testRequest = new Request(HttpMethod.HEAD, "/test_path", "", "");
         string testHeaders = "Content-Type: text/plain\r\nContent-Length: 9\r\n\r\n";
 
         Router router = new Router(routes);
@@ -79,13 +79,13 @@ public class RouterTests
     {
         Route testRoute = new Route(
             "/test_path",
-            new List<string>() { "GET" },
+            new List<HttpMethod>() { HttpMethod.GET },
             new MockHandler()
         );
         Routes routes = new Routes();
         routes.AddRoute(testRoute);
         Request badTestRequest =
-            new Request("", "GET", HelperFunctions.CreateTestResponseHeaders("blah"), "/test_path");
+            new Request(HttpMethod.DELETE, "GET", HelperFunctions.CreateTestResponseHeaders("blah"), "/test_path");
         Router router = new Router(routes);
 
         Response response = router.Route(badTestRequest);
@@ -98,13 +98,13 @@ public class RouterTests
     {
         Route testRoute = new Route(
             "/test_path",
-            new List<string>() { "GET" },
+            new List<HttpMethod>() { HttpMethod.GET },
             new MockHandler()
         );
         Routes routes = new Routes();
         routes.AddRoute(testRoute);
         Request testRequest =
-            new Request("OPTIONS", "/test_path", "", "");
+            new Request(HttpMethod.OPTIONS, "/test_path", "", "");
 
         Router router = new Router(routes);
 
@@ -122,13 +122,13 @@ public class RouterTests
     {
         Route testRoute = new Route(
             "/test_path",
-            new List<string>() { "GET", "POST", "PUT" },
+            new List<HttpMethod>() { HttpMethod.GET, HttpMethod.POST, HttpMethod.PUT },
             new MockHandler()
         );
         Routes routes = new Routes();
         routes.AddRoute(testRoute);
         Request testRequest =
-            new Request("OPTIONS", "/test_path", "", "");
+            new Request(HttpMethod.OPTIONS, "/test_path", "", "");
 
         Router router = new Router(routes);
 
@@ -146,7 +146,7 @@ public class RouterTests
     {
         Route testRoute = new Route(
             "/test_path",
-            new List<string>() { "GET", "POST" },
+            new List<HttpMethod>() { HttpMethod.GET, HttpMethod.POST },
             new MockHandler()
         );
 
@@ -160,7 +160,7 @@ public class RouterTests
     {
         Route testRoute = new Route(
             "/test_path",
-            new List<string>() { "GET", "POST" },
+            new List<HttpMethod>() { HttpMethod.GET, HttpMethod.POST },
             new MockHandler()
         );
 
@@ -171,15 +171,15 @@ public class RouterTests
 
 
     [Theory]
-    [InlineData("POST")]
-    [InlineData("PUT")]
-    [InlineData("DELETE")]
-    [InlineData("PATCH")]
-    public void Returns501NotImplementedWhenMethodIsNotImplemented(string method)
+    [InlineData(HttpMethod.POST)]
+    [InlineData(HttpMethod.PUT)]
+    [InlineData(HttpMethod.DELETE)]
+    [InlineData(HttpMethod.PATCH)]
+    public void Returns501NotImplementedWhenMethodIsNotImplemented(HttpMethod method)
     {
         Route testRoute = new Route(
             "/test_path",
-            new List<string>() { "GET" },
+            new List<HttpMethod>() { HttpMethod.GET },
             new MockHandler()
         );
         Routes routes = new Routes();

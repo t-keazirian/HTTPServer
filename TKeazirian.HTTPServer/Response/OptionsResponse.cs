@@ -21,12 +21,11 @@ public class OptionsResponse
 
     public static string GetAllowedMethods(Route route)
     {
-        List<string> allowedMethods = route.Methods;
+        List<HttpMethod> allowedMethods = route.Methods;
 
         string allowedMethodsString = string.Join(", ", allowedMethods);
         return allowedMethodsString;
     }
-
 
     public static string AddToAllowedMethodsForOptions(Route route)
     {

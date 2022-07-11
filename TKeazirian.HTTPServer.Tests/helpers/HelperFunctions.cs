@@ -1,3 +1,5 @@
+using TKeazirian.HTTPServer.Response;
+
 namespace TKeazirian.HTTPServer.Tests.helpers;
 
 public static class HelperFunctions

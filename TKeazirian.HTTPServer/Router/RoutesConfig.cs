@@ -1,9 +1,8 @@
-using TKeazirian.HTTPServer.Response;
+using HttpMethod = TKeazirian.HTTPServer.Response.HttpMethod;
 
 namespace TKeazirian.HTTPServer.Router;
 
 using Handler;
-using static HttpMethods;
 
 public static class RoutesConfig
 {
@@ -12,21 +11,21 @@ public static class RoutesConfig
         Routes routes = new();
 
         routes.AddRoute(
-            new("/simple_get", new() { Get }, new SimpleGetHandler())
+            new Route("/simple_get", new List<HttpMethod> { HttpMethod.GET }, new SimpleGetHandler())
         );
         routes.AddRoute(
-            new("/simple_get_with_body", new() { Get }, new SimpleGetHandler())
+            new Route("/simple_get_with_body", new List<HttpMethod> { HttpMethod.GET }, new SimpleGetHandler())
         );
         routes.AddRoute(
-            new("/echo_body", new() { Post }, new EchoBodyHandler()));
+            new Route("/echo_body", new List<HttpMethod> { HttpMethod.POST }, new EchoBodyHandler()));
         routes.AddRoute(
-            new("/redirect", new() { Get }, new RedirectHandler()));
+            new Route("/redirect", new List<HttpMethod> { HttpMethod.GET }, new RedirectHandler()));
         routes.AddRoute(
-            new("/head_request", new() { Get }, new SimpleHeadHandler()));
+            new Route("/head_request", new List<HttpMethod> { HttpMethod.GET }, new SimpleHeadHandler()));
         routes.AddRoute(
-            new("/method_options", new() { Get }, new SimpleOptionsHandler()));
+            new Route("/method_options", new List<HttpMethod> { HttpMethod.GET }, new SimpleOptionsHandler()));
         routes.AddRoute(
-            new("/method_options2", new() { Get, Put, Post },
+            new Route("/method_options2", new List<HttpMethod> { HttpMethod.GET, HttpMethod.PUT, HttpMethod.POST },
                 new SimpleOptionsHandler()));
         return routes;
     }

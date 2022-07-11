@@ -16,7 +16,7 @@ public class Router
     public Response Route(Request request)
     {
         string path = request.GetRequestPath();
-        string method = request.GetRequestMethod();
+        HttpMethod method = request.GetRequestMethod();
 
         if (!_routes.PathExists(path))
         {
@@ -46,9 +46,9 @@ public class Router
 
     private static bool IsHeadRequest(Route route, Request request)
     {
-        if (route.Methods.Contains("GET"))
+        if (route.Methods.Contains(HttpMethod.GET))
         {
-            return request.GetRequestMethod() == "HEAD";
+            return request.GetRequestMethod() == HttpMethod.HEAD;
         }
 
         return false;
@@ -56,6 +56,6 @@ public class Router
 
     private static bool IsOptionsRequest(Request request)
     {
-        return request.GetRequestMethod() == "OPTIONS";
+        return request.GetRequestMethod() == HttpMethod.OPTIONS;
     }
 }
