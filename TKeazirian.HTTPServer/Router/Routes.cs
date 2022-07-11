@@ -12,9 +12,9 @@ public class Routes
         _routes = new Dictionary<string, Route>();
     }
 
-    public void AddRoute(Route route)
+    public void AddRoute(string path, Route route)
     {
-        _routes.Add(route.Path, route);
+        _routes.Add(path, route);
     }
 
     public Route GetRoute(string path)
