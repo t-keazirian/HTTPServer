@@ -9,5 +9,5 @@ public enum HttpMethod
     PUT,
     PATCH,
     DELETE,
-    UNKNOWN
+    UNKNOWN,
 }

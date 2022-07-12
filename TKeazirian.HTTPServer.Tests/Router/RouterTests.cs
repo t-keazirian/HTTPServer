@@ -145,7 +145,7 @@ public class RouterTests
         Routes routes = new Routes();
         routes.AddRoute("/test_path", testRoute);
 
-        var actualAllowedMethods = OptionsResponse.GetAllowedMethods(testRoute);
+        var actualAllowedMethods = Router.GetAllowedMethods(testRoute);
 
         Assert.Equal("GET, POST", actualAllowedMethods);
     }
@@ -160,17 +160,35 @@ public class RouterTests
         Routes routes = new Routes();
         routes.AddRoute("/test_path", testRoute);
 
-        var allowedMethods = OptionsResponse.AddToAllowedMethodsForOptions(testRoute);
+        var allowedMethods = Router.AddToAllowedMethodsForOptions(testRoute);
 
         Assert.Equal("GET, POST, HEAD, OPTIONS", allowedMethods);
     }
 
+    [Fact]
+    public void Returns501NotImplementedWhenMethodIsUnknownAkaNotInMethods()
+    {
+        Route testRoute = new Route(
+            new List<HttpMethod>() { HttpMethod.GET },
+            new MockHandler()
+        );
+        Routes routes = new Routes();
+        routes.AddRoute("/test_path", testRoute);
+
+        Request testRequest =
+            new Request(HttpMethod.UNKNOWN, "/test_path", "/test_path", "");
+        Router router = new Router(routes);
+
+        Response response = router.Route(testRequest);
+
+        Assert.Equal("HTTP/1.1 501 Not Implemented\r\n", response.ResponseStatusLine);
+    }
+
     [Theory]
-    [InlineData(HttpMethod.POST)]
-    [InlineData(HttpMethod.PUT)]
     [InlineData(HttpMethod.DELETE)]
+    [InlineData(HttpMethod.POST)]
     [InlineData(HttpMethod.PATCH)]
-    public void Returns501NotImplementedWhenMethodIsNotImplemented(HttpMethod method)
+    public void Returns405WhenMethodIsInEnumButNotSupportedForRoute(HttpMethod method)
     {
         Route testRoute = new Route(
             new List<HttpMethod>() { HttpMethod.GET },
@@ -185,6 +203,6 @@ public class RouterTests
 
         Response response = router.Route(testRequest);
 
-        Assert.Equal("HTTP/1.1 501 Not Implemented\r\n", response.ResponseStatusLine);
+        Assert.Equal("HTTP/1.1 405 Method Not Allowed\r\n", response.ResponseStatusLine);
     }
 }

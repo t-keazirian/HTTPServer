@@ -32,12 +32,17 @@ public class Router
 
         if (IsOptionsRequest(request))
         {
-            return new OptionsResponse(route).BuildOptionsResponse();
+            return new OptionsResponse(AddToAllowedMethodsForOptions(route)).BuildOptionsResponse();
         }
 
-        if (!route.MethodExistsForPath(method))
+        if (!IsMethodInHttpMethodsEnum(method))
         {
             return new NotImplementedResponse().BuildNotImplementedResponse();
+        }
+
+        if (IsMethodInHttpMethodsEnum(method) && !route.MethodExistsForPath(method))
+        {
+            return new MethodNotAllowedHandler(AddToAllowedMethodsForOptions(route)).HandleResponse(request);
         }
 
 
@@ -54,8 +59,29 @@ public class Router
         return false;
     }
 
+    private static bool IsMethodInHttpMethodsEnum(HttpMethod method)
+    {
+        return Enum.IsDefined(typeof(HttpMethod), method) && method != HttpMethod.UNKNOWN;
+    }
+
     private static bool IsOptionsRequest(Request request)
     {
         return request.GetRequestMethod() == HttpMethod.OPTIONS;
+    }
+
+    public static string GetAllowedMethods(Route route)
+    {
+        List<HttpMethod> allowedMethods = route.Methods;
+
+        string allowedMethodsString = string.Join(", ", allowedMethods);
+        return allowedMethodsString;
+    }
+
+    public static string AddToAllowedMethodsForOptions(Route route)
+    {
+        string allowedMethods = GetAllowedMethods(route);
+
+        string additionalAllowedMethods = "HEAD, OPTIONS";
+        return $"{allowedMethods}, {additionalAllowedMethods}";
     }
 }

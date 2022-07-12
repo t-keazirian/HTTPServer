@@ -4,7 +4,7 @@ class Spinach::Features::MethodNotAllowed < Spinach::FeatureSteps
   include Shared::Standard
 
   step 'I make a POST request to "/simple_get"' do
-    @response = Requests.get("/simple_get")
+    @response = Requests.post("/simple_get")
   end
 
   step 'my response should have allowed headers of GET, HEAD, OPTIONS' do
@@ -12,7 +12,7 @@ class Spinach::Features::MethodNotAllowed < Spinach::FeatureSteps
   end
 
   step 'I make a POST request to "/simple_get_with_body"' do
-    @response = Requests.get("/simple_get_with_body")
+    @response = Requests.post("/simple_get_with_body")
   end
 
   step 'my response should have allowed headers of GET, HEAD, OPTIONS' do
