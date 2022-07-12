@@ -42,6 +42,10 @@ module Shared
       expect(@response.status_code).to eq 415
     end
 
+    step "my response should have status code 501" do
+      expect(@response.status_code).to eq 501
+    end
+
     step 'my response should return text' do
       expect(@response.content_type).to eq "text/plain;charset=utf-8"
     end
