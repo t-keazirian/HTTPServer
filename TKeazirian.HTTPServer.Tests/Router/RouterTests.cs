@@ -13,17 +13,15 @@ public class RouterTests
     [Fact]
     public void RouterRoutesToExpectedHandler()
     {
-        Route testRoute = new Route(
-            "/test_path",
-            new List<HttpMethod>() { HttpMethod.GET },
-            new MockHandler()
-        );
-        Routes routes = new Routes();
-        routes.AddRoute(testRoute);
+        List<Route> testRoute = new List<Route>
+        {
+            new Route("/test_path", new List<HttpMethod> { HttpMethod.GET }, new MockHandler()),
+        };
+        RoutesConfig routesConfig = new RoutesConfig(testRoute);
         Request testRequest =
             new Request(HttpMethod.GET, "/test_path", "", "");
 
-        Router router = new Router(routes);
+        Router router = new Router(routesConfig);
 
         Response response = router.Route(testRequest);
 
@@ -35,17 +33,15 @@ public class RouterTests
     [InlineData("/")]
     public void ResourceNotFoundHandlerCalledWhenPathIsNotConfigured(string path)
     {
-        Route testRoute = new Route(
-            "/test_path",
-            new List<HttpMethod>() { HttpMethod.GET },
-            new MockHandler()
-        );
-        Routes routes = new Routes();
-        routes.AddRoute(testRoute);
+        List<Route> testRoute = new List<Route>
+        {
+            new Route("/test_path", new List<HttpMethod> { HttpMethod.GET }, new MockHandler()),
+        };
+        RoutesConfig routesConfig = new RoutesConfig(testRoute);
         Request testRequest =
             new Request(HttpMethod.GET, path, "", "");
 
-        Router router = new Router(routes);
+        Router router = new Router(routesConfig);
 
         Response response = router.Route(testRequest);
 
@@ -55,20 +51,19 @@ public class RouterTests
     [Fact]
     public void IfGetMethodIsAllowedOnEndpointThenHeadMethodIsAllowed()
     {
-        Route testRoute = new Route(
-            "/test_path",
-            new List<HttpMethod>() { HttpMethod.GET },
-            new MockHandler()
-        );
-        Routes routes = new Routes();
-        routes.AddRoute(testRoute);
+        List<Route> testRoute = new List<Route>
+        {
+            new Route("/test_path", new List<HttpMethod> { HttpMethod.GET }, new MockHandler()),
+        };
+        RoutesConfig routesConfig = new RoutesConfig(testRoute);
 
         Request testRequest = new Request(HttpMethod.HEAD, "/test_path", "", "");
         string testHeaders = "Content-Type: text/plain\r\nContent-Length: 9\r\n\r\n";
 
-        Router router = new Router(routes);
+        Router router = new Router(routesConfig);
 
         Response response = router.Route(testRequest);
+
         Assert.Equal("HTTP/1.1 200 OK\r\n", response.ResponseStatusLine);
         Assert.Equal(testHeaders, response.ResponseHeaders);
         Assert.Empty(response.GetBody());
@@ -77,16 +72,14 @@ public class RouterTests
     [Fact]
     public void Returns404WithBadTestRequest()
     {
-        Route testRoute = new Route(
-            "/test_path",
-            new List<HttpMethod>() { HttpMethod.GET },
-            new MockHandler()
-        );
-        Routes routes = new Routes();
-        routes.AddRoute(testRoute);
+        List<Route> testRoute = new List<Route>
+        {
+            new Route("/test_path", new List<HttpMethod> { HttpMethod.GET }, new MockHandler()),
+        };
+        RoutesConfig routesConfig = new RoutesConfig(testRoute);
         Request badTestRequest =
             new Request(HttpMethod.DELETE, "GET", HelperFunctions.CreateTestResponseHeaders("blah"), "/test_path");
-        Router router = new Router(routes);
+        Router router = new Router(routesConfig);
 
         Response response = router.Route(badTestRequest);
 
@@ -96,17 +89,15 @@ public class RouterTests
     [Fact]
     public void OptionsHandlerHasAllowHeaderWithHeadGetOptionsMethods()
     {
-        Route testRoute = new Route(
-            "/test_path",
-            new List<HttpMethod>() { HttpMethod.GET },
-            new MockHandler()
-        );
-        Routes routes = new Routes();
-        routes.AddRoute(testRoute);
+        List<Route> testRoute = new List<Route>
+        {
+            new Route("/test_path", new List<HttpMethod> { HttpMethod.GET }, new MockHandler()),
+        };
+        RoutesConfig routesConfig = new RoutesConfig(testRoute);
         Request testRequest =
             new Request(HttpMethod.OPTIONS, "/test_path", "", "");
 
-        Router router = new Router(routes);
+        Router router = new Router(routesConfig);
 
         Response response = router.Route(testRequest);
 
@@ -120,20 +111,19 @@ public class RouterTests
     [Fact]
     public void OptionsHandlerHasAllowHeaderWithHeadGetOptionsPutPostMethods()
     {
-        Route testRoute = new Route(
-            "/test_path",
-            new List<HttpMethod>() { HttpMethod.GET, HttpMethod.POST, HttpMethod.PUT },
-            new MockHandler()
-        );
-        Routes routes = new Routes();
-        routes.AddRoute(testRoute);
+        List<Route> testRoute = new List<Route>
+        {
+            new Route(
+                "/test_path",
+                new List<HttpMethod>() { HttpMethod.GET, HttpMethod.POST, HttpMethod.PUT },
+                new MockHandler()
+            )
+        };
+        RoutesConfig routesConfig = new RoutesConfig(testRoute);
         Request testRequest =
             new Request(HttpMethod.OPTIONS, "/test_path", "", "");
-
-        Router router = new Router(routes);
-
+        Router router = new Router(routesConfig);
         Response response = router.Route(testRequest);
-
         string testHeaders = "Allow: GET, POST, PUT, HEAD, OPTIONS\r\n\r\n";
 
         Assert.Equal("HTTP/1.1 200 OK\r\n", response.ResponseStatusLine);
@@ -144,12 +134,13 @@ public class RouterTests
     [Fact]
     public void GetAllowedMethodsFromRouter()
     {
-        Route testRoute = new Route(
-            "/test_path",
-            new List<HttpMethod>() { HttpMethod.GET, HttpMethod.POST },
-            new MockHandler()
-        );
-
+        Route testRoute =
+                new Route(
+                    "/test_path",
+                    new List<HttpMethod>() { HttpMethod.GET, HttpMethod.POST },
+                    new MockHandler()
+                )
+            ;
         var actualAllowedMethods = OptionsResponse.GetAllowedMethods(testRoute);
 
         Assert.Equal("GET, POST", actualAllowedMethods);
@@ -169,7 +160,6 @@ public class RouterTests
         Assert.Equal("GET, POST, HEAD, OPTIONS", allowedMethods);
     }
 
-
     [Theory]
     [InlineData(HttpMethod.POST)]
     [InlineData(HttpMethod.PUT)]
@@ -177,16 +167,18 @@ public class RouterTests
     [InlineData(HttpMethod.PATCH)]
     public void Returns501NotImplementedWhenMethodIsNotImplemented(HttpMethod method)
     {
-        Route testRoute = new Route(
-            "/test_path",
-            new List<HttpMethod>() { HttpMethod.GET },
-            new MockHandler()
-        );
-        Routes routes = new Routes();
-        routes.AddRoute(testRoute);
+        List<Route> testRoute = new List<Route>
+        {
+            new Route(
+                "/test_path",
+                new List<HttpMethod>() { HttpMethod.GET },
+                new MockHandler()
+            )
+        };
+        RoutesConfig routesConfig = new RoutesConfig(testRoute);
         Request testRequest =
             new Request(method, "/test_path", "", "");
-        Router router = new Router(routes);
+        Router router = new Router(routesConfig);
 
         Response response = router.Route(testRequest);
 

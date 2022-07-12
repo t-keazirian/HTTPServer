@@ -14,7 +14,7 @@ public class Server
     public const int Port = 5000;
     private readonly Router _router;
 
-    public Server(Routes routes)
+    public Server(RoutesConfig routes)
     {
         _router = new Router(routes);
     }

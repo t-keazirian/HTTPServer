@@ -3,6 +3,8 @@ using HttpMethod = TKeazirian.HTTPServer.Response.HttpMethod;
 namespace TKeazirian.HTTPServer.Router;
 
 using Handler;
+using Request;
+using Response;
 
 public class Route
 {
@@ -17,8 +19,13 @@ public class Route
         Handler = handler;
     }
 
+    public bool PathExists(string path)
+    {
+        return path == Path;
+    }
     public bool MethodExistsForPath(HttpMethod method)
     {
         return Methods.Contains(method);
     }
+
 }

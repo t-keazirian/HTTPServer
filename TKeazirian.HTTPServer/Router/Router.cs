@@ -6,11 +6,11 @@ using Request;
 
 public class Router
 {
-    private readonly Routes _routes;
+    private readonly RoutesConfig _routesConfig;
 
-    public Router(Routes routes)
+    public Router(RoutesConfig routesConfig)
     {
-        _routes = routes;
+        _routesConfig = routesConfig;
     }
 
     public Response Route(Request request)
@@ -18,30 +18,32 @@ public class Router
         string path = request.GetRequestPath();
         HttpMethod method = request.GetRequestMethod();
 
-        if (!_routes.PathExists(path))
+        foreach (var routeObject in _routesConfig.Routes)
         {
-            return new ResourceNotFoundHandler().HandleResponse(request);
+            if (!routeObject.PathExists(path))
+            {
+                return new ResourceNotFoundHandler().HandleResponse(request);
+            }
+
+            if (IsHeadRequest(routeObject, request))
+            {
+                return new HeadResponse().BuildHeadResponse(routeObject.Handler, request);
+            }
+
+            if (IsOptionsRequest(request))
+            {
+                return new OptionsResponse(routeObject).BuildOptionsResponse();
+            }
+
+            if (!routeObject.MethodExistsForPath(method))
+            {
+                return new NotImplementedResponse().BuildNotImplementedResponse();
+            }
+
+            return routeObject.Handler.HandleResponse(request);
         }
 
-        Route route = _routes.GetRoute(path);
-
-        if (IsHeadRequest(route, request))
-        {
-            return new HeadResponse().BuildHeadResponse(route.Handler, request);
-        }
-
-        if (IsOptionsRequest(request))
-        {
-            return new OptionsResponse(route).BuildOptionsResponse();
-        }
-
-        if (!route.MethodExistsForPath(method))
-        {
-            return new NotImplementedResponse().BuildNotImplementedResponse();
-        }
-
-
-        return _routes.HandleRespond(request, route);
+        return new ResourceNotFoundHandler().HandleResponse(request);
     }
 
     private static bool IsHeadRequest(Route route, Request request)
