@@ -1,13 +1,15 @@
+using HttpMethod = TKeazirian.HTTPServer.Response.HttpMethod;
+
 namespace TKeazirian.HTTPServer.Request;
 
 public class Request
 {
-    private readonly string _requestMethod;
+    private readonly HttpMethod _requestMethod;
     private readonly string _requestPath;
     private readonly string _requestHeaders;
     private readonly string _requestBody;
 
-    public Request(string requestMethod, string requestPath, string requestHeaders, string requestBody)
+    public Request(HttpMethod requestMethod, string requestPath, string requestHeaders, string requestBody)
     {
         _requestMethod = requestMethod;
         _requestPath = requestPath;
@@ -15,7 +17,7 @@ public class Request
         _requestBody = requestBody;
     }
 
-    public string GetRequestMethod()
+    public HttpMethod GetRequestMethod()
     {
         return _requestMethod;
     }

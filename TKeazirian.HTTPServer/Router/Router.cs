@@ -6,80 +6,56 @@ using Request;
 
 public class Router
 {
-    private readonly RoutesConfig _routesConfig;
+    private readonly Routes _routes;
 
-    public Router(RoutesConfig routesConfig)
+    public Router(Routes routes)
     {
-        _routesConfig = routesConfig;
+        _routes = routes;
     }
 
     public Response Route(Request request)
     {
-        var handler = GetHandler(request);
+        string path = request.GetRequestPath();
+        HttpMethod method = request.GetRequestMethod();
 
-        if (RoutesConfigContainsPath(request))
+        if (!_routes.PathExists(path))
         {
-            if (IsOptionsRequest(request))
-            {
-                return new OptionsResponse().BuildOptionsResponse(request, _routesConfig);
-            }
+            return new ResourceNotFoundHandler().HandleResponse(request);
         }
 
-        if (RoutesConfigContainsPath(request) && !IsHttpMethodAllowed(request))
+        Route route = _routes.GetRoute(path);
+
+        if (IsHeadRequest(route, request))
+        {
+            return new HeadResponse().BuildHeadResponse(route.Handler, request);
+        }
+
+        if (IsOptionsRequest(request))
+        {
+            return new OptionsResponse(route).BuildOptionsResponse();
+        }
+
+        if (!route.MethodExistsForPath(method))
         {
             return new NotImplementedResponse().BuildNotImplementedResponse();
         }
 
-        if (RoutesConfigContainsPath(request) && IsHttpMethodAllowed(request))
+
+        return _routes.HandleRespond(request, route);
+    }
+
+    private static bool IsHeadRequest(Route route, Request request)
+    {
+        if (route.Methods.Contains(HttpMethod.GET))
         {
-            if (IsHeadRequest(request, handler))
-            {
-                return new HeadResponse().BuildHeadResponse(handler, request);
-            }
-        }
-
-        return handler.HandleResponse(request);
-    }
-
-    private Handler GetHandler(Request request)
-    {
-        if (!RoutesConfigContainsPath(request))
-        {
-            return new ResourceNotFoundHandler();
-        }
-
-        return _routesConfig.Routes[request.GetRequestPath()];
-    }
-
-    private bool RoutesConfigContainsPath(Request request)
-    {
-        return _routesConfig.Routes.ContainsKey(request.GetRequestPath());
-    }
-
-    private static bool IsOptionsRequest(Request request)
-    {
-        return request.GetRequestMethod() == "OPTIONS";
-    }
-
-    private static bool IsHeadRequest(Request request, Handler handler)
-    {
-        if (handler.AllowedHttpMethods().Contains("GET"))
-        {
-            return request.GetRequestMethod() == "HEAD";
+            return request.GetRequestMethod() == HttpMethod.HEAD;
         }
 
         return false;
     }
 
-    private bool IsHttpMethodAllowed(Request request)
+    private static bool IsOptionsRequest(Request request)
     {
-        Handler handler = _routesConfig.Routes[request.GetRequestPath()];
-
-        if (IsHeadRequest(request, handler))
-        {
-            return handler.AllowedHttpMethods().Contains("GET");
-        }
-
-        return handler.AllowedHttpMethods().Contains(request.GetRequestMethod());
+        return request.GetRequestMethod() == HttpMethod.OPTIONS;
     }
 }

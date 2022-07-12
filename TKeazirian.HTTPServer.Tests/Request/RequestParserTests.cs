@@ -1,4 +1,5 @@
 using TKeazirian.HTTPServer.Request;
+using TKeazirian.HTTPServer.Response;
 using TKeazirian.HTTPServer.Tests.helpers;
 using Xunit;
 
@@ -24,18 +25,17 @@ public class RequestParserTests
     }
 
     [Theory]
-    [InlineData("POST")]
-    [InlineData("GET")]
-    [InlineData("")]
-    public void CanParseMethod(string testVerb)
+    [InlineData("POST", HttpMethod.POST)]
+    [InlineData("GET", HttpMethod.GET)]
+    [InlineData("", HttpMethod.UNKNOWN)]
+    public void CanParseMethod(string testVerb, HttpMethod expectedMethod)
     {
         RequestParser requestParser = new RequestParser();
-        string expectedVerb = testVerb;
         string testRequest = HelperFunctions.StringTestRequest(testVerb, "/test_path", "hello world");
 
-        string actualVerb = requestParser.ParseRequestMethod(testRequest);
+        HttpMethod actualMethod = requestParser.ParseRequestMethod(testRequest);
 
-        Assert.Equal(expectedVerb, actualVerb);
+        Assert.Equal(expectedMethod, actualMethod);
     }
 
     [Theory]
@@ -63,7 +63,6 @@ public class RequestParserTests
             $"Content-Type: plain/text{Constants.NewLine}" +
             $"Host: localhost:5000{Constants.NewLine}" +
             $"Content-Length: 11";
-        ;
 
         string actualVerb = requestParser.ParseRequestHeaders(testRequest);
 

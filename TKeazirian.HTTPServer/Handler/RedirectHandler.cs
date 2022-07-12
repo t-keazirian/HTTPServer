@@ -5,11 +5,6 @@ using Request;
 
 public class RedirectHandler : Handler
 {
-    public override List<string> AllowedHttpMethods()
-    {
-        return new List<string>() { "GET" };
-    }
-
     public override Response HandleResponse(Request request)
     {
         return new ResponseBuilder()

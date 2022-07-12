@@ -7,20 +7,22 @@ namespace TKeazirian.HTTPServer.Tests.Router;
 using TKeazirian.HTTPServer.Router;
 using TKeazirian.HTTPServer.Request;
 using TKeazirian.HTTPServer.Response;
-using Handler;
 
 public class RouterTests
 {
     [Fact]
     public void RouterRoutesToExpectedHandler()
     {
+        Route testRoute = new Route(
+            new List<HttpMethod>() { HttpMethod.GET },
+            new MockHandler()
+        );
+        Routes routes = new Routes();
+        routes.AddRoute("/test_path", testRoute);
         Request testRequest =
-            new Request("GET", "/test_path", "", "");
-        var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
-        {
-            { "/test_path", new MockHandler() }
-        });
-        Router router = new Router(testRoutesConfig);
+            new Request(HttpMethod.GET, "/test_path", "", "");
+
+        Router router = new Router(routes);
 
         Response response = router.Route(testRequest);
 
@@ -32,12 +34,16 @@ public class RouterTests
     [InlineData("/")]
     public void ResourceNotFoundHandlerCalledWhenPathIsNotConfigured(string path)
     {
-        Request testRequest = new Request("GET", path, "", "");
-        var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
-        {
-            { "/test_path", new MockHandler() }
-        });
-        Router router = new Router(testRoutesConfig);
+        Route testRoute = new Route(
+            new List<HttpMethod>() { HttpMethod.GET },
+            new MockHandler()
+        );
+        Routes routes = new Routes();
+        routes.AddRoute("/test_path", testRoute);
+        Request testRequest =
+            new Request(HttpMethod.GET, path, "", "");
+
+        Router router = new Router(routes);
 
         Response response = router.Route(testRequest);
 
@@ -47,32 +53,37 @@ public class RouterTests
     [Fact]
     public void IfGetMethodIsAllowedOnEndpointThenHeadMethodIsAllowed()
     {
-        Request testRequest = new Request("HEAD", "/test_path", "", "");
+        Route testRoute = new Route(
+            new List<HttpMethod>() { HttpMethod.GET },
+            new MockHandler()
+        );
+        Routes routes = new Routes();
+        routes.AddRoute("/test_path", testRoute);
+
+        Request testRequest = new Request(HttpMethod.HEAD, "/test_path", "", "");
         string testHeaders = "Content-Type: text/plain\r\nContent-Length: 9\r\n\r\n";
-        var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
-        {
-            { "/test_path", new MockHandler() }
-        });
-        Router router = new Router(testRoutesConfig);
+
+        Router router = new Router(routes);
 
         Response response = router.Route(testRequest);
-
         Assert.Equal("HTTP/1.1 200 OK\r\n", response.ResponseStatusLine);
         Assert.Equal(testHeaders, response.ResponseHeaders);
         Assert.Empty(response.GetBody());
     }
 
     [Fact]
-    public void ResourceCannotBeFoundReturns404()
+    public void Returns404WithBadTestRequest()
     {
-        Request badTestRequest =
-            new Request("", "GET", HelperFunctions.CreateTestResponseHeaders("blah"), "/test_path");
-        var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
-        {
-            { "/test_path", new MockHandler() },
-        });
+        Route testRoute = new Route(
+            new List<HttpMethod>() { HttpMethod.GET },
+            new MockHandler()
+        );
+        Routes routes = new Routes();
+        routes.AddRoute("/test_path", testRoute);
 
-        Router router = new Router(testRoutesConfig);
+        Request badTestRequest =
+            new Request(HttpMethod.DELETE, "GET", HelperFunctions.CreateTestResponseHeaders("blah"), "/test_path");
+        Router router = new Router(routes);
 
         Response response = router.Route(badTestRequest);
 
@@ -82,15 +93,20 @@ public class RouterTests
     [Fact]
     public void OptionsHandlerHasAllowHeaderWithHeadGetOptionsMethods()
     {
-        Request testRequest = new Request("OPTIONS", "/test_path", "", "");
+        Route testRoute = new Route(
+            new List<HttpMethod>() { HttpMethod.GET },
+            new MockHandler()
+        );
+        Routes routes = new Routes();
+        routes.AddRoute("/test_path", testRoute);
+
+        Request testRequest =
+            new Request(HttpMethod.OPTIONS, "/test_path", "", "");
         string testHeaders = "Allow: GET, HEAD, OPTIONS\r\n\r\n";
-        var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
-        {
-            { "/test_path", new MockHandler() },
-        });
-        Router router = new Router(testRoutesConfig);
+        Router router = new Router(routes);
 
         Response response = router.Route(testRequest);
+
 
         Assert.Equal("HTTP/1.1 200 OK\r\n", response.ResponseStatusLine);
         Assert.Equal(testHeaders, response.ResponseHeaders);
@@ -100,13 +116,17 @@ public class RouterTests
     [Fact]
     public void OptionsHandlerHasAllowHeaderWithHeadGetOptionsPutPostMethods()
     {
-        Request testRequest = new Request("OPTIONS", "/mock_post_path", "", "");
+        Route testRoute = new Route(
+            new List<HttpMethod>() { HttpMethod.GET, HttpMethod.POST, HttpMethod.PUT },
+            new MockHandler()
+        );
+        Routes routes = new Routes();
+        routes.AddRoute("/test_path", testRoute);
+
+        Request testRequest =
+            new Request(HttpMethod.OPTIONS, "/test_path", "", "");
         string testHeaders = "Allow: GET, POST, PUT, HEAD, OPTIONS\r\n\r\n";
-        var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
-        {
-            { "/mock_post_path", new MockPostHandler() }
-        });
-        Router router = new Router(testRoutesConfig);
+        Router router = new Router(routes);
 
         Response response = router.Route(testRequest);
 
@@ -118,82 +138,53 @@ public class RouterTests
     [Fact]
     public void GetAllowedMethodsFromRouter()
     {
-        var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
-        {
-            { "/test_path", new MockHandler() },
-        });
+        Route testRoute = new Route(
+            new List<HttpMethod>() { HttpMethod.GET, HttpMethod.POST },
+            new MockHandler()
+        );
+        Routes routes = new Routes();
+        routes.AddRoute("/test_path", testRoute);
 
-        Handler testPathHandler = testRoutesConfig.Routes["/test_path"];
+        var actualAllowedMethods = OptionsResponse.GetAllowedMethods(testRoute);
 
-        var actualAllowedMethods = OptionsResponse.GetAllowedMethodsFromHandler(testPathHandler);
-
-        Assert.Equal("GET", actualAllowedMethods);
+        Assert.Equal("GET, POST", actualAllowedMethods);
     }
 
     [Fact]
     public void AddAllowedMethodsToListAddsMethods()
     {
-        var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
-        {
-            { "/test_path", new MockHandler() },
-        });
-        Request testRequest = new Request("OPTIONS", "/test_path", "", "");
+        Route testRoute = new Route(
+            new List<HttpMethod>() { HttpMethod.GET, HttpMethod.POST },
+            new MockHandler()
+        );
+        Routes routes = new Routes();
+        routes.AddRoute("/test_path", testRoute);
 
-        var allowedMethods = OptionsResponse.AddToAllowedMethodsForOptions(testRequest, testRoutesConfig);
+        var allowedMethods = OptionsResponse.AddToAllowedMethodsForOptions(testRoute);
 
-        Assert.Equal("GET, HEAD, OPTIONS", allowedMethods);
-    }
-
-    [Fact]
-    public void IfOptionsMethodIsAllowedOnEndpointThenGivesAppropriateHeaders()
-    {
-        Request testRequest = new Request("OPTIONS", "/test_path", "", "");
-        string testHeaders = "Allow: GET, HEAD, OPTIONS\r\n\r\n";
-        var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
-        {
-            { "/test_path", new MockHandler() }
-        });
-        Router router = new Router(testRoutesConfig);
-
-        Response response = router.Route(testRequest);
-
-        Assert.Equal("HTTP/1.1 200 OK\r\n", response.ResponseStatusLine);
-        Assert.Equal(testHeaders, response.ResponseHeaders);
-        Assert.Empty(response.GetBody());
+        Assert.Equal("GET, POST, HEAD, OPTIONS", allowedMethods);
     }
 
     [Theory]
-    [InlineData("POST")]
-    [InlineData("PUT")]
-    [InlineData("DELETE")]
-    [InlineData("PATCH")]
-    public void Returns501NotImplementedWhenMethodIsNotImplemented(string method)
+    [InlineData(HttpMethod.POST)]
+    [InlineData(HttpMethod.PUT)]
+    [InlineData(HttpMethod.DELETE)]
+    [InlineData(HttpMethod.PATCH)]
+    public void Returns501NotImplementedWhenMethodIsNotImplemented(HttpMethod method)
     {
-        Request testRequest = new Request(method, "/mock_post_path", "", "Mock body");
-        var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
-        {
-            { "/mock_post_path", new MockPostHandler() }
-        });
-        Router router = new Router(testRoutesConfig);
+        Route testRoute = new Route(
+            new List<HttpMethod>() { HttpMethod.GET },
+            new MockHandler()
+        );
+        Routes routes = new Routes();
+        routes.AddRoute("/test_path", testRoute);
+
+        Request testRequest =
+            new Request(method, "/test_path", "", "");
+        Router router = new Router(routes);
 
         Response response = router.Route(testRequest);
 
         Assert.Equal("HTTP/1.1 501 Not Implemented\r\n", response.ResponseStatusLine);
-    }
-
-    [Fact]
-    public void IfGetIsAllowedHttpMethodGetRequestReturns200Response()
-    {
-        Request testRequest = new Request("GET", "/mock_post_path", "", "");
-        var testRoutesConfig = new RoutesConfig(new Dictionary<string, Handler>
-        {
-            { "/mock_post_path", new MockPostHandler() }
-        });
-        Router router = new Router(testRoutesConfig);
-
-        Response response = router.Route(testRequest);
-
-        Assert.Equal("HTTP/1.1 200 OK\r\n", response.ResponseStatusLine);
-        Assert.Empty(response.ResponseBody);
     }
 }

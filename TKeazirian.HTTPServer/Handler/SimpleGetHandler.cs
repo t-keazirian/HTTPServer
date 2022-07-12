@@ -5,11 +5,6 @@ using Request;
 
 public class SimpleGetHandler : Handler
 {
-    public override List<string> AllowedHttpMethods()
-    {
-        return new List<string>() { "GET" };
-    }
-
     public override Response HandleResponse(Request request)
     {
         if (request.GetRequestPath() == "/simple_get_with_body")

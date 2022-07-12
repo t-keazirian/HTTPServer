@@ -1,30 +1,32 @@
+using HttpMethod = TKeazirian.HTTPServer.Response.HttpMethod;
+
 namespace TKeazirian.HTTPServer.Router;
 
 using Handler;
 
-public class RoutesConfig
+public static class RoutesConfig
 {
-    public readonly Dictionary<string, Handler> Routes;
-
-    public RoutesConfig()
+    public static Routes ConstructRoutes()
     {
-        Routes =
-            new Dictionary<string, Handler>
-            {
-                { "/echo_body", new EchoBodyHandler() },
-                { "/simple_get", new SimpleGetHandler() },
-                {
-                    "/simple_get_with_body", new SimpleGetHandler()
-                },
-                { "/redirect", new RedirectHandler() },
-                { "/head_request", new SimpleHeadHandler() },
-                { "/method_options", new SimpleOptionsHandler() },
-                { "/method_options2", new SimpleOptionsHandler2() },
-            };
-    }
+        Routes routes = new();
 
-    public RoutesConfig(Dictionary<string, Handler> routes)
-    {
-        Routes = routes;
+        routes.AddRoute("/simple_get",
+            new Route(new List<HttpMethod> { HttpMethod.GET }, new SimpleGetHandler())
+        );
+        routes.AddRoute("/simple_get_with_body",
+            new Route(new List<HttpMethod> { HttpMethod.GET }, new SimpleGetHandler())
+        );
+        routes.AddRoute("/echo_body",
+            new Route(new List<HttpMethod> { HttpMethod.POST }, new EchoBodyHandler()));
+        routes.AddRoute("/redirect",
+            new Route(new List<HttpMethod> { HttpMethod.GET }, new RedirectHandler()));
+        routes.AddRoute("/head_request",
+            new Route(new List<HttpMethod> { HttpMethod.GET }, new SimpleHeadHandler()));
+        routes.AddRoute("/method_options",
+            new Route(new List<HttpMethod> { HttpMethod.GET }, new SimpleOptionsHandler()));
+        routes.AddRoute("/method_options2",
+            new Route(new List<HttpMethod> { HttpMethod.GET, HttpMethod.PUT, HttpMethod.POST },
+                new SimpleOptionsHandler()));
+        return routes;
     }
 }

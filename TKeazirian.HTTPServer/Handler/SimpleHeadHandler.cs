@@ -5,11 +5,6 @@ using Request;
 
 public class SimpleHeadHandler : Handler
 {
-    public override List<string> AllowedHttpMethods()
-    {
-        return new List<string>() { "GET" };
-    }
-
     public override Response HandleResponse(Request request)
     {
         if (request.GetRequestPath() == "/head_request")
