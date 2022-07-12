@@ -32,7 +32,7 @@ public class Router
 
         if (IsOptionsRequest(request))
         {
-            return new OptionsResponse(AddToAllowedMethodsForOptions(route)).BuildOptionsResponse();
+            return new OptionsResponse(AddHeadAndOptionsToAllowedMethods(route)).BuildOptionsResponse();
         }
 
         if (!IsMethodInHttpMethodsEnum(method))
@@ -42,7 +42,7 @@ public class Router
 
         if (IsMethodInHttpMethodsEnum(method) && !route.MethodExistsForPath(method))
         {
-            return new MethodNotAllowedHandler(AddToAllowedMethodsForOptions(route)).HandleResponse(request);
+            return new MethodNotAllowedHandler(AddHeadAndOptionsToAllowedMethods(route)).HandleResponse(request);
         }
 
 
@@ -77,7 +77,7 @@ public class Router
         return allowedMethodsString;
     }
 
-    public static string AddToAllowedMethodsForOptions(Route route)
+    public static string AddHeadAndOptionsToAllowedMethods(Route route)
     {
         string allowedMethods = GetAllowedMethods(route);
 
