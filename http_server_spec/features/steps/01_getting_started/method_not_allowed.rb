@@ -11,8 +11,8 @@ class Spinach::Features::MethodNotAllowed < Spinach::FeatureSteps
     expect(@response.allowed_headers).to contain_exactly("GET", "HEAD", "OPTIONS")
   end
 
-  step 'I make a POST request to "/simple_get_with_body"' do
-    @response = Requests.post("/simple_get_with_body")
+  step 'I make a DELETE request to "/simple_get_with_body"' do
+    @response = Requests.delete("/simple_get_with_body")
   end
 
   step 'my response should have allowed headers of GET, HEAD, OPTIONS' do
