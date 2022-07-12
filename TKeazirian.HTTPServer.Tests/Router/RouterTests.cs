@@ -151,7 +151,7 @@ public class RouterTests
     }
 
     [Fact]
-    public void AddAllowedMethodsToListAddsMethods()
+    public void AddHeadAndOptionsToAllowedMethodsAddsMethods()
     {
         Route testRoute = new Route(
             new List<HttpMethod>() { HttpMethod.GET, HttpMethod.POST },
@@ -176,7 +176,7 @@ public class RouterTests
         routes.AddRoute("/test_path", testRoute);
 
         Request testRequest =
-            new Request(HttpMethod.UNKNOWN, "/test_path", "/test_path", "");
+            new Request(HttpMethod.UNKNOWN, "/test_path", "", "");
         Router router = new Router(routes);
 
         Response response = router.Route(testRequest);

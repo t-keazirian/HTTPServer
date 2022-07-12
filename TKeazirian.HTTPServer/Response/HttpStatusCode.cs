@@ -6,5 +6,5 @@ public enum HttpStatusCode
     Moved = 301,
     NotFound = 404,
     MethodNotAllowed = 405,
-    NotImplemented = 501,
+    NotImplemented = 501
 }

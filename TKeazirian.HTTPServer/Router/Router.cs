@@ -24,6 +24,7 @@ public class Router
         }
 
         Route route = _routes.GetRoute(path);
+        string allowedMethods = AddHeadAndOptionsToAllowedMethods(route);
 
         if (IsHeadRequest(route, request))
         {
@@ -32,7 +33,7 @@ public class Router
 
         if (IsOptionsRequest(request))
         {
-            return new OptionsResponse(AddHeadAndOptionsToAllowedMethods(route)).BuildOptionsResponse();
+            return new OptionsResponse(allowedMethods).BuildOptionsResponse();
         }
 
         if (!IsMethodInHttpMethodsEnum(method))
@@ -42,7 +43,7 @@ public class Router
 
         if (IsMethodInHttpMethodsEnum(method) && !route.MethodExistsForPath(method))
         {
-            return new MethodNotAllowedHandler(AddHeadAndOptionsToAllowedMethods(route)).HandleResponse(request);
+            return new MethodNotAllowedHandler(allowedMethods).HandleResponse(request);
         }
 
 
