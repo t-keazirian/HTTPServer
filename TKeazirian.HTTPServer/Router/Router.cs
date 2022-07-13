@@ -24,7 +24,7 @@ public class Router
         }
 
         Route route = _routes.GetRoute(path);
-        string allowedMethods = AddHeadAndOptionsToAllowedMethods(route);
+        string allowedMethods = AllowedMethodsWithHeadAndOptions(route);
 
         if (IsHeadRequest(route, request))
         {
@@ -78,11 +78,11 @@ public class Router
         return allowedMethodsString;
     }
 
-    public static string AddHeadAndOptionsToAllowedMethods(Route route)
+    public static string AllowedMethodsWithHeadAndOptions(Route route)
     {
         string allowedMethods = GetAllowedMethods(route);
 
-        string additionalAllowedMethods = "HEAD, OPTIONS";
+        const string additionalAllowedMethods = "HEAD, OPTIONS";
         return $"{allowedMethods}, {additionalAllowedMethods}";
     }
 }

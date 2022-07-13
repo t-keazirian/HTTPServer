@@ -160,7 +160,7 @@ public class RouterTests
         Routes routes = new Routes();
         routes.AddRoute("/test_path", testRoute);
 
-        var allowedMethods = Router.AddHeadAndOptionsToAllowedMethods(testRoute);
+        var allowedMethods = Router.AllowedMethodsWithHeadAndOptions(testRoute);
 
         Assert.Equal("GET, POST, HEAD, OPTIONS", allowedMethods);
     }
