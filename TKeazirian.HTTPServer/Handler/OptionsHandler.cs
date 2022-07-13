@@ -1,15 +1,18 @@
-namespace TKeazirian.HTTPServer.Response;
+namespace TKeazirian.HTTPServer.Handler;
 
-public class OptionsResponse
+using Request;
+using Response;
+
+public class OptionsHandler : Handler
 {
     private readonly string _allowedMethods;
 
-    public OptionsResponse(string allowedMethods)
+    public OptionsHandler(string allowedMethods)
     {
         _allowedMethods = allowedMethods;
     }
 
-    public Response BuildOptionsResponse()
+    public override Response HandleResponse(Request request)
     {
         return new ResponseBuilder()
             .SetStatusCode(HttpStatusCode.Ok)

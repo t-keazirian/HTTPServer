@@ -33,7 +33,7 @@ public class Router
 
         if (IsOptionsRequest(request))
         {
-            return new OptionsResponse(allowedMethods).BuildOptionsResponse();
+            return new OptionsHandler(allowedMethods).HandleResponse(request);
         }
 
         if (!IsMethodInHttpMethodsEnum(method))
