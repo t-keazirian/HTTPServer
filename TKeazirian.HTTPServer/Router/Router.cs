@@ -24,28 +24,28 @@ public class Router
         }
 
         Route route = _routes.GetRoute(path);
-        string allowedMethods = AllowedMethodsWithHeadAndOptions(route);
 
         if (IsHeadRequest(route, request))
         {
             return new HeadResponse().BuildHeadResponse(route.Handler, request);
         }
 
+        string allowedMethods = AllowedMethodsWithHeadAndOptions(route);
+
         if (IsOptionsRequest(request))
         {
             return new OptionsHandler(allowedMethods).HandleResponse(request);
         }
 
-        if (!IsMethodInHttpMethodsEnum(method))
+        if (!IsHttpMethodImplemented(method))
         {
             return new NotImplementedResponse().BuildNotImplementedResponse();
         }
 
-        if (IsMethodInHttpMethodsEnum(method) && !route.MethodExistsForPath(method))
+        if (!route.MethodExistsForPath(method))
         {
             return new MethodNotAllowedHandler(allowedMethods).HandleResponse(request);
         }
-
 
         return _routes.HandleRespond(request, route);
     }
@@ -60,7 +60,7 @@ public class Router
         return false;
     }
 
-    private static bool IsMethodInHttpMethodsEnum(HttpMethod method)
+    private static bool IsHttpMethodImplemented(HttpMethod method)
     {
         return Enum.IsDefined(typeof(HttpMethod), method) && method != HttpMethod.UNKNOWN;
     }
