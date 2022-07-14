@@ -37,6 +37,7 @@ public class Router
             return new OptionsHandler(allowedMethods).HandleResponse(request);
         }
 
+
         if (!IsHttpMethodImplemented(method))
         {
             return new NotImplementedResponse().BuildNotImplementedResponse();

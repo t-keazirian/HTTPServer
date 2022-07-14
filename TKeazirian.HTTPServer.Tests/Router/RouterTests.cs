@@ -91,7 +91,7 @@ public class RouterTests
     }
 
     [Fact]
-    public void OptionsHandlerHasAllowHeaderWithHeadGetOptionsMethods()
+    public void ResponseHasAllowHeaderWithHeadGetOptionsMethodsWhenOptionsRequest()
     {
         Route testRoute = new Route(
             new List<HttpMethod>() { HttpMethod.GET },
@@ -114,7 +114,7 @@ public class RouterTests
     }
 
     [Fact]
-    public void OptionsHandlerHasAllowHeaderWithHeadGetOptionsPutPostMethods()
+    public void ResponseHasAllowHeaderWithHeadGetPostPutOptionsMethodsWhenOptionsRequest()
     {
         Route testRoute = new Route(
             new List<HttpMethod>() { HttpMethod.GET, HttpMethod.POST, HttpMethod.PUT },
@@ -136,7 +136,7 @@ public class RouterTests
     }
 
     [Fact]
-    public void GetAllowedMethodsFromRouter()
+    public void GetAllowedMethodsFromRouterGetsMethods()
     {
         Route testRoute = new Route(
             new List<HttpMethod>() { HttpMethod.GET, HttpMethod.POST },
@@ -145,7 +145,7 @@ public class RouterTests
         Routes routes = new Routes();
         routes.AddRoute("/test_path", testRoute);
 
-        var actualAllowedMethods = Router.GetAllowedMethods(testRoute);
+        string actualAllowedMethods = Router.GetAllowedMethods(testRoute);
 
         Assert.Equal("GET, POST", actualAllowedMethods);
     }
@@ -160,13 +160,13 @@ public class RouterTests
         Routes routes = new Routes();
         routes.AddRoute("/test_path", testRoute);
 
-        var allowedMethods = Router.AllowedMethodsWithHeadAndOptions(testRoute);
+        string allowedMethods = Router.AllowedMethodsWithHeadAndOptions(testRoute);
 
         Assert.Equal("GET, POST, HEAD, OPTIONS", allowedMethods);
     }
 
     [Fact]
-    public void Returns501NotImplementedWhenMethodIsUnknownAkaNotInMethods()
+    public void Returns501NotImplementedWhenMethodIsUnknownAkaNotValidHttpMethod()
     {
         Route testRoute = new Route(
             new List<HttpMethod>() { HttpMethod.GET },
@@ -188,7 +188,7 @@ public class RouterTests
     [InlineData(HttpMethod.DELETE)]
     [InlineData(HttpMethod.POST)]
     [InlineData(HttpMethod.PATCH)]
-    public void Returns405WhenMethodIsInEnumButNotSupportedForRoute(HttpMethod method)
+    public void Returns405WhenMethodIsValidHttpMethodButNotSupportedForRoute(HttpMethod method)
     {
         Route testRoute = new Route(
             new List<HttpMethod>() { HttpMethod.GET },
