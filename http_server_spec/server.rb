@@ -29,6 +29,9 @@ end
 get "/simple_get" do
 end
 
+connect "/simple_get" do
+end
+
 get "/simple_get_with_body" do
   "Hello world"
 end

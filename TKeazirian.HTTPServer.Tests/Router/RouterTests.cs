@@ -91,7 +91,7 @@ public class RouterTests
     }
 
     [Fact]
-    public void OptionsHandlerHasAllowHeaderWithHeadGetOptionsMethods()
+    public void ResponseHasAllowHeaderWithHeadGetOptionsMethodsWhenOptionsRequest()
     {
         Route testRoute = new Route(
             new List<HttpMethod>() { HttpMethod.GET },
@@ -114,7 +114,7 @@ public class RouterTests
     }
 
     [Fact]
-    public void OptionsHandlerHasAllowHeaderWithHeadGetOptionsPutPostMethods()
+    public void ResponseHasAllowHeaderWithHeadGetPostPutOptionsMethodsWhenOptionsRequest()
     {
         Route testRoute = new Route(
             new List<HttpMethod>() { HttpMethod.GET, HttpMethod.POST, HttpMethod.PUT },
@@ -136,7 +136,7 @@ public class RouterTests
     }
 
     [Fact]
-    public void GetAllowedMethodsFromRouter()
+    public void GetAllowedMethodsFromRouterGetsMethods()
     {
         Route testRoute = new Route(
             new List<HttpMethod>() { HttpMethod.GET, HttpMethod.POST },
@@ -145,13 +145,13 @@ public class RouterTests
         Routes routes = new Routes();
         routes.AddRoute("/test_path", testRoute);
 
-        var actualAllowedMethods = OptionsResponse.GetAllowedMethods(testRoute);
+        string actualAllowedMethods = Router.GetAllowedMethods(testRoute);
 
         Assert.Equal("GET, POST", actualAllowedMethods);
     }
 
     [Fact]
-    public void AddAllowedMethodsToListAddsMethods()
+    public void AddHeadAndOptionsToAllowedMethodsAddsMethods()
     {
         Route testRoute = new Route(
             new List<HttpMethod>() { HttpMethod.GET, HttpMethod.POST },
@@ -160,17 +160,35 @@ public class RouterTests
         Routes routes = new Routes();
         routes.AddRoute("/test_path", testRoute);
 
-        var allowedMethods = OptionsResponse.AddToAllowedMethodsForOptions(testRoute);
+        string allowedMethods = Router.AllowedMethodsWithHeadAndOptions(testRoute);
 
         Assert.Equal("GET, POST, HEAD, OPTIONS", allowedMethods);
     }
 
+    [Fact]
+    public void Returns501NotImplementedWhenMethodIsUnknownAkaNotValidHttpMethod()
+    {
+        Route testRoute = new Route(
+            new List<HttpMethod>() { HttpMethod.GET },
+            new MockHandler()
+        );
+        Routes routes = new Routes();
+        routes.AddRoute("/test_path", testRoute);
+
+        Request testRequest =
+            new Request(HttpMethod.UNKNOWN, "/test_path", "", "");
+        Router router = new Router(routes);
+
+        Response response = router.Route(testRequest);
+
+        Assert.Equal("HTTP/1.1 501 Not Implemented\r\n", response.ResponseStatusLine);
+    }
+
     [Theory]
-    [InlineData(HttpMethod.POST)]
-    [InlineData(HttpMethod.PUT)]
     [InlineData(HttpMethod.DELETE)]
+    [InlineData(HttpMethod.POST)]
     [InlineData(HttpMethod.PATCH)]
-    public void Returns501NotImplementedWhenMethodIsNotImplemented(HttpMethod method)
+    public void Returns405WhenMethodIsValidHttpMethodButNotSupportedForRoute(HttpMethod method)
     {
         Route testRoute = new Route(
             new List<HttpMethod>() { HttpMethod.GET },
@@ -185,6 +203,6 @@ public class RouterTests
 
         Response response = router.Route(testRequest);
 
-        Assert.Equal("HTTP/1.1 501 Not Implemented\r\n", response.ResponseStatusLine);
+        Assert.Equal("HTTP/1.1 405 Method Not Allowed\r\n", response.ResponseStatusLine);
     }
 }

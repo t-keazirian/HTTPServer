@@ -7,6 +7,7 @@ public static class StatusMessages
         { HttpStatusCode.Ok, "OK" },
         { HttpStatusCode.Moved, "Moved Permanently" },
         { HttpStatusCode.NotFound, "Not Found" },
+        { HttpStatusCode.MethodNotAllowed, "Method Not Allowed" },
         { HttpStatusCode.NotImplemented, "Not Implemented" }
     };
 

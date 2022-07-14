@@ -30,4 +30,9 @@ module Requests
     base_url = "#{PROTOCOL}://#{HOSTNAME}:#{PORT}"
     Response.new(HTTP.options("#{base_url}#{path}"))
   end
+
+  def self.connect(path)
+    base_url = "#{PROTOCOL}://#{HOSTNAME}:#{PORT}"
+    Response.new(HTTP.connect("#{base_url}#{path}"))
+  end
 end
