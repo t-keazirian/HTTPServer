@@ -16,7 +16,7 @@ public class MethodNotAllowedHandler : Handler
     {
         return new ResponseBuilder()
             .SetStatusCode(HttpStatusCode.MethodNotAllowed)
-            .SetHeaders("Allow", _allowedMethods)
+            .SetHeaders(ResponseHeaderName.Allow, _allowedMethods)
             .Build();
     }
 }

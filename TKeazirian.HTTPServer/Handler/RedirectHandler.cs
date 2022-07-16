@@ -9,7 +9,8 @@ public class RedirectHandler : Handler
     {
         return new ResponseBuilder()
             .SetStatusCode(HttpStatusCode.Moved)
-            .SetHeaders("Location", $"http://{Server.Server.LocalIpAddress}:{Server.Server.Port}/simple_get")
+            .SetHeaders(ResponseHeaderName.Location,
+                $"http://{Server.Server.LocalIpAddress}:{Server.Server.Port}/simple_get")
             .Build();
     }
 }

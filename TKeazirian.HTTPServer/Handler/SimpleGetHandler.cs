@@ -12,8 +12,8 @@ public class SimpleGetHandler : Handler
             string body = "Hello world";
             return new ResponseBuilder()
                 .SetStatusCode(HttpStatusCode.Ok)
-                .SetHeaders("Content-Type", "text/plain;charset=utf-8")
-                .SetHeaders("Content-Length", body.Length.ToString())
+                .SetHeaders(ResponseHeaderName.ContentType, ContentType.PlainText)
+                .SetHeaders(ResponseHeaderName.ContentLength, body.Length.ToString())
                 .SetBody(body)
                 .Build();
         }

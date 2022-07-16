@@ -1,17 +1,17 @@
 namespace TKeazirian.HTTPServer.Handler;
 
-using Response;
 using Request;
+using Response;
 
-public class ResourceNotFoundHandler : Handler
+public class TextHandler : Handler
 {
     public override Response HandleResponse(Request request)
     {
-        string body = "The resource cannot be found";
+        string body = "text response";
         return new ResponseBuilder()
-            .SetStatusCode(HttpStatusCode.NotFound)
+            .SetStatusCode(HttpStatusCode.Ok)
             .SetHeaders(ResponseHeaderName.ContentType, ContentType.PlainText)
-            .SetHeaders(ResponseHeaderName.ContentLength, $"{body.Length}")
+            .SetHeaders(ResponseHeaderName.ContentLength, body.Length.ToString())
             .SetBody(body)
             .Build();
     }

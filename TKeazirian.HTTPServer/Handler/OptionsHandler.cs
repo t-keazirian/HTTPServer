@@ -16,7 +16,7 @@ public class OptionsHandler : Handler
     {
         return new ResponseBuilder()
             .SetStatusCode(HttpStatusCode.Ok)
-            .SetHeaders("Allow", _allowedMethods)
+            .SetHeaders(ResponseHeaderName.Allow, _allowedMethods)
             .Build();
     }
 }
