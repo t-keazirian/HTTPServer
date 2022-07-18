@@ -7,7 +7,6 @@ Feature: Structured Data
     And my response should return text
     And my response should have a text body
 
-  @wip
   Scenario: Returning an HTML response
     Given I make a GET request to "/html_response"
     Then my response should have status code 200

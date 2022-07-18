@@ -19,6 +19,9 @@ public static class RoutesConfig
         routes.AddRoute("/text_response",
             new Route(new List<HttpMethod> { HttpMethod.GET }, new TextHandler())
         );
+        routes.AddRoute("/html_response",
+            new Route(new List<HttpMethod> { HttpMethod.GET }, new HtmlHandler())
+        );
         routes.AddRoute("/echo_body",
             new Route(new List<HttpMethod> { HttpMethod.POST }, new EchoBodyHandler()));
         routes.AddRoute("/redirect",
