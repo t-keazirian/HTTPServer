@@ -13,7 +13,6 @@ Feature: Structured Data
     And my response should return HTML
     And my response should have an HTML body
 
-  @wip
   Scenario: Returning a JSON response
     Given I make a GET request to "/json_response"
     Then my response should have status code 200
