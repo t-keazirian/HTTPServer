@@ -1,7 +1,6 @@
 @structured-data @02-structured-data
 Feature: Structured Data
 
-  @wip
   Scenario: Returning a text response
     Given I make a GET request to "/text_response"
     Then my response should have status code 200

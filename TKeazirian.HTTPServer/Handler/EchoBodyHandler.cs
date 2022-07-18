@@ -9,8 +9,8 @@ public class EchoBodyHandler : Handler
     {
         return new ResponseBuilder()
             .SetStatusCode(HttpStatusCode.Ok)
-            .SetHeaders("Content-Type", "text/plain")
-            .SetHeaders("Content-Length", request.GetRequestBody().Length.ToString())
+            .SetHeaders(ResponseHeaderName.ContentType, ContentType.PlainText)
+            .SetHeaders(ResponseHeaderName.ContentLength, request.GetRequestBody().Length.ToString())
             .SetBody(request.GetRequestBody())
             .Build();
     }
