@@ -19,7 +19,6 @@ Feature: Structured Data
     And my response should return JSON
     And my response should have a JSON body
 
-  @wip
   Scenario: Returning an XML response
     Given I make a GET request to "/xml_response"
     Then my response should have status code 200
