@@ -25,6 +25,9 @@ public static class RoutesConfig
         routes.AddRoute("/json_response",
             new Route(new List<HttpMethod> { HttpMethod.GET }, new JsonHandler())
         );
+        routes.AddRoute("/xml_response",
+            new Route(new List<HttpMethod> { HttpMethod.GET }, new XmlHandler())
+        );
         routes.AddRoute("/echo_body",
             new Route(new List<HttpMethod> { HttpMethod.POST }, new EchoBodyHandler()));
         routes.AddRoute("/redirect",
