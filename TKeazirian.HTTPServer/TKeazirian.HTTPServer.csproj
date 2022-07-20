@@ -7,4 +7,12 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <EmbeddedResource Remove="Resource.resx" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="Resource.Designer.cs" />
+    </ItemGroup>
+
 </Project>
