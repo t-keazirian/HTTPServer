@@ -7,8 +7,7 @@ public class HealthCheckHandler : Handler
 {
     public override Response HandleResponse(Request request)
     {
-        var folder = Directory.GetFiles(@"../../../Resources");
-        string body = File.ReadAllText(folder[0]);
+        string body = File.ReadAllText(@"../../../Resources/health-check.html");
         return new ResponseBuilder()
             .SetStatusCode(HttpStatusCode.Ok)
             .SetHeaders(ResponseHeaderName.ContentType, ContentType.HtmlText)
