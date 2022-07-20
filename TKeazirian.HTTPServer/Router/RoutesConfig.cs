@@ -28,6 +28,9 @@ public static class RoutesConfig
         routes.AddRoute("/xml_response",
             new Route(new List<HttpMethod> { HttpMethod.GET }, new XmlHandler())
         );
+        routes.AddRoute("/health-check.html",
+            new Route(new List<HttpMethod> { HttpMethod.GET }, new HealthCheckHandler())
+        );
         routes.AddRoute("/echo_body",
             new Route(new List<HttpMethod> { HttpMethod.POST }, new EchoBodyHandler()));
         routes.AddRoute("/redirect",
