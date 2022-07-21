@@ -8,8 +8,9 @@ public static class FileUtility
         var currentDirectory = Directory.GetCurrentDirectory();
         if (currentDirectory == @"/Users/taylorkeazirian/Code/HTTPServer/TKeazirian.HTTPServer/bin/Debug/net6.0")
         {
-            var workingDirectory = Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).ToString());
-            var projectDirectory = Directory.GetParent(workingDirectory.ToString());
+            string? parentDirectory = Directory.GetParent(currentDirectory)?.ToString();
+            var workingDirectory = Directory.GetParent(parentDirectory ?? string.Empty);
+            var projectDirectory = Directory.GetParent(workingDirectory?.ToString() ?? string.Empty);
             path = $"{projectDirectory}/http_server_spec/web/";
         }
         else

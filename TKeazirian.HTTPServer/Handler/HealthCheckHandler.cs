@@ -10,9 +10,17 @@ public class HealthCheckHandler : Handler
 {
     public override Response HandleResponse(Request request)
     {
-        string path = $"{GetPath()}health-check.html";
+        string body;
+        try
+        {
+            string path = $"{GetPath()}health-check.html";
+            body = File.ReadAllText(path);
+        }
+        catch
+        {
+            throw new FileNotFoundException("The file cannot be found.");
+        }
 
-        string body = File.ReadAllText(path);
         return new ResponseBuilder()
             .SetStatusCode(HttpStatusCode.Ok)
             .SetHeaders(ResponseHeaderName.ContentType, ContentType.HtmlText)
