@@ -28,7 +28,9 @@ jobs:
           working-directory: ./http_server_spec
       - name: Acceptance Tests
         run: |
-          dotnet run --project TKeazirian.HTTPServer &
+          cd TKeazirian.HTTPServer
+          dotnet run &
+          cd ..
           cd ./http_server_spec
           gem install bundler -v "$(grep -A 1 "BUNDLED WITH" Gemfile.lock | tail -n 1)"
           bundle install
