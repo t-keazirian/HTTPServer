@@ -28,15 +28,9 @@ jobs:
           working-directory: ./http_server_spec
       - name: Acceptance Tests
         run: |
-          pwd
           cd TKeazirian.HTTPServer
-          pwd
           dotnet run &
-          pwd
-          cd ..
-          pwd
           cd ./http_server_spec
-          pwd
           gem install bundler -v "$(grep -A 1 "BUNDLED WITH" Gemfile.lock | tail -n 1)"
           bundle install
           bundle exec spinach

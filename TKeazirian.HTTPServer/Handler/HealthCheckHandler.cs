@@ -7,7 +7,7 @@ public class HealthCheckHandler : Handler
 {
     public override Response HandleResponse(Request request)
     {
-        string body = File.ReadAllText(@"../../http_server_spec/web/health-check.html");
+        string body = File.ReadAllText(@"./http_server_spec/web/health-check.html");
         return new ResponseBuilder()
             .SetStatusCode(HttpStatusCode.Ok)
             .SetHeaders(ResponseHeaderName.ContentType, ContentType.HtmlText)
