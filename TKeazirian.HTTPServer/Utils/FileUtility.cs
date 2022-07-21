@@ -4,9 +4,9 @@ public static class FileUtility
 {
     public static string GetPath()
     {
-        string path = "";
+        string path;
         var currentDirectory = Directory.GetCurrentDirectory();
-        if (currentDirectory == @"/Users/taylorkeazirian/Code/HTTPServer/TKeazirian.HTTPServer/bin/Debug/net6.0")
+        if (currentDirectory.Contains("/bin/Debug"))
         {
             string? parentDirectory = Directory.GetParent(currentDirectory)?.ToString();
             var workingDirectory = Directory.GetParent(parentDirectory ?? string.Empty);
