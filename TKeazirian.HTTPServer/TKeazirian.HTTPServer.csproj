@@ -32,5 +32,9 @@
       <Content Include="http_server_spec\web\TTT.html">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
+      <None Remove="Resources\example.json" />
+      <Content Include="Resources\example.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 </Project>

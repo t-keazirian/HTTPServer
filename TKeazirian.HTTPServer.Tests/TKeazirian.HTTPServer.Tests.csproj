@@ -24,4 +24,11 @@
         <ProjectReference Include="..\TKeazirian.HTTPServer\TKeazirian.HTTPServer.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="helpers\example.json" />
+      <Content Include="helpers\example.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
 </Project>
