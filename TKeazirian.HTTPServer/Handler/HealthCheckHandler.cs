@@ -1,10 +1,7 @@
-using TKeazirian.HTTPServer.Utils;
-
 namespace TKeazirian.HTTPServer.Handler;
 
 using Response;
 using Request;
-using static FileUtility;
 
 public class HealthCheckHandler : Handler
 {
@@ -13,8 +10,7 @@ public class HealthCheckHandler : Handler
         string body;
         try
         {
-            string path = $"{GetPath()}health-check.html";
-            body = File.ReadAllText(path);
+            body = File.ReadAllText(@"./http_server_spec/web/health-check.html");
         }
         catch
         {
