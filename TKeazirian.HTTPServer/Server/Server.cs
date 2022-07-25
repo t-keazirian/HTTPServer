@@ -42,9 +42,11 @@ public class Server
 
                 Response response = _router.Route(request);
 
-                byte[] encodedResponse = Encoding.ASCII.GetBytes(response.FormatResponse());
+                // byte[] encodedResponse = Encoding.ASCII.GetBytes(response.FormatResponse());
+                // byte[] encodedResponse = new[] { Convert.ToByte(response.FormatResponse()) };
+                // byte[] encodedResponse = new[] { Convert.ToByte(response.FormatResponse()) };
 
-                socket.Send(encodedResponse, SocketFlags.None);
+                socket.Send(response.FormatByteResponse(), SocketFlags.None);
                 SocketHandler.CloseSocketConnection(socket);
             }
         }

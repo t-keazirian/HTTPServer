@@ -31,6 +31,9 @@ public static class RoutesConfig
         routes.AddRoute("/health-check.html",
             new Route(new List<HttpMethod> { HttpMethod.GET }, new HealthCheckHandler())
         );
+        routes.AddRoute("/kitteh.jpg",
+            new Route(new List<HttpMethod> { HttpMethod.GET }, new ImageHandler())
+        );
         routes.AddRoute("/echo_body",
             new Route(new List<HttpMethod> { HttpMethod.POST }, new EchoBodyHandler()));
         routes.AddRoute("/redirect",

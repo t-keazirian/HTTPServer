@@ -1,7 +1,6 @@
 @images @03-file-server
 Feature: Images
 
-  @wip
   Scenario: Getting a JPEG image of a kitteh
     Given I make a GET request to '/kitteh.jpg'
     Then my response should have status code 200

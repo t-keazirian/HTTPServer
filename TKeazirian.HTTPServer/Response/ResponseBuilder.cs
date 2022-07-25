@@ -7,6 +7,7 @@ public class ResponseBuilder
     private readonly Dictionary<string, string> _headerDictionary = new();
     private string _header = "";
     private string _body = "";
+    private byte[] _bodyBytes = new byte[] { };
 
     public ResponseBuilder SetStatusCode(HttpStatusCode statusCode)
     {
@@ -27,10 +28,21 @@ public class ResponseBuilder
         return this;
     }
 
+    public ResponseBuilder SetBodyBytes(byte[] bodyBytes)
+    {
+        _bodyBytes = bodyBytes;
+        return this;
+    }
+
     public Response Build()
     {
         return new Response(HandleStatusLine(), HandleHeaders(),
             HandleBody());
+    }
+
+    public Response BuildWithBytes()
+    {
+        return new Response(HandleStatusLine(), HandleHeaders(), HandleBytesBody());
     }
 
     private string HandleStatusLine()
@@ -59,5 +71,10 @@ public class ResponseBuilder
     {
         _body = _body == "" ? "" : _body;
         return _body;
+    }
+
+    private byte[] HandleBytesBody()
+    {
+        return _bodyBytes;
     }
 }
