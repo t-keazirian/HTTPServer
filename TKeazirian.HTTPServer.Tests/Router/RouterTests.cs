@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TKeazirian.HTTPServer.Helpers;
 using TKeazirian.HTTPServer.Tests.helpers;
 using Xunit;
 
@@ -22,11 +23,13 @@ public class RouterTests
         Request testRequest =
             new Request(HttpMethod.GET, "/test_path", "", "");
 
+        byte[] testBody = ByteConverter.ToByteArray("Mock body");
+
         Router router = new Router(routes);
 
         Response response = router.Route(testRequest);
 
-        Assert.Equal("Mock body", response.ResponseBody);
+        Assert.Equal(testBody, response.ResponseBody);
     }
 
     [Theory]
@@ -110,7 +113,7 @@ public class RouterTests
 
         Assert.Equal("HTTP/1.1 200 OK\r\n", response.ResponseStatusLine);
         Assert.Equal(testHeaders, response.ResponseHeaders);
-        Assert.Empty(response.GetBody());
+        Assert.Null(response.GetBody());
     }
 
     [Fact]
@@ -132,7 +135,7 @@ public class RouterTests
 
         Assert.Equal("HTTP/1.1 200 OK\r\n", response.ResponseStatusLine);
         Assert.Equal(testHeaders, response.ResponseHeaders);
-        Assert.Empty(response.GetBody());
+        Assert.Null(response.GetBody());
     }
 
     [Fact]

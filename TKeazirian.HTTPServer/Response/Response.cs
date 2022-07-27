@@ -1,25 +1,18 @@
 namespace TKeazirian.HTTPServer.Response;
 
+using Helpers;
+
 public class Response
 {
     public readonly string ResponseStatusLine;
     public readonly string ResponseHeaders;
-    public readonly string ResponseBody;
-    private readonly IEnumerable<byte> _responseBodyBytes;
+    public readonly byte[]? ResponseBody;
 
-    public Response(string responseStatusLine, string responseHeaders,
-        string responseBody)
+    public Response(string responseStatusLine, string responseHeaders, byte[]? responseBody)
     {
         ResponseStatusLine = responseStatusLine;
         ResponseHeaders = responseHeaders;
         ResponseBody = responseBody;
-    }
-
-    public Response(string responseStatusLine, string responseHeaders, byte[] responseBodyBytes)
-    {
-        ResponseStatusLine = responseStatusLine;
-        ResponseHeaders = responseHeaders;
-        _responseBodyBytes = responseBodyBytes;
     }
 
     public string GetStatusLine()
@@ -32,36 +25,17 @@ public class Response
         return ResponseHeaders;
     }
 
-    public string GetBody()
+    public byte[]? GetBody()
     {
         return ResponseBody;
     }
 
-    private IEnumerable<byte> GetBodyBytes()
-    {
-        return _responseBodyBytes;
-    }
-
-    public byte[] FormatByteResponse()
+    public byte[] FormatResponse()
     {
         string statusAndHeaders = GetStatusLine() + GetHeaders();
-        byte[] byteStatusAndHeaders = ToByteArray(statusAndHeaders);
+        byte[] statusAndHeadersBytes = ByteConverter.ToByteArray(statusAndHeaders);
+        byte[]? body = GetBody();
 
-        byte[] newArray = byteStatusAndHeaders;
-
-        return newArray.Concat(GetBodyBytes()).ToArray();
-    }
-
-    private static byte[] ToByteArray(string statusAndHeaders)
-    {
-        char[] charArr = statusAndHeaders.ToCharArray();
-        byte[] bytes = new byte[charArr.Length];
-        for (int i = 0; i < charArr.Length; i++)
-        {
-            byte current = Convert.ToByte(charArr[i]);
-            bytes[i] = current;
-        }
-
-        return bytes;
+        return body == null ? statusAndHeadersBytes : statusAndHeadersBytes.Concat(body).ToArray();
     }
 }

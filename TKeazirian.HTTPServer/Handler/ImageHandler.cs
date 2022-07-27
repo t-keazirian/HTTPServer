@@ -7,20 +7,20 @@ public class ImageHandler : Handler
 {
     public override Response HandleResponse(Request request)
     {
-        string path = request.GetRequestPath();
-        string imageType = GetImageTypeFromPath(path);
+        string requestPath = request.GetRequestPath();
+        string imageType = GetImageTypeFromPath(requestPath);
         string imageContentType = GetImageContentType(imageType);
 
-        byte[] imageBodyBytes = File.ReadAllBytes($"./http_server_spec/web{path}");
-        int imageByteLength = Buffer.ByteLength(imageBodyBytes);
+        byte[] image = File.ReadAllBytes($"./http_server_spec/web{requestPath}");
+        int imageByteLength = Buffer.ByteLength(image);
 
         return new ResponseBuilder()
             .SetStatusCode(HttpStatusCode.Ok)
             .SetHeaders(ResponseHeaderName.Allow, imageContentType)
             .SetHeaders(ResponseHeaderName.ContentType, imageContentType)
             .SetHeaders(ResponseHeaderName.ContentLength, imageByteLength.ToString())
-            .SetBodyBytes(imageBodyBytes)
-            .BuildWithBytes();
+            .SetImageBody(image)
+            .Build();
     }
 
     public string GetImageTypeFromPath(string path)

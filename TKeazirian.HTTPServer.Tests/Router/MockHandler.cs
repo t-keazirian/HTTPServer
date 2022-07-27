@@ -1,3 +1,5 @@
+using TKeazirian.HTTPServer.Helpers;
+
 namespace TKeazirian.HTTPServer.Tests.Router;
 
 using TKeazirian.HTTPServer.Response;
@@ -8,10 +10,13 @@ class MockHandler : Handler
 {
     public override Response HandleResponse(Request request)
     {
+        string responseStatusLine = "HTTP/1.1 200 OK\r\n";
+        string responseHeaders = "Content-Type: text/plain\r\nContent-Length: 9\r\n\r\n";
+        byte[] responseBody = ByteConverter.ToByteArray("Mock body");
         return new Response(
-            "HTTP/1.1 200 OK\r\n",
-            "Content-Type: text/plain\r\nContent-Length: 9\r\n\r\n",
-            "Mock body"
+            responseStatusLine,
+            responseHeaders,
+            responseBody
         );
     }
 }
