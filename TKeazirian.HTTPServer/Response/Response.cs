@@ -1,13 +1,14 @@
 namespace TKeazirian.HTTPServer.Response;
 
+using Helpers;
+
 public class Response
 {
     public readonly string ResponseStatusLine;
     public readonly string ResponseHeaders;
-    public readonly string ResponseBody;
+    public readonly byte[]? ResponseBody;
 
-    public Response(string responseStatusLine, string responseHeaders,
-        string responseBody)
+    public Response(string responseStatusLine, string responseHeaders, byte[]? responseBody)
     {
         ResponseStatusLine = responseStatusLine;
         ResponseHeaders = responseHeaders;
@@ -24,13 +25,17 @@ public class Response
         return ResponseHeaders;
     }
 
-    public string GetBody()
+    public byte[]? GetBody()
     {
         return ResponseBody;
     }
 
-    public string FormatResponse()
+    public byte[] FormatResponse()
     {
-        return GetStatusLine() + GetHeaders() + GetBody();
+        string statusAndHeaders = GetStatusLine() + GetHeaders();
+        byte[] statusAndHeadersBytes = ByteConverter.ToByteArray(statusAndHeaders);
+        byte[]? body = GetBody();
+
+        return body == null ? statusAndHeadersBytes : statusAndHeadersBytes.Concat(body).ToArray();
     }
 }

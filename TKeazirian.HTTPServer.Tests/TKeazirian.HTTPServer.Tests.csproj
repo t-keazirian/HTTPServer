@@ -24,4 +24,10 @@
         <ProjectReference Include="..\TKeazirian.HTTPServer\TKeazirian.HTTPServer.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Content Include="TestResources\kitteh.jpg">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+
 </Project>

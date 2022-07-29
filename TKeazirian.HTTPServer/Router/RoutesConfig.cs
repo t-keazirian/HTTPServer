@@ -42,6 +42,15 @@ public static class RoutesConfig
         routes.AddRoute("/method_options2",
             new Route(new List<HttpMethod> { HttpMethod.GET, HttpMethod.PUT, HttpMethod.POST },
                 new SimpleOptionsHandler()));
+        routes.AddRoute("/kitteh.jpg",
+            new Route(new List<HttpMethod> { HttpMethod.GET }, new ImageHandler())
+        );
+        routes.AddRoute("/doggo.png",
+            new Route(new List<HttpMethod> { HttpMethod.GET }, new ImageHandler())
+        );
+        routes.AddRoute("/kisses.gif",
+            new Route(new List<HttpMethod> { HttpMethod.GET }, new ImageHandler())
+        );
         return routes;
     }
 }

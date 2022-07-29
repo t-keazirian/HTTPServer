@@ -2,6 +2,7 @@ namespace TKeazirian.HTTPServer.Response;
 
 using Handler;
 using Request;
+using Helpers;
 
 public class HeadResponse
 {
@@ -18,7 +19,7 @@ public class HeadResponse
         var headResponse = new Response(
             getResponse.GetStatusLine(),
             getResponse.GetHeaders(),
-            ""
+            ByteConverter.ToByteArray("")
         );
         return headResponse;
     }

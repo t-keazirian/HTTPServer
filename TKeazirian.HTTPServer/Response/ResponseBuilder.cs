@@ -1,12 +1,14 @@
+using TKeazirian.HTTPServer.Helpers;
+
 namespace TKeazirian.HTTPServer.Response;
 
 public class ResponseBuilder
 {
-    private string HttpVersion = Constants.HttpVersion;
+    private const string HttpVersion = Constants.HttpVersion;
     private HttpStatusCode _statusCode;
     private readonly Dictionary<string, string> _headerDictionary = new();
     private string _header = "";
-    private string _body = "";
+    private byte[]? _body;
 
     public ResponseBuilder SetStatusCode(HttpStatusCode statusCode)
     {
@@ -21,16 +23,21 @@ public class ResponseBuilder
         return this;
     }
 
-    public ResponseBuilder SetBody(string body)
+    public ResponseBuilder SetImageBody(byte[] body)
     {
         _body = body;
         return this;
     }
 
+    public ResponseBuilder SetBody(string body)
+    {
+        _body = ByteConverter.ToByteArray(body);
+        return this;
+    }
+
     public Response Build()
     {
-        return new Response(HandleStatusLine(), HandleHeaders(),
-            HandleBody());
+        return new Response(HandleStatusLine(), HandleHeaders(), HandleBody());
     }
 
     private string HandleStatusLine()
@@ -55,9 +62,8 @@ public class ResponseBuilder
         return _header + Constants.NewLine;
     }
 
-    private string HandleBody()
+    private byte[]? HandleBody()
     {
-        _body = _body == "" ? "" : _body;
         return _body;
     }
 }

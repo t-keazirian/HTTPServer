@@ -4,6 +4,7 @@ using Xunit;
 namespace TKeazirian.HTTPServer.Tests.Response;
 
 using TKeazirian.HTTPServer.Response;
+using Helpers;
 
 public class ResponseTests
 {
@@ -13,12 +14,13 @@ public class ResponseTests
         string responseStatusLine = "HTTP/1.1 200 OK\r\n";
         HttpStatusCode responseStatusCode = HttpStatusCode.Ok;
         string responseBody = "Hello world";
+        byte[] responseBodyBytes = ByteConverter.ToByteArray(responseBody);
         string responseHeaders = HelperFunctions.CreateTestResponseHeaders(responseBody);
 
         ResponseBuilder responseBuilder = new ResponseBuilder();
 
         Response expectedResponse =
-            new Response(responseStatusLine, responseHeaders, responseBody);
+            new Response(responseStatusLine, responseHeaders, responseBodyBytes);
 
         Response actualResponse = responseBuilder
             .SetStatusCode(responseStatusCode)
@@ -38,10 +40,11 @@ public class ResponseTests
     {
         string responseStatus = "HTTP/1.1 200 OK";
         string responseBody = "Hello world";
+        byte[] responseBodyBytes = ByteConverter.ToByteArray(responseBody);
         string responseHeaders = HelperFunctions.CreateTestResponseHeaders(responseBody);
 
         Response response =
-            new Response(responseStatus, responseHeaders, responseBody);
+            new Response(responseStatus, responseHeaders, responseBodyBytes);
 
         Assert.Equal(responseStatus, response.GetStatusLine());
     }
@@ -51,10 +54,11 @@ public class ResponseTests
     {
         string responseStatus = "HTTP/1.1 200 OK";
         string responseBody = "Hello world";
+        byte[] responseBodyBytes = ByteConverter.ToByteArray(responseBody);
         string responseHeaders = HelperFunctions.CreateTestResponseHeaders(responseBody);
 
         Response response =
-            new Response(responseStatus, responseHeaders, responseBody);
+            new Response(responseStatus, responseHeaders, responseBodyBytes);
 
         Assert.Equal(responseHeaders, response.GetHeaders());
     }
@@ -64,11 +68,12 @@ public class ResponseTests
     {
         string responseStatus = "HTTP/1.1 200 OK";
         string responseBody = "Hello world";
+        byte[] responseBodyBytes = ByteConverter.ToByteArray(responseBody);
         string responseHeaders = HelperFunctions.CreateTestResponseHeaders(responseBody);
 
         Response response =
-            new Response(responseStatus, responseHeaders, responseBody);
+            new Response(responseStatus, responseHeaders, responseBodyBytes);
 
-        Assert.Equal(responseBody, response.GetBody());
+        Assert.Equal(responseBodyBytes, response.GetBody());
     }
 }
