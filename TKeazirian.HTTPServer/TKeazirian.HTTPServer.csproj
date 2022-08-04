@@ -32,5 +32,17 @@
       <Content Include="http_server_spec\web\TTT.html">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
+      <None Remove="Resources\html-sample.html" />
+      <Content Include="Resources\html-sample.html">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Resources\json-sample.json" />
+      <Content Include="Resources\json-sample.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+      <None Remove="Resources\sample-xml.xml" />
+      <Content Include="Resources\xml-sample.xml">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 </Project>

@@ -51,6 +51,15 @@ public static class RoutesConfig
         routes.AddRoute("/kisses.gif",
             new Route(new List<HttpMethod> { HttpMethod.GET }, new ImageHandler())
         );
+        routes.AddRoute("/json-sample.json",
+            new Route(new List<HttpMethod> { HttpMethod.GET }, new FileServerHandler())
+        );
+        routes.AddRoute("/html-sample.html",
+            new Route(new List<HttpMethod> { HttpMethod.GET }, new FileServerHandler())
+        );
+        routes.AddRoute("/xml-sample.xml",
+            new Route(new List<HttpMethod> { HttpMethod.GET }, new FileServerHandler())
+        );
         return routes;
     }
 }
