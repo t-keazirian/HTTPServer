@@ -31,13 +31,14 @@ A user should be able to interact with the HTTP server as follows:
 * A client can send different HTTP requests to the server and get the appropriate response back each time.
 * Different clients can send messages to server and get back their proper responses.
 * The server should be able to handle 200, 300, and 400-level responses.
+* This server is capable of handling files, images (jpg, png, gif), XML, HTML, and JSON
 
 ## Implementation Requirements
 
 * The server should establish a socket connection with the client using a low-level socket library.
 * The server should accept and return streams of data rather than raw strings.
 * The HTTP server should be covered by a robust suite of unit tests.
-* The HTTP server should pass all of the tests covered in `01_getting_started` in the [http_server_spec/features/01_getting_started][13]
+* The HTTP server should pass all of the tests covered in the [acceptance test suite][9]
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
@@ -72,11 +73,15 @@ Note: This server is currently programmed to run on port `5000`. If you would li
 1. Start your HTTP server (you can do this with the [run the app](#run-the-app) command or click `Run` if you are using an IDE)
 2. Navigate into the [http_server_spec][15] folder: 
 ```shell
-cd http_server_spec
+cd TKeazirian.HTTPServer/http_server_spec
 ```
 3. You can run the acceptance tests with:
 ```shell
 rake test
+```
+or
+```shell
+bundle exec spinach
 ```
 
 Note: You can skip any of the acceptance tests by adding `@wip` to the test(s).
@@ -95,6 +100,6 @@ Note: You can skip any of the acceptance tests by adding `@wip` to the test(s).
 [10]: https://cucumber.io/
 [11]: https://docs.microsoft.com/en-us/dotnet/
 [12]: https://8thlight.com/
-[13]: http_server_spec/features/01_getting_started
+[13]: http_server_spec/features/
 [14]: TKeazirian.HTTPServer/Server.cs
 [15]: http_server_spec/
