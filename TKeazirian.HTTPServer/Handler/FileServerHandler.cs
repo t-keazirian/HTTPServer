@@ -17,7 +17,8 @@ public class FileServerHandler : Handler
         }
         catch
         {
-            throw new FileNotFoundException("The file cannot be found.");
+            Console.WriteLine($"File: {$@"./Resources{requestPath}"}");
+            throw new FileNotFoundException("There was an error accessing this file");
         }
 
         return new ResponseBuilder()
