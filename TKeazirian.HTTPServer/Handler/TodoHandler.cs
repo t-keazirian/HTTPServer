@@ -19,7 +19,7 @@ public class TodoHandler : Handler
                 .Build();
         }
 
-        if (RequestIncludesInvalidValues(request))
+        if (RequestHasXFormContentType(request))
         {
             return new ResponseBuilder()
                 .SetStatusCode(HttpStatusCode.BadRequest)
@@ -36,7 +36,7 @@ public class TodoHandler : Handler
         return request.GetRequestHeaders().Contains("application/json");
     }
 
-    private static bool RequestIncludesInvalidValues(Request request)
+    private static bool RequestHasXFormContentType(Request request)
     {
         return request.GetRequestHeaders().Contains("application/x-www-form-urlencoded");
     }
