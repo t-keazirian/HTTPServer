@@ -5,6 +5,7 @@ public static class StatusMessages
     private static readonly Dictionary<HttpStatusCode, string> HttpStatusMessages = new()
     {
         { HttpStatusCode.Ok, "OK" },
+        { HttpStatusCode.Created, "Created" },
         { HttpStatusCode.Moved, "Moved Permanently" },
         { HttpStatusCode.NotFound, "Not Found" },
         { HttpStatusCode.MethodNotAllowed, "Method Not Allowed" },

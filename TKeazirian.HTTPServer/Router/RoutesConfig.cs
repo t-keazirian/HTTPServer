@@ -60,6 +60,9 @@ public static class RoutesConfig
         routes.AddRoute("/xml-sample.xml",
             new Route(new List<HttpMethod> { HttpMethod.GET }, new FileServerHandler())
         );
+        routes.AddRoute("/todo",
+            new Route(new List<HttpMethod> { HttpMethod.POST }, new TodoHandler())
+        );
         return routes;
     }
 }
