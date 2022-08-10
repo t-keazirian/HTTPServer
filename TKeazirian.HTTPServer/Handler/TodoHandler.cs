@@ -1,5 +1,3 @@
-using System.Text.Encodings.Web;
-using System.Text.Json;
 using System.Text.RegularExpressions;
 
 namespace TKeazirian.HTTPServer.Handler;
@@ -11,23 +9,41 @@ public class TodoHandler : Handler
 {
     public override Response HandleResponse(Request request)
     {
+        if (RequestIsJsonContentType(request))
+        {
+            return new ResponseBuilder()
+                .SetStatusCode(HttpStatusCode.Created)
+                .SetHeaders(ResponseHeaderName.ContentType, ContentType.Json)
+                .SetHeaders(ResponseHeaderName.ContentLength, HandleJsonBody(request).Length.ToString())
+                .SetBody(HandleJsonBody(request))
+                .Build();
+        }
+
+        if (RequestIncludesInvalidValues(request))
+        {
+            return new ResponseBuilder()
+                .SetStatusCode(HttpStatusCode.BadRequest)
+                .Build();
+        }
+
         return new ResponseBuilder()
-            .SetStatusCode(HttpStatusCode.Created)
-            .SetHeaders(ResponseHeaderName.ContentType, ContentType.Json)
-            // .SetHeaders(ResponseHeaderName.ContentLength, _jsonTodoString.Length.ToString())
-            // .SetBody(_jsonTodoString)
-            .SetHeaders(ResponseHeaderName.ContentLength, HandleJsonBody(request).Length.ToString())
-            .SetBody(HandleJsonBody(request))
+            .SetStatusCode(HttpStatusCode.UnsupportedMediaType)
             .Build();
     }
 
-    private string HandleJsonBody(Request request)
+    private static bool RequestIsJsonContentType(Request request)
     {
-        // JsonSerializerOptions options = new JsonSerializerOptions
-        //     { Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping, WriteIndented = true };
+        return request.GetRequestHeaders().Contains("application/json");
+    }
+
+    private static bool RequestIncludesInvalidValues(Request request)
+    {
+        return request.GetRequestHeaders().Contains("application/x-www-form-urlencoded");
+    }
+
+    private static string HandleJsonBody(Request request)
+    {
         string requestBody = request.GetRequestBody();
-        // string jsonBody = JsonSerializer.Serialize(requestBody);
         return Regex.Unescape(requestBody);
-        // return jsonBody;
     }
 }
